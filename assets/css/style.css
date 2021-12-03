@@ -21,6 +21,7 @@ body::before {
   z-index: -1;
 }
 
+
 @media (min-width: 1024px) {
   body::before {
     background-attachment: fixed;
@@ -67,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header h1 a, #header h1 a:hover {
-  color: rgb(255, 255, 255);
+  color: rgba(255, 255, 255, 0.315);
   line-height: 1;
   display: inline-block;
 }
@@ -75,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
 #header h2 {
   font-size: 24px;
   margin-top: 20px;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.315);
 }
 
 #header h2 span {
@@ -831,6 +832,60 @@ section .container {
   background: #15bb62;
 }
 
+/*.container-icons{
+	position: fixed;
+	bottom: 10px;
+	left: 10px;
+}
+.fila{
+	position: absolute;
+	display: flex;
+	justify-content: flex-end;
+	opacity: 0;
+	transform: scale(0);
+}
+.container-icons:hover .fila{
+	opacity: 1;
+	transform: scale(1);
+}
+.facebook{
+	transform: translate( 0px, 0px) scale(0);
+}
+.whatsapp{
+	transform: translate( 0px, 0px) scale(0);
+}
+.instagram{
+	transform: translate( 0px, 0px) scale(0);
+}
+.linkedin{
+	transform: translate(0px, 0px) scale(0);
+}
+.twitter{
+	transform: translate(0px, 0px)scale(0);
+}
+
+.container-icons:hover .facebook{
+	transform: translate( 0px, -90px) scale(1);
+	transition-duration: 1s;
+}
+
+.container-icons:hover .whatsapp{
+	transform: translate( 0px, -50px) scale(1);
+	transition-duration: 1s;
+}
+.container-icons:hover .instagram{
+	transform: translate( 0px, -130px)scale(1);
+	transition-duration: 1s;
+}
+.container-icons:hover .linkedin{
+	transform: translate(0px, -170px) scale(1);
+	transition-duration: 1s;
+}
+.container-icons:hover .twitter{
+	transform: translate(0px, -205px) scale(1);
+	transition-duration: 1s;
+}
+*/
 @-webkit-keyframes animate-loading {
   0% {
     transform: rotate(0deg);
@@ -860,7 +915,7 @@ section .container {
   padding: 15px;
   text-align: right;
   font-size: 13px;
-  color: #fff;
+  color: rgb(0, 0, 0);
   z-index: 999999;
 }
 
