@@ -68,7 +68,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header h1 a, #header h1 a:hover {
-  color: rgba(255, 255, 255, 0.315);
+  color: rgb(255, 255, 255);
   line-height: 1;
   display: inline-block;
 }
@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5, h6 {
 #header h2 {
   font-size: 24px;
   margin-top: 20px;
-  color: rgba(255, 255, 255, 0.315);
+  color: rgb(255, 255, 255);
 }
 
 #header h2 span {
@@ -933,5 +933,5 @@ section .container {
 }
 
 .credits a:hover {
-  color: #fff;
+  color: rgb(5, 5, 5);
 }
