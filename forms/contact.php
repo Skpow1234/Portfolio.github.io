@@ -1,37 +1,46 @@
 <?php
-  /**
-  * Requiere la libreria "PHP Email Form" 
-  */
-  //Reemplazar correo despues para pruebas
-  $receiving_email_address = 'jfhvjfhv0015@gmail.com'; 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the form fields and sanitize inputs
+    $name = strip_tags(trim($_POST["name"]));
+    $name = str_replace(array("\r","\n"),array(" "," "),$name);
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $subject = strip_tags(trim($_POST["subject"]));
+    $message = trim($_POST["message"]);
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
+    // Set your email address where you want to receive emails
+    $recipient = "jfhvjfhv0015@gmail.com";
 
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
-  
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+    // Validate input fields
+    if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+        // Set a 400 (Bad Request) response code and exit
+        http_response_code(400);
+        echo "Please fill out all fields.";
+        exit;
+    }
 
-  // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
-  /*
-  $contact->smtp = array(
-    'host' => 'example.com',
-    'username' => 'example',
-    'password' => 'pass',
-    'port' => '587'
-  );
-  */
+    // Build the email content
+    $email_content = "Name: $name\n";
+    $email_content .= "Email: $email\n";
+    $email_content .= "Subject: $subject\n\n";
+    $email_content .= "Message:\n$message\n";
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+    // Build the email headers
+    $email_headers = "From: $name <$email>";
 
-  echo $contact->send();
+    // Attempt to send the email
+    if (mail($recipient, $subject, $email_content, $email_headers)) {
+        // Set a 200 (OK) response code
+        http_response_code(200);
+        echo "Your message has been sent. Thank you!";
+    } else {
+        // Set a 500 (Internal Server Error) response code
+        http_response_code(500);
+        echo "Oops! Something went wrong and we couldn't send your message.";
+    }
+
+} else {
+    // Not a POST request, set a 403 (Forbidden) response code
+    http_response_code(403);
+    echo "There was a problem with your submission, please try again.";
+}
 ?>
