@@ -1,10 +1,20 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const fromEmail = process.env.FROM_EMAIL;
+// Create reusable transporter object using SMTP transport
+const transporter = nodemailer.createTransport({
+  host: "smtp.resend.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "resend",
+    pass: process.env.RESEND_API_KEY,
+  },
+});
 
 export async function POST(req: Request) {
+  const fromEmail = process.env.FROM_EMAIL;
+
   if (!fromEmail) {
     return NextResponse.json(
       { error: 'FROM_EMAIL environment variable is not set' },
@@ -15,10 +25,11 @@ export async function POST(req: Request) {
   try {
     const { name, email, subject, message } = await req.json();
 
-    const data = await resend.emails.send({
-      from: fromEmail,
-      to: [fromEmail],
-      reply_to: email,
+    // Send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: `"Portfolio Contact" <${fromEmail}>`,
+      to: fromEmail,
+      replyTo: email,
       subject: `Portfolio Contact: ${subject}`,
       text: `
 Name: ${name}
@@ -30,8 +41,9 @@ ${message}
       `,
     });
 
-    return NextResponse.json({ data });
+    return NextResponse.json({ messageId: info.messageId });
   } catch (error) {
+    console.error('Email error:', error);
     return NextResponse.json(
       { error: 'Failed to send email' },
       { status: 500 }
