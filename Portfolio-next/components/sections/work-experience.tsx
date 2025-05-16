@@ -9,18 +9,35 @@ export function WorkExperienceSection() {
           Work Experience
         </h2>
         <div className="timeline-container">
-          {workExperience.map((experience, index) => (
-            <div key={index} className="timeline-item">
-              <div className="timeline-dot"></div>
-              <div className="timeline-content">
-                <Card className="p-4 sm:p-6">
-                  <h3 className="text-lg sm:text-xl font-semibold">{experience.title}</h3>
-                  <p className="text-muted-foreground mb-1 sm:mb-2">{experience.company}</p>
-                  <p className="text-sm text-muted-foreground">{experience.period}</p>
-                </Card>
+          <div className="timeline-items">
+            {workExperience.map((experience, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-content">
+                  <Card className="p-4 sm:p-6">
+                    <h3 className="text-lg sm:text-xl font-semibold">{experience.title}</h3>
+                    <p className="text-muted-foreground mb-1 sm:mb-2">{experience.company}</p>
+                    <p className="text-sm text-muted-foreground mb-2">{experience.period}</p>
+                    {experience.description && (
+                      <p className="mb-2 text-base text-foreground">{experience.description}</p>
+                    )}
+                    {experience.skills && experience.skills.length > 0 && (
+                      <div className="mb-1">
+                        <span className="font-semibold">Skills: </span>
+                        <span className="text-sm text-muted-foreground">{experience.skills.join(", ")}</span>
+                      </div>
+                    )}
+                    {experience.methodologies && experience.methodologies.length > 0 && (
+                      <div>
+                        <span className="font-semibold">Methodologies: </span>
+                        <span className="text-sm text-muted-foreground">{experience.methodologies.join(", ")}</span>
+                      </div>
+                    )}
+                  </Card>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

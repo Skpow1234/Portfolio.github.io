@@ -3,7 +3,7 @@ import { Education } from '../types';
 export const education: Education[] = [
   {
     institution: 'Universidad de San Buenaventura',
-    degree: 'Engineering Bachelor',
+    degree: 'Software Engineering Bachelor',
     period: '2017 – 2025',
   },
   {

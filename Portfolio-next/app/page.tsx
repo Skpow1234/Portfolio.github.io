@@ -1,3 +1,4 @@
+import { AboutMeSection } from "@/components/sections/about-me";
 import { HeroSection } from "@/components/sections/hero";
 import { WorkExperienceSection } from "@/components/sections/work-experience";
 import { SkillsSection } from "@/components/sections/skills";
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       <HeroSection />
+      <AboutMeSection />
       <WorkExperienceSection />
       <SkillsSection />
       <EducationSection />
