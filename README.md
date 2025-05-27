@@ -24,7 +24,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 
 ## 📦 Project Structure
 
-```
+```bash
 ├── app/
 │   ├── api/
 │   │   └── send/

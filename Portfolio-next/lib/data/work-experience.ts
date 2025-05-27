@@ -28,7 +28,7 @@ export const workExperience: WorkExperience[] = [
   {
     title: 'Senior Software Engineer',
     company: 'Visbl Inc',
-    period: 'February 2025 – Present',
+    period: 'February 2025 – June 2025',
     description: `As a Senior Software Engineer, I lead the development, testing, and maintenance of web applications and backend systems powering Visbl's mortgage technology platform. I architect and implement scalable, high-performance full-stack solutions while ensuring security, performance, and a seamless user experience. My responsibilities include both frontend and backend development using technologies such as PHP, WordPress, and Go. I collaborate closely with cross-functional teams to design, optimize, and deliver new features in a fast-paced, agile environment. I write clean, maintainable code and actively debug complex issues. I also mentor junior developers, fostering a culture of learning and continuous improvement. I integrate cloud services (AWS), manage CI/CD pipelines through GitHub Actions and Jenkins, and deploy containerized applications using Docker and Kubernetes. I contribute to process automation, support Salesforce integrations, and help maintain a secure and performant infrastructure using WP-Engine.`,
     skills: ['PHP', 'WordPress', 'MySQL', 'WP-Engine', 'AWS', 'Go', 'Docker', 'Kubernetes', 'Git', 'GitHub', 'Jira', 'GitHub Actions', 'Jenkins', 'Salesforce'],
     methodologies: ['Agile', 'Scrum'],
