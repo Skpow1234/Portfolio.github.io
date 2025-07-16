@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ContactSchema } from './schema';
+import { ContactSchema } from '../../../lib/validation/contact';
 import { sendContactMail } from './mailer';
 
 export async function POST(req: Request) {
@@ -22,6 +22,13 @@ export async function POST(req: Request) {
       );
     }
     const data = parseResult.data;
+    // Honeypot check
+    if (data.website && data.website.trim() !== "") {
+      return NextResponse.json(
+        { error: 'Spam detected' },
+        { status: 400 }
+      );
+    }
     const info = await sendContactMail(data, fromEmail);
     return NextResponse.json({ messageId: info.messageId });
   } catch (error) {
