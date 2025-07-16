@@ -1,30 +1,22 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import type { ContactFormData } from './schema';
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.resend.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'resend',
-    pass: process.env.RESEND_API_KEY,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendContactMail(data: ContactFormData, fromEmail: string) {
-  const info = await transporter.sendMail({
-    from: `"Portfolio Contact" <${fromEmail}>`,
-    to: fromEmail,
-    replyTo: data.email,
-    subject: `Portfolio Contact: ${data.subject}`,
-    text: `
-Name: ${data.name}
-Email: ${data.email}
-Subject: ${data.subject}
-
-Message:
-${data.message}
+  const { name, email, subject, message } = data;
+  const { data: result, error } = await resend.emails.send({
+    from: `Portfolio Contact <${fromEmail}>`,
+    to: [fromEmail],
+    replyTo: email,
+    subject: `Portfolio Contact: ${subject}`,
+    html: `
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Message:</strong><br/>${message}</p>
     `,
   });
-  return info;
+  if (error) throw new Error(error.message || 'Failed to send email');
+  return result;
 } 

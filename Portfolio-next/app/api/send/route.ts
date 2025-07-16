@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       );
     }
     const info = await sendContactMail(data, fromEmail);
-    return NextResponse.json({ messageId: info.messageId });
+    return NextResponse.json({ success: true, data: info });
   } catch (error) {
     console.error('Email error:', error);
     return NextResponse.json(
