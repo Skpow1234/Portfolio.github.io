@@ -1,1 +1,1 @@
-export { ContactFormData } from './schema'; 
+export type { ContactFormData } from './schema'; 
