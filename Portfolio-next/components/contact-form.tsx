@@ -37,8 +37,9 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     const parseResult = extendedSchema.safeParse(formData);
     if (!parseResult.success) {
       const fieldErrors: Partial<Record<keyof FormState, string>> = {};
-      for (const key in parseResult.error.formErrors.fieldErrors) {
-        const err = parseResult.error.formErrors.fieldErrors[key];
+      const errorsObj = parseResult.error.formErrors.fieldErrors;
+      for (const key of Object.keys(errorsObj) as Array<keyof typeof errorsObj>) {
+        const err = errorsObj[key];
         if (err && err.length > 0) fieldErrors[key as keyof FormState] = err[0];
       }
       setErrors(fieldErrors);
