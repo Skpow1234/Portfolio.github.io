@@ -4,7 +4,7 @@ export const workExperience: WorkExperience[] = [
   {
     title: 'Senior Software Engineer',
     company: 'OORTech LLC',
-    period: 'May 2025 – Present',
+    period: 'May 2025 – June 2025',
     description: `As a Senior Software Engineer at OORTech LLC, I contribute to the development and maintenance of the Datahub platform as part of a globally distributed engineering team. I design and implement full stack features, build scalable APIs and backend services using Node.js and Python, and develop modern user interfaces with React. I am responsible for writing clean, maintainable, and testable code, actively participating in code reviews, and collaborating asynchronously with the team via GitHub, Slack, and Notion. I also integrate Web3 technologies such as Ethereum and Binance smart contracts, utilize the Telegram API for communication features, and deploy solutions using AWS infrastructure. My role includes platform monitoring, bug resolution, maintaining technical documentation, and driving continuous improvement in development workflows and engineering practices.`,
     skills: ['Node.js', 'Python', 'React', 'JavaScript', 'Web3', 'Ethereum', 'Binance', 'Telegram API', 'AWS', 'Full Stack Development', 'REST APIs', 'GitHub', 'Notion', 'Slack', 'Agile Collaboration', 'Remote Workflows', 'Software Documentation'],
     methodologies: ['Agile', 'Distributed Teams'],
@@ -14,14 +14,6 @@ export const workExperience: WorkExperience[] = [
     company: 'Innovatech Consulting',
     period: 'March 2025 – May 2025',
     description: `As a Full Stack .NET Engineer, I lead the design, development, and integration of advanced features for Workdynamics' after-sale service platform powered by ServiceCentral, used by Fortune 50 OEMs, insurance companies, and repair shops globally. My focus is building a modern .NET/C# web application from the ground up while maintaining and enhancing a legacy Java-based system to ensure seamless interoperability and performance. I refine AI prompt strategies and integrate generative AI capabilities using OpenAI APIs to automate complex workflows across the platform. I actively participate in code reviews and collaborate with cross-functional teams to ensure high-quality software practices. I also contribute to continuous innovation by researching and applying emerging AI trends and technologies to improve automation pipelines and product functionality.`,
-    skills: ['.NET', 'C#', 'Java', 'OpenAI API', 'Prompt Engineering', 'Generative AI', 'Full Stack Development', 'Web Application Design', 'Software Integration', 'Automated Workflows', 'Code Reviews', 'AI Strategy'],
-    methodologies: ['Agile', 'Scrum'],
-  },
-  {
-    title: '.NET Engineer',
-    company: 'Workdynamics',
-    period: 'March 2025 – May 2025',
-    description: `As a .NET Engineer, I lead the design, development, and integration of advanced features for Workdynamics' after-sale service platform powered by ServiceCentral, used by Fortune 50 OEMs, insurance companies, and repair shops globally. My focus is building a modern .NET/C# web application from the ground up while maintaining and enhancing a legacy Java-based system to ensure seamless interoperability and performance. I refine AI prompt strategies and integrate generative AI capabilities using OpenAI APIs to automate complex workflows across the platform. I actively participate in code reviews and collaborate with cross-functional teams to ensure high-quality software practices. I also contribute to continuous innovation by researching and applying emerging AI trends and technologies to improve automation pipelines and product functionality.`,
     skills: ['.NET', 'C#', 'Java', 'OpenAI API', 'Prompt Engineering', 'Generative AI', 'Full Stack Development', 'Web Application Design', 'Software Integration', 'Automated Workflows', 'Code Reviews', 'AI Strategy'],
     methodologies: ['Agile', 'Scrum'],
   },
