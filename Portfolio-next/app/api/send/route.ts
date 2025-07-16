@@ -1,16 +1,6 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
-
-// Create reusable transporter object using SMTP transport
-const transporter = nodemailer.createTransport({
-  host: "smtp.resend.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: "resend",
-    pass: process.env.RESEND_API_KEY,
-  },
-});
+import { ContactSchema } from './schema';
+import { sendContactMail } from './mailer';
 
 export async function POST(req: Request) {
   const fromEmail = process.env.FROM_EMAIL;
@@ -23,24 +13,16 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { name, email, subject, message } = await req.json();
-
-    // Send mail with defined transport object
-    const info = await transporter.sendMail({
-      from: `"Portfolio Contact" <${fromEmail}>`,
-      to: fromEmail,
-      replyTo: email,
-      subject: `Portfolio Contact: ${subject}`,
-      text: `
-Name: ${name}
-Email: ${email}
-Subject: ${subject}
-
-Message:
-${message}
-      `,
-    });
-
+    const body = await req.json();
+    const parseResult = ContactSchema.safeParse(body);
+    if (!parseResult.success) {
+      return NextResponse.json(
+        { error: 'Invalid input', details: parseResult.error.flatten() },
+        { status: 400 }
+      );
+    }
+    const data = parseResult.data;
+    const info = await sendContactMail(data, fromEmail);
     return NextResponse.json({ messageId: info.messageId });
   } catch (error) {
     console.error('Email error:', error);
