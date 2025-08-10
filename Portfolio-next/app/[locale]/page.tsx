@@ -5,7 +5,7 @@ import { SkillsSection } from "@/components/sections/skills";
 import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 
-export default function Home() {
+export default function LocaleHome({ params }: { params: { locale: string } }) {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection />
@@ -17,3 +17,9 @@ export default function Home() {
     </main>
   );
 }
+
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'es' }];
+}
+
+

@@ -11,13 +11,13 @@ export function HeroSection() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <section id="home" className="relative scroll-mt-24 min-h-[80vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="text-center space-y-4 sm:space-y-6 max-w-4xl w-full">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight">
-          Hi, I'm <span className="text-primary bg-clip-text">Juan Hurtado</span>
+          Senior Software Engineer who ships reliable, performant platforms
         </h1>
         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-          Senior Software Engineer specializing in building exceptional digital experiences
+          Focused on Go, Node.js, Dotnet and Java,  delivering measurable outcomes like faster delivery, lower latency, and resilient systems.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
           <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>

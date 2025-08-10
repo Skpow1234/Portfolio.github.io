@@ -10,7 +10,7 @@ export function ContactSection() {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">Let's Connect</h2>
         <p className="text-muted-foreground mb-6 sm:mb-8 text-lg">
@@ -30,6 +30,9 @@ export function ContactSection() {
             <ContactForm onSuccess={() => setOpen(false)} />
           </DialogContent>
         </Dialog>
+        <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+          <a href="mailto:juan@example.com" className="underline-offset-2 hover:underline">Email directly</a>
+        </div>
       </div>
     </section>
   );

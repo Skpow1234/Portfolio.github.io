@@ -83,7 +83,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-4" autoComplete="off">
+    <form onSubmit={handleSubmit} className="space-y-4 mt-4" autoComplete="off" aria-live="polite">
       {/* Honeypot field (hidden from users) */}
       <div style={{ display: 'none' }} aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -107,8 +107,10 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           onChange={handleChange}
           required
           aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? "name-error" : undefined}
+          autoComplete="name"
         />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+        {errors.name && <p id="name-error" className="text-red-500 text-sm">{errors.name}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
@@ -121,8 +123,10 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           onChange={handleChange}
           required
           aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? "email-error" : undefined}
+          autoComplete="email"
         />
-        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+        {errors.email && <p id="email-error" className="text-red-500 text-sm">{errors.email}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="subject">Subject</Label>
@@ -134,8 +138,10 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           onChange={handleChange}
           required
           aria-invalid={!!errors.subject}
+          aria-describedby={errors.subject ? "subject-error" : undefined}
+          autoComplete="off"
         />
-        {errors.subject && <p className="text-red-500 text-sm">{errors.subject}</p>}
+        {errors.subject && <p id="subject-error" className="text-red-500 text-sm">{errors.subject}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="message">Message</Label>
@@ -148,8 +154,10 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           className="min-h-[100px]"
           required
           aria-invalid={!!errors.message}
+          aria-describedby={errors.message ? "message-error" : undefined}
+          autoComplete="off"
         />
-        {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
+        {errors.message && <p id="message-error" className="text-red-500 text-sm">{errors.message}</p>}
       </div>
       {errors.website && <p className="text-red-500 text-sm">{errors.website}</p>}
       <Button type="submit" className="w-full" disabled={isLoading}>

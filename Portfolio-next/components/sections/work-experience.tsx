@@ -6,29 +6,29 @@ import { motion } from "framer-motion";
 
 export function WorkExperienceSection() {
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <section id="experience" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
           Work Experience
         </h2>
-        <div className="timeline-container">
+        <div className="timeline-container md:mx-6">
           <div className="timeline-items">
             {workExperience.map((experience, index) => (
               <motion.div
                 key={index}
                 className="timeline-item"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
               >
                 <div className="timeline-dot"></div>
                 <motion.div
                   className="timeline-content"
-                  initial={{ scale: 0.95, opacity: 0 }}
+                  initial={{ scale: 1, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 + 0.1 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 + 0.05 }}
                 >
                   <Card className="p-4 sm:p-6">
                     <h3 className="text-lg sm:text-xl font-semibold">{experience.title}</h3>
