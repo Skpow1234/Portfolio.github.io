@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Juan Hurtado - Portfolio',
   description: 'Senior Software Engineer Portfolio',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 const siteUrl = 'https://your-portfolio-domain.com'; // TODO: Replace with your real domain
