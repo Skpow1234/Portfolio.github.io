@@ -68,7 +68,7 @@ export function SkillsSection() {
     if (lower.includes('sql server')) return 'microsoftsqlserver';
     if (lower.includes('oracle')) return 'oracle';
     if (lower.includes('google cloud') || lower.includes('gcp')) return 'googlecloud';
-    if (lower.includes('amazonwebservices') || lower.includes('amazonwebservices')) return 'amazonwebservices';
+    if (lower.includes('aws') || lower.includes('amazon web services')) return 'amazonwebservices';
     if (lower.includes('azure')) return 'azure';
     if (lower.includes('ci/cd') || lower.includes('pipeline')) return 'jenkins';
     if (lower.includes('docker')) return 'docker';
@@ -93,8 +93,8 @@ export function SkillsSection() {
       php: 'php',
       oracle: 'oracle',
       'oracle database': 'oracle',
-      aws: 'amazonwebservices',
-      'amazon web services': 'amazonwebservices',
+      aws: 'amazonaws',
+      'amazon web services': 'amazonaws',
       graphql: 'graphql',
       openai: 'openai',
       telegram: 'telegram',
@@ -112,7 +112,7 @@ export function SkillsSection() {
       devops: 'prometheus', // Using Prometheus logo for DevOps as requested
     };
     if (lower.includes('oracle')) return 'oracle';
-    if (lower.includes('aws')) return 'amazonwebservices';
+    if (lower.includes('aws')) return 'amazonaws';
     if (lower.includes('graphql')) return 'graphql';
     if (lower.includes('openai')) return 'openai';
     if (lower.includes('telegram')) return 'telegram';
