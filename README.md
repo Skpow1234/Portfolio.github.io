@@ -53,19 +53,19 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 
 ## 🚀 Getting Started
 
-1. **Clone the repository**
+1 **Clone the repository**
 
 ```bash
 git clone https://github.com/Skpow1234/Portfolio.github.io
 ```
 
-2. **Install dependencies**
+2 **Install dependencies**
 
 ```bash
 npm install
 ```
 
-3. **Set up environment variables**
+3 **Set up environment variables**
 
 Create a `.env` file in the root directory:
 
@@ -74,13 +74,13 @@ RESEND_API_KEY=your_resend_api_key
 FROM_EMAIL=your_verified_email
 ```
 
-4. **Run the development server**
+4 **Run the development server**
 
 ```bash
 npm run dev
 ```
 
-5. **Build for production**
+5 **Build for production**
 
 ```bash
 npm run build
