@@ -106,6 +106,10 @@ export function SkillsSection() {
       supabase: 'supabase',
       scala: 'scala',
       jenkins: 'jenkins',
+      scrum: 'scrum',
+      kanban: 'kanban',
+      agile: 'agile',
+      devops: 'prometheus', // Using Prometheus logo for DevOps as requested
     };
     if (lower.includes('oracle')) return 'oracle';
     if (lower.includes('aws')) return 'amazonaws';
@@ -116,6 +120,10 @@ export function SkillsSection() {
     if (lower.includes('automation anywhere')) return 'automationanywhere';
     if (lower.includes('power automate')) return 'powerautomate';
     if (lower.includes('power bi')) return 'powerbi';
+    if (lower.includes('scrum')) return 'scrum';
+    if (lower.includes('kanban')) return 'kanban';
+    if (lower.includes('agile')) return 'agile';
+    if (lower.includes('devops')) return 'prometheus';
     const key = Object.keys(map).find((k) => lower === k);
     return key ? map[key] : undefined;
   };

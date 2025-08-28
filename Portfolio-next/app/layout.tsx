@@ -60,12 +60,6 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <a
-          href="#main-content"
-          className="skip-link fixed left-2 top-2 -translate-y-20 rounded bg-primary px-3 py-2 text-primary-foreground focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-ring"
-        >
-          Skip to content
-        </a>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           {children}
         </ThemeProvider>
