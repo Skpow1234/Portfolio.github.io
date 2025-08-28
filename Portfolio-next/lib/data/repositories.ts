@@ -22,9 +22,9 @@ export const repositories: Repository[] = [
     language: "Python",
   },
   {
-    name: "PruebaCoordinadora",
+    name: "Router_Microservices",
     description: "A comprehensive testing framework and coordination system for distributed applications.",
-    url: "https://github.com/Skpow1234/PruebaCoordinadora",
+    url: "https://github.com/Skpow1234/Router_Microservices",
     language: "TypeScript",
   },
 ];
