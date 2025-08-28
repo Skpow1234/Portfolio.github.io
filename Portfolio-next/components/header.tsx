@@ -1,25 +1,26 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
-
-const SECTION_IDS = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "education", label: "Education" },
-  { id: "contact", label: "Contact" },
-];
+import { useLocale } from "@/hooks/use-locale";
+import { getTranslation } from "@/lib/i18n";
 
 export function Header() {
   const [activeId, setActiveId] = useState<string>("home");
-  const pathname = usePathname();
-  const router = useRouter();
+  const { currentLocale, switchLocale } = useLocale();
+  const t = getTranslation(currentLocale);
+
+  const SECTION_IDS = [
+    { id: "home", label: t.nav.home },
+    { id: "about", label: t.nav.about },
+    { id: "experience", label: t.nav.experience },
+    { id: "skills", label: t.nav.skills },
+    { id: "education", label: t.nav.education },
+    { id: "contact", label: t.nav.contact },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,27 +40,7 @@ export function Header() {
     });
 
     return () => observer.disconnect();
-  }, []);
-
-  const currentLocale = useMemo(() => {
-    const seg = pathname?.split("/").filter(Boolean)[0];
-    return seg === "es" ? "es" : "en";
-  }, [pathname]);
-
-  const switchLocale = (locale: "en" | "es") => {
-    if (locale === currentLocale) return;
-    const segments = pathname?.split("/").filter(Boolean) ?? [];
-    if (!segments.length) {
-      router.push(`/${locale}`);
-      return;
-    }
-    if (segments[0] === "en" || segments[0] === "es") {
-      segments[0] = locale;
-    } else {
-      segments.unshift(locale);
-    }
-    router.push("/" + segments.join("/"));
-  };
+  }, [currentLocale]); // Re-run when locale changes to update section IDs
 
   const onCta = (type: string) => {
     // Plausible custom event if available
@@ -102,7 +83,7 @@ export function Header() {
           </select>
           
           <Button asChild size="sm" onClick={() => onCta("contact")}> 
-            <a href="#contact">Contact</a>
+            <a href="#contact">{t.nav.contact}</a>
           </Button>
           <ModeToggle />
         </div>

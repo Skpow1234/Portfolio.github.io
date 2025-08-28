@@ -3,13 +3,18 @@
 import { Card } from "@/components/ui/card";
 import { workExperience } from "@/lib/data/work-experience";
 import { motion } from "framer-motion";
+import { useLocale } from "@/hooks/use-locale";
+import { getTranslation } from "@/lib/i18n";
 
 export function WorkExperienceSection() {
+  const { currentLocale } = useLocale();
+  const t = getTranslation(currentLocale);
+
   return (
     <section id="experience" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
-          Work Experience
+          {t.experience.title}
         </h2>
         <div className="space-y-6">
           {workExperience.map((experience, index) => (
@@ -29,13 +34,17 @@ export function WorkExperienceSection() {
                 )}
                 {experience.skills && experience.skills.length > 0 && (
                   <div className="mb-2">
-                    <span className="font-semibold">Skills: </span>
+                    <span className="font-semibold">
+                      {currentLocale === 'en' ? 'Skills: ' : 'Habilidades: '}
+                    </span>
                     <span className="text-sm text-muted-foreground">{experience.skills.join(", ")}</span>
                   </div>
                 )}
                 {experience.methodologies && experience.methodologies.length > 0 && (
                   <div>
-                    <span className="font-semibold">Methodologies: </span>
+                    <span className="font-semibold">
+                      {currentLocale === 'en' ? 'Methodologies: ' : 'Metodologías: '}
+                    </span>
                     <span className="text-sm text-muted-foreground">{experience.methodologies.join(", ")}</span>
                   </div>
                 )}

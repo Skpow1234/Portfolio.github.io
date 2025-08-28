@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Juan Hurtado - Portfolio",
   description: "Senior Software Engineer Portfolio",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function LocaleLayout({ children, params }: { children: React.ReactNode; params: { locale: string } }) {
@@ -21,7 +24,13 @@ export default function LocaleLayout({ children, params }: { children: React.Rea
         >
           Skip to content
         </a>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="dark" 
+          enableSystem
+          disableTransitionOnChange={false}
+          storageKey="theme"
+        >
           <Header />
           {children}
           <footer className="border-t">

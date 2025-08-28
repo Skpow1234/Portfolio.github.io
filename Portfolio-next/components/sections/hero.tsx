@@ -5,19 +5,28 @@ import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import { AboutMeSection } from "./about-me";
+import { useLocale } from "@/hooks/use-locale";
+import { getTranslation } from "@/lib/i18n";
 
 export function HeroSection() {
   const [open, setOpen] = useState(false);
+  const { currentLocale } = useLocale();
+  const t = getTranslation(currentLocale);
 
   return (
     <section id="home" className="relative scroll-mt-24 min-h-[80vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="text-center space-y-4 sm:space-y-6 max-w-4xl w-full">
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight">
-          Senior Software Engineer who ships reliable, performant platforms
+          {currentLocale === 'en' 
+            ? 'Senior Software Engineer who ships reliable, performant platforms'
+            : 'Ingeniero de Software Senior que entrega plataformas confiables y de alto rendimiento'
+          }
         </h1>
         <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-          Focused on Go, Node.js, Dotnet and Java,  delivering measurable outcomes like faster delivery, lower latency, and resilient systems.
+          {currentLocale === 'en'
+            ? 'Focused on Go, Node.js, Dotnet and Java, delivering measurable outcomes like faster delivery, lower latency, and resilient systems.'
+            : 'Enfocado en Go, Node.js, Dotnet y Java, entregando resultados medibles como entrega más rápida, menor latencia y sistemas resilientes.'
+          }
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2">
           <Button variant="outline" size="lg" className="w-full sm:w-auto" asChild>
@@ -36,12 +45,14 @@ export function HeroSection() {
             <DialogTrigger asChild>
               <Button variant="outline" size="lg" className="w-full sm:w-auto">
                 <Mail className="mr-2 h-5 w-5" />
-                Contact
+                {t.nav.contact}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
-                <DialogTitle>Send me a message</DialogTitle>
+                <DialogTitle>
+                  {currentLocale === 'en' ? 'Send me a message' : 'Envíame un mensaje'}
+                </DialogTitle>
               </DialogHeader>
               <ContactForm onSuccess={() => setOpen(false)} />
             </DialogContent>
