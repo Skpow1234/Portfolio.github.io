@@ -7,6 +7,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
+import { MobileMenu } from "@/components/mobile-menu";
 
 export function Header() {
   const [activeId, setActiveId] = useState<string>("home");
@@ -83,10 +84,11 @@ export function Header() {
             <option value="es">ES</option>
           </select>
           
-          <Button asChild size="sm" onClick={() => onCta("contact")}> 
+          <Button asChild size="sm" onClick={() => onCta("contact")} className="hidden sm:inline-flex"> 
             <a href="#contact">{t.nav.contact}</a>
           </Button>
           <ModeToggle />
+          <MobileMenu activeId={activeId} />
         </div>
       </div>
     </header>
