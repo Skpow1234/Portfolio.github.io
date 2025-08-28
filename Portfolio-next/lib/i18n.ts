@@ -8,6 +8,7 @@ export const translations = {
     nav: {
       home: 'Home',
       about: 'About',
+      repositories: 'Repositories',
       experience: 'Experience',
       skills: 'Skills',
       education: 'Education',
@@ -22,6 +23,9 @@ export const translations = {
     about: {
       title: 'About Me',
       description: 'I am a Senior Software Engineer with extensive experience in full-stack development, cloud architecture, and team leadership.',
+    },
+    repositories: {
+      title: 'Highlighted Repositories',
     },
     experience: {
       title: 'Work Experience',
@@ -44,6 +48,7 @@ export const translations = {
     nav: {
       home: 'Inicio',
       about: 'Acerca de',
+      repositories: 'Repositorios',
       experience: 'Experiencia',
       skills: 'Habilidades',
       education: 'Educación',
@@ -58,6 +63,9 @@ export const translations = {
     about: {
       title: 'Acerca de Mí',
       description: 'Soy un Ingeniero de Software Senior con amplia experiencia en desarrollo full-stack, arquitectura en la nube y liderazgo de equipos.',
+    },
+    repositories: {
+      title: 'Repositorios Destacados',
     },
     experience: {
       title: 'Experiencia Laboral',

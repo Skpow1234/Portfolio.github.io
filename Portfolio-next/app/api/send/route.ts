@@ -3,14 +3,7 @@ import { ContactSchema } from '../../../lib/validation/contact';
 import { sendContactMail } from './mailer';
 
 export async function POST(req: Request) {
-  const fromEmail = process.env.FROM_EMAIL;
-
-  if (!fromEmail) {
-    return NextResponse.json(
-      { error: 'FROM_EMAIL environment variable is not set' },
-      { status: 500 }
-    );
-  }
+  const fromEmail = process.env.FROM_EMAIL || 'contact@example.com';
 
   try {
     const body = await req.json();
