@@ -11,10 +11,11 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **Modern UI**: Built with Tailwind CSS and shadcn/ui components
 - **Type Safety**: Full TypeScript support
 - **Modular Architecture**: Component-based structure for easy maintenance
+- **Internationalization**: English and Spanish language support
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Next.js 13
+- **Framework**: Next.js 15.5.2
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
@@ -28,6 +29,9 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 ├── app/
 │   ├── api/
 │   │   └── send/
+│   ├── [locale]/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
@@ -36,6 +40,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 │   │   ├── contact.tsx
 │   │   ├── education.tsx
 │   │   ├── hero.tsx
+│   │   ├── repositories.tsx
 │   │   ├── skills.tsx
 │   │   └── work-experience.tsx
 │   ├── ui/
@@ -43,8 +48,10 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 ├── lib/
 │   ├── data/
 │   │   ├── education.ts
+│   │   ├── repositories.ts
 │   │   ├── skills.ts
 │   │   └── work-experience.ts
+│   ├── i18n.ts
 │   ├── types/
 │   │   └── index.ts
 │   └── utils.ts
@@ -92,6 +99,7 @@ npm run build
 2. **Styling**: Modify `tailwind.config.ts` and `app/globals.css`
 3. **Components**: Customize components in the `components/` directory
 4. **Email**: Update email templates in `app/api/send/route.ts`
+5. **Translations**: Modify `lib/i18n.ts` for language content
 
 ## 📝 License
 

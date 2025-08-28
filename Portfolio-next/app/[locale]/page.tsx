@@ -6,7 +6,7 @@ import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
 
-export default function LocaleHome({ params }: { params: { locale: string } }) {
+export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection />

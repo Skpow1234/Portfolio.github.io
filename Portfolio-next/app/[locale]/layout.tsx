@@ -14,9 +14,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LocaleLayout({ children, params }: { children: React.ReactNode; params: { locale: string } }) {
+export default async function LocaleLayout({ 
+  children, 
+  params 
+}: { 
+  children: React.ReactNode; 
+  params: Promise<{ locale: string }> 
+}) {
+  const { locale } = await params;
+  
   return (
-    <html lang={params.locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={inter.className}>
         <a
           href="#main-content"
