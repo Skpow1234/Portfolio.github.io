@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface GitHubStats {
   username: string;
@@ -37,28 +37,33 @@ export function useGitHubStats() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/github-stats');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch GitHub stats');
-        }
-        
-        const data = await response.json();
-        setStats(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-        console.error('Error fetching GitHub stats:', err);
-      } finally {
-        setLoading(false);
+  const fetchStats = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('/api/github-stats');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch GitHub stats');
       }
-    };
-
-    fetchStats();
+      
+      const data = await response.json();
+      setStats(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+      console.error('Error fetching GitHub stats:', err);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { stats, loading, error };
+  const refetch = useCallback(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  return { stats, loading, error, refetch };
 }

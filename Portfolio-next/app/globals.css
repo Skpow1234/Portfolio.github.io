@@ -78,6 +78,69 @@
   }
   body {
     @apply bg-background text-foreground;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Account for fixed header */
+  }
+  
+  /* Enhanced scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground));
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--foreground));
+  }
+
+  /* Theme transition styles - Faster transitions */
+  * {
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  /* Smooth transitions for theme changes - Faster */
+  body,
+  div,
+  section,
+  header,
+  footer,
+  nav,
+  main,
+  aside,
+  article {
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+
+  /* Enhanced button transitions */
+  button,
+  [role="button"] {
+    transition: all 0.2s ease-in-out;
+  }
+
+  /* Card transitions */
+  .card,
+  [class*="card"] {
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Input and form element transitions */
+  input,
+  textarea,
+  select {
+    transition: all 0.2s ease-in-out;
   }
 }
 

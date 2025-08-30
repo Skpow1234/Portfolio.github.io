@@ -36,7 +36,7 @@ export function SkillsSection() {
       // Frameworks & Libraries
       'spring boot': 'spring', spring: 'spring', 'react.js': 'react', react: 'react', 'react native': 'react',
       'next.js': 'nextjs', next: 'nextjs', 'vue.js': 'vuejs', vue: 'vuejs', angular: 'angular', 'nest.js': 'nestjs', nest: 'nestjs',
-      express: 'express', 'express.js': 'express', quarkus: 'quarkus',
+      quarkus: 'quarkus',
       // Databases
       postgresql: 'postgresql', mysql: 'mysql', 'sql server': 'microsoftsqlserver', oracle: 'oracle', mongodb: 'mongodb', redis: 'redis', elasticsearch: 'elasticsearch',
       // Cloud & DevOps
@@ -48,9 +48,9 @@ export function SkillsSection() {
       // CMS/CRM
       wordpress: 'wordpress', salesforce: 'salesforce',
       // OS
-      linux: 'linux', windows: 'windows8', macos: 'apple',
+      linux: 'linux', windows: 'windows8',
       // Other
-      powerbi: 'powerbi', bash: 'bash', shell: 'bash',
+      bash: 'bash', shell: 'bash',
     };
     // heuristics for composite names
     if (lower.includes('spring')) return 'spring';
@@ -99,16 +99,9 @@ export function SkillsSection() {
       openai: 'openai',
       telegram: 'telegram',
       twilio: 'twilio',
-      'automation anywhere': 'automationanywhere',
-      'power automate': 'powerautomate',
-      powerbi: 'powerbi',
-      'power bi': 'powerbi',
       supabase: 'supabase',
       scala: 'scala',
       jenkins: 'jenkins',
-      scrum: 'scrum',
-      kanban: 'kanban',
-      agile: 'agile',
       devops: 'prometheus', // Using Prometheus logo for DevOps as requested
     };
     if (lower.includes('oracle')) return 'oracle';
@@ -117,12 +110,6 @@ export function SkillsSection() {
     if (lower.includes('openai')) return 'openai';
     if (lower.includes('telegram')) return 'telegram';
     if (lower.includes('twilio') || lower.includes('twillio')) return 'twilio';
-    if (lower.includes('automation anywhere')) return 'automationanywhere';
-    if (lower.includes('power automate')) return 'powerautomate';
-    if (lower.includes('power bi')) return 'powerbi';
-    if (lower.includes('scrum')) return 'scrum';
-    if (lower.includes('kanban')) return 'kanban';
-    if (lower.includes('agile')) return 'agile';
     if (lower.includes('devops')) return 'prometheus';
     const key = Object.keys(map).find((k) => lower === k);
     return key ? map[key] : undefined;
@@ -136,6 +123,18 @@ export function SkillsSection() {
 
   const getLogoCandidates = (name: string): string[] => {
     const candidates: string[] = [];
+    const lower = name.toLowerCase();
+    
+    // Special handling for Express and macOS to use white versions
+    if (lower.includes('express')) {
+      candidates.push('https://cdn.simpleicons.org/express/ffffff');
+      return candidates;
+    }
+    if (lower.includes('macos') || lower.includes('mac os')) {
+      candidates.push('https://cdn.simpleicons.org/apple/ffffff');
+      return candidates;
+    }
+    
     const dev = getLogoUrl(name);
     if (dev) candidates.push(dev);
     const simple = getSimpleIconUrl(name);

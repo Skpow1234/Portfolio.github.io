@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetPortal, SheetOverlay, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import { Menu, X, Github, Linkedin } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu, X } from "lucide-react";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
-import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface MobileMenuProps {
   activeId: string;
@@ -27,12 +27,15 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
     { id: "contact", label: t.nav.contact },
   ];
 
-  const handleNavClick = (id: string) => {
-    setOpen(false);
-    const element = document.getElementById(id);
+  const handleNavClick = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
+    setOpen(false);
   };
 
   return (
@@ -41,91 +44,98 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="md:hidden p-2 h-9 w-9"
-          aria-label="Open navigation menu"
+          className="md:hidden p-2 hover:bg-accent hover:scale-105 transition-all duration-200"
         >
           <Menu className="h-5 w-5" />
+          <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetPortal>
-        <SheetOverlay />
-        <div className="fixed inset-y-0 left-0 h-full w-[280px] sm:w-[350px] bg-background border-r shadow-lg z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left">
-          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-          <div className="flex flex-col h-full">
-            {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <span className="font-semibold text-lg">Menu</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setOpen(false)}
-                className="h-8 w-8 p-0"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            
-            {/* Navigation Items */}
-            <nav className="flex-1 p-6">
-              <ul className="space-y-2">
-                {SECTION_IDS.map(({ id, label }) => (
-                  <li key={id}>
+      <SheetContent side="right" className="w-[280px] sm:w-[350px] p-0">
+        <div className="flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b">
+            <h2 className="text-lg font-semibold">Menu</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setOpen(false)}
+              className="p-2 hover:bg-accent hover:scale-105 transition-all duration-200"
+            >
+              <X className="h-5 w-5" />
+            </Button>
+          </div>
+
+          {/* Navigation */}
+          <nav className="flex-1 p-6">
+            <ul className="space-y-2">
+              <AnimatePresence>
+                {SECTION_IDS.map(({ id, label }, index) => (
+                  <motion.li
+                    key={id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
                     <button
                       onClick={() => handleNavClick(id)}
-                      className={cn(
-                        "w-full text-left px-4 py-3 rounded-lg transition-colors",
-                        "hover:bg-accent hover:text-accent-foreground",
-                        "focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-                        activeId === id 
-                          ? "bg-primary text-primary-foreground" 
-                          : "text-foreground"
-                      )}
+                      className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-accent hover:scale-[1.02] active:scale-[0.98] ${
+                        activeId === id
+                          ? "bg-primary text-primary-foreground shadow-md"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
                     >
-                      {label}
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{label}</span>
+                        {activeId === id && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            className="w-2 h-2 bg-primary-foreground rounded-full"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          />
+                        )}
+                      </div>
                     </button>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
-            </nav>
-            
-            {/* Footer */}
-            <div className="p-6 border-t">
-              <div className="flex items-center gap-4">
+              </AnimatePresence>
+            </ul>
+          </nav>
+
+          {/* Footer */}
+          <div className="p-6 border-t">
+            <div className="space-y-4">
+              <div className="text-sm text-muted-foreground">
+                {currentLocale === 'en' ? 'Language' : 'Idioma'}
+              </div>
+              <div className="flex gap-2">
                 <Button
-                  variant="ghost"
+                  variant={currentLocale === 'en' ? 'default' : 'outline'}
                   size="sm"
-                  asChild
-                  className="h-9 w-9 p-0"
+                  onClick={() => {
+                    // Handle language change
+                  }}
+                  className="flex-1"
                 >
-                  <a 
-                    href="https://github.com/Skpow1234" 
-                    target="_blank" 
-                    rel="noreferrer noopener"
-                    aria-label="GitHub"
-                  >
-                    <Github className="h-5 w-5" />
-                  </a>
+                  EN
                 </Button>
                 <Button
-                  variant="ghost"
+                  variant={currentLocale === 'es' ? 'default' : 'outline'}
                   size="sm"
-                  asChild
-                  className="h-9 w-9 p-0"
+                  onClick={() => {
+                    // Handle language change
+                  }}
+                  className="flex-1"
                 >
-                  <a 
-                    href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" 
-                    target="_blank" 
-                    rel="noreferrer noopener"
-                    aria-label="LinkedIn"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </a>
+                  ES
                 </Button>
               </div>
             </div>
           </div>
         </div>
-      </SheetPortal>
+      </SheetContent>
     </Sheet>
   );
 }

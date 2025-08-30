@@ -8,11 +8,15 @@ import { cn } from "@/lib/utils";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { MobileMenu } from "@/components/mobile-menu";
+import { useScrollProgress } from "@/hooks/use-scroll-progress";
+import { ChevronDown } from "lucide-react";
 
 export function Header() {
-  const [activeId, setActiveId] = useState<string>("home");
   const { currentLocale, switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const scrollProgress = useScrollProgress();
 
   const SECTION_IDS = [
     { id: "home", label: t.nav.home },
@@ -25,24 +29,37 @@ export function Header() {
   ];
 
   useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    // Intersection Observer for active section
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
+            setActiveSection(entry.target.id);
           }
-        }
+        });
       },
-      { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] }
+      {
+        rootMargin: '-20% 0px -20% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
     );
 
+    // Observe all sections
     SECTION_IDS.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
-  }, [currentLocale]); // Re-run when locale changes to update section IDs
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
+  }, [currentLocale]);
 
   const onCta = (type: string) => {
     // Plausible custom event if available
@@ -53,30 +70,53 @@ export function Header() {
     }
   };
 
+  const handleNavClick = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+    onCta(`nav-${sectionId}`);
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className={cn(
+      "sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
+      isScrolled && "shadow-lg bg-background/95"
+    )}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <div className="flex items-center gap-6">
-          <Link href="#home" className="font-semibold">JH</Link>
+          <button 
+            onClick={() => handleNavClick('home')}
+            className="font-semibold text-lg hover:text-primary transition-colors duration-200"
+          >
+            JH
+          </button>
           <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
             {SECTION_IDS.map(({ id, label }) => (
-              <a
+              <button
                 key={id}
-                href={`#${id}`}
+                onClick={() => handleNavClick(id)}
                 className={cn(
-                  "rounded px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                  activeId === id && "text-foreground"
+                  "rounded px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-200 relative group",
+                  activeSection === id && "text-foreground",
                 )}
               >
                 {label}
-              </a>
+                {activeSection === id && (
+                  <span className="absolute bottom-0 left-1/2 w-1 h-1 bg-primary rounded-full transform -translate-x-1/2 transition-all duration-300" />
+                )}
+                <span className="absolute inset-0 bg-accent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </button>
             ))}
           </nav>
         </div>
         <div className="flex items-center gap-2">
           <select
             aria-label="Language selector"
-            className="h-9 rounded-md border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="h-9 rounded-md border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
             onChange={(e) => switchLocale(e.target.value as "en" | "es")}
           >
@@ -84,12 +124,24 @@ export function Header() {
             <option value="es">ES</option>
           </select>
           
-          <Button asChild size="sm" onClick={() => onCta("contact")} className="hidden sm:inline-flex"> 
-            <a href="#contact">{t.nav.contact}</a>
+          <Button 
+            size="sm" 
+            onClick={() => handleNavClick("contact")} 
+            className="hidden sm:inline-flex hover:scale-105 transition-transform duration-200"
+          > 
+            {t.nav.contact}
           </Button>
           <ModeToggle />
-          <MobileMenu activeId={activeId} />
+          <MobileMenu activeId={activeSection} />
         </div>
+      </div>
+      
+      {/* Scroll Progress Indicator */}
+      <div className="absolute bottom-0 left-0 w-full h-1 bg-muted">
+        <div 
+          className="h-full bg-primary transition-all duration-300 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
       </div>
     </header>
   );

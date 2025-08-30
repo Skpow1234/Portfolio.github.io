@@ -5,14 +5,17 @@ import { githubConfig } from "@/lib/data/github-stats";
 import { motion } from "framer-motion";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
-import { Github, Star, GitCommit, GitPullRequest, GitBranch, Users, Calendar, TrendingUp, Loader2 } from "lucide-react";
+import { Github, Star, GitCommit, GitPullRequest, GitBranch, Users, Calendar, TrendingUp, RefreshCw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useGitHubStats } from "@/hooks/use-github-stats";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { Button } from "@/components/ui/button";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 
 export function GitHubStatsSection() {
   const { currentLocale } = useLocale();
   const t = getTranslation(currentLocale);
-  const { stats, loading, error } = useGitHubStats();
+  const { stats, loading, error, refetch } = useGitHubStats();
 
   // Language colors mapping
   const languageColors: Record<string, string> = {
@@ -32,10 +35,7 @@ export function GitHubStatsSection() {
     return (
       <section id="github-stats" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">
-            {currentLocale === 'en' ? 'Loading GitHub statistics...' : 'Cargando estadísticas de GitHub...'}
-          </p>
+          <LoadingSpinner size="lg" text={currentLocale === 'en' ? 'Loading GitHub statistics...' : 'Cargando estadísticas de GitHub...'} />
         </div>
       </section>
     );
@@ -45,9 +45,22 @@ export function GitHubStatsSection() {
     return (
       <section id="github-stats" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-muted-foreground">
-            {currentLocale === 'en' ? 'Unable to load GitHub statistics' : 'No se pudieron cargar las estadísticas de GitHub'}
-          </p>
+          <Card className="p-8 max-w-md mx-auto">
+            <Github className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">
+              {currentLocale === 'en' ? 'Unable to load GitHub statistics' : 'No se pudieron cargar las estadísticas de GitHub'}
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              {currentLocale === 'en' 
+                ? 'There was an issue loading the GitHub data. Please try again.'
+                : 'Hubo un problema al cargar los datos de GitHub. Por favor, inténtalo de nuevo.'
+              }
+            </p>
+            <Button onClick={refetch} variant="outline">
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {currentLocale === 'en' ? 'Retry' : 'Reintentar'}
+            </Button>
+          </Card>
         </div>
       </section>
     );
@@ -63,238 +76,247 @@ export function GitHubStatsSection() {
   ];
 
   return (
-    <section id="github-stats" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4 }}
-          className="text-center mb-12"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Github className="h-8 w-8 text-muted-foreground" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-              {currentLocale === 'en' ? 'GitHub Statistics' : 'Estadísticas de GitHub'}
-            </h2>
-          </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {currentLocale === 'en' 
-              ? 'My coding activity and contributions on GitHub'
-              : 'Mi actividad de programación y contribuciones en GitHub'
-            }
-          </p>
-        </motion.div>
-
-        {/* GitHub Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
-          {statsItems.map((item, index) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-            >
-              <Card className="p-4 text-center hover:scale-105 transition-transform duration-300">
-                <item.icon className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
-                <div className="text-2xl font-bold">{item.value}</div>
-                <div className="text-xs text-muted-foreground">{item.label}</div>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* GitHub Stats Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {/* Main Stats Card */}
+    <ErrorBoundary>
+      <section id="github-stats" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.4 }}
-            className="lg:col-span-2"
+            className="text-center mb-12"
           >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
-                {currentLocale === 'en' ? 'GitHub Stats' : 'Estadísticas'}
-              </h3>
-              <img
-                src={githubConfig.statsUrl}
-                alt="GitHub Stats"
-                className="w-full h-auto rounded-lg"
-                loading="lazy"
-              />
-            </Card>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Github className="h-8 w-8 text-muted-foreground" />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+                {currentLocale === 'en' ? 'GitHub Statistics' : 'Estadísticas de GitHub'}
+              </h2>
+            </div>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {currentLocale === 'en' 
+                ? 'My coding activity and contributions on GitHub'
+                : 'Mi actividad de programación y contribuciones en GitHub'
+              }
+            </p>
           </motion.div>
 
-          {/* GitHub Profile README */}
+          {/* GitHub Stats Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
+            {statsItems.map((item, index) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
+                <Card className="p-4 text-center hover:scale-105 transition-transform duration-300 group">
+                  <item.icon className="h-6 w-6 mx-auto mb-2 text-muted-foreground group-hover:text-primary transition-colors duration-200" />
+                  <div className="text-2xl font-bold">{item.value}</div>
+                  <div className="text-xs text-muted-foreground">{item.label}</div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* GitHub Stats Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {/* Main Stats Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4 }}
+              className="lg:col-span-2"
+            >
+              <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5" />
+                  {currentLocale === 'en' ? 'GitHub Stats' : 'Estadísticas'}
+                </h3>
+                <img
+                  src={githubConfig.statsUrl}
+                  alt="GitHub Stats"
+                  className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </Card>
+            </motion.div>
+
+            {/* GitHub Profile README */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
+              <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <Github className="h-5 w-5" />
+                  {currentLocale === 'en' ? 'Profile README' : 'README del Perfil'}
+                </h3>
+                <img
+                  src={githubConfig.profileReadmeUrl}
+                  alt="GitHub Profile README"
+                  className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </Card>
+            </motion.div>
+
+            {/* Summary Cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
+              <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <GitCommit className="h-5 w-5" />
+                  {currentLocale === 'en' ? 'Most Commits' : 'Más Commits'}
+                </h3>
+                <img
+                  src={githubConfig.commitsCardUrl}
+                  alt="Most Commit Language"
+                  className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+            >
+              <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <GitBranch className="h-5 w-5" />
+                  {currentLocale === 'en' ? 'Repos per Language' : 'Repos por Lenguaje'}
+                </h3>
+                <img
+                  src={githubConfig.reposCardUrl}
+                  alt="Repos per Language"
+                  className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+            >
+              <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+                <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                  <Calendar className="h-5 w-5" />
+                  {currentLocale === 'en' ? 'Productive Time' : 'Tiempo Productivo'}
+                </h3>
+                <img
+                  src={githubConfig.productiveTimeUrl}
+                  alt="Productive Time"
+                  className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* GitHub Snake Animation */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            className="mb-12"
           >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Github className="h-5 w-5" />
-                {currentLocale === 'en' ? 'Profile README' : 'README del Perfil'}
+            <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+              <h3 className="text-xl font-semibold mb-4 text-center flex items-center justify-center gap-2">
+                <span role="img" aria-label="snake" className="text-2xl">🐍</span>
+                {currentLocale === 'en' ? 'GitHub Snake Animation' : 'Animación de Serpiente de GitHub'}
               </h3>
-              <img
-                src={githubConfig.profileReadmeUrl}
-                alt="GitHub Profile README"
-                className="w-full h-auto rounded-lg"
-                loading="lazy"
-              />
+              <div className="flex justify-center">
+                <img
+                  src={githubConfig.snakeUrl}
+                  alt="GitHub Snake Animation"
+                  className="w-full max-w-4xl h-auto rounded-lg"
+                  loading="lazy"
+                />
+              </div>
             </Card>
           </motion.div>
 
-          {/* Summary Cards */}
+          {/* Top Languages */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+              <h3 className="text-xl font-semibold mb-6 text-center">
+                {currentLocale === 'en' ? 'Top Languages' : 'Lenguajes Principales'}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <img
+                    src={githubConfig.topLanguagesUrl}
+                    alt="Top Languages"
+                    className="w-full h-auto rounded-lg"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="space-y-4">
+                  {stats.stats.topLanguages.map((lang, index) => (
+                    <motion.div 
+                      key={lang.name} 
+                      className="flex items-center justify-between"
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div 
+                          className="w-4 h-4 rounded-full" 
+                          style={{ backgroundColor: languageColors[lang.name] || "#6b7280" }}
+                        />
+                        <span className="font-medium">{lang.name}</span>
+                      </div>
+                      <Badge variant="secondary">{lang.percentage}%</Badge>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+
+          {/* Contribution Graph */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.4, delay: 0.2 }}
+            className="mt-8"
           >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <GitCommit className="h-5 w-5" />
-                {currentLocale === 'en' ? 'Most Commits' : 'Más Commits'}
+            <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
+              <h3 className="text-xl font-semibold mb-4 text-center">
+                {currentLocale === 'en' ? 'Contribution Activity' : 'Actividad de Contribuciones'}
               </h3>
               <img
-                src={githubConfig.commitsCardUrl}
-                alt="Most Commit Language"
-                className="w-full h-auto rounded-lg"
-                loading="lazy"
-              />
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-          >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <GitBranch className="h-5 w-5" />
-                {currentLocale === 'en' ? 'Repos per Language' : 'Repos por Lenguaje'}
-              </h3>
-              <img
-                src={githubConfig.reposCardUrl}
-                alt="Repos per Language"
-                className="w-full h-auto rounded-lg"
-                loading="lazy"
-              />
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-          >
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                {currentLocale === 'en' ? 'Productive Time' : 'Tiempo Productivo'}
-              </h3>
-              <img
-                src={githubConfig.productiveTimeUrl}
-                alt="Productive Time"
+                src={githubConfig.contributionGraphUrl}
+                alt="Contribution Graph"
                 className="w-full h-auto rounded-lg"
                 loading="lazy"
               />
             </Card>
           </motion.div>
         </div>
-
-        {/* GitHub Snake Animation */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
-          className="mb-12"
-        >
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold mb-4 text-center flex items-center justify-center gap-2">
-              <span role="img" aria-label="snake" className="text-2xl">🐍</span>
-              {currentLocale === 'en' ? 'GitHub Snake Animation' : 'Animación de Serpiente de GitHub'}
-            </h3>
-            <div className="flex justify-center">
-              <img
-                src={githubConfig.snakeUrl}
-                alt="GitHub Snake Animation"
-                className="w-full max-w-4xl h-auto rounded-lg"
-                loading="lazy"
-              />
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Top Languages */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4 }}
-        >
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold mb-6 text-center">
-              {currentLocale === 'en' ? 'Top Languages' : 'Lenguajes Principales'}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <img
-                  src={githubConfig.topLanguagesUrl}
-                  alt="Top Languages"
-                  className="w-full h-auto rounded-lg"
-                  loading="lazy"
-                />
-              </div>
-              <div className="space-y-4">
-                {stats.stats.topLanguages.map((lang, index) => (
-                  <div key={lang.name} className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div 
-                        className="w-4 h-4 rounded-full" 
-                        style={{ backgroundColor: languageColors[lang.name] || "#6b7280" }}
-                      />
-                      <span className="font-medium">{lang.name}</span>
-                    </div>
-                    <Badge variant="secondary">{lang.percentage}%</Badge>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* Contribution Graph */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-          className="mt-8"
-        >
-          <Card className="p-6">
-            <h3 className="text-xl font-semibold mb-4 text-center">
-              {currentLocale === 'en' ? 'Contribution Activity' : 'Actividad de Contribuciones'}
-            </h3>
-            <img
-              src={githubConfig.contributionGraphUrl}
-              alt="Contribution Graph"
-              className="w-full h-auto rounded-lg"
-              loading="lazy"
-            />
-          </Card>
-        </motion.div>
-      </div>
-    </section>
+      </section>
+    </ErrorBoundary>
   );
 }
