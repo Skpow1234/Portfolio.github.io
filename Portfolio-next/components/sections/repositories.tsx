@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { repositories } from "@/lib/data/repositories";
-import { motion } from "framer-motion";
+
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { ExternalLink, Github, Star, GitFork } from "lucide-react";
@@ -36,13 +36,7 @@ export function RepositoriesSection() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {repositories.map((repo, index) => (
-            <motion.div
-              key={repo.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-            >
+            <div key={repo.name} className="animate-fade-in">
               <Card className="p-6 transform transition-all duration-300 hover:scale-105 h-full flex flex-col">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -100,7 +94,7 @@ export function RepositoriesSection() {
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

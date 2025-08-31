@@ -237,3 +237,14 @@
 }
 
 /* Skip link base styles provided in layout */
+
+/* Additional fade-in animations */
+.animate-fade-in-delay {
+  animation: fadeIn 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+  animation: fadeIn 0.8s ease-out 0.4s forwards;
+  opacity: 0;
+}

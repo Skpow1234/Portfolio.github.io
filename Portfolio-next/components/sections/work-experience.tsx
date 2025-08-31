@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { workExperience } from "@/lib/data/work-experience";
-import { motion } from "framer-motion";
+
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 
@@ -18,13 +18,7 @@ export function WorkExperienceSection() {
         </h2>
         <div className="space-y-6">
           {workExperience.map((experience, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-            >
+            <div key={index} className="animate-fade-in">
               <Card className="p-6 transform transition-all duration-300 hover:scale-105">
                 <h3 className="text-xl font-semibold">{experience.title}</h3>
                 <p className="text-muted-foreground mb-1">{experience.company}</p>
@@ -49,7 +43,7 @@ export function WorkExperienceSection() {
                   </div>
                 )}
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

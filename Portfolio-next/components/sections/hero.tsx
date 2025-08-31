@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useState } from "react";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
-import { motion } from "framer-motion";
+
 
 export function HeroSection() {
   const [open, setOpen] = useState(false);
@@ -31,55 +31,28 @@ export function HeroSection() {
       
       {/* Floating elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-20 left-10 w-2 h-2 bg-primary/20 rounded-full"
-          animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute top-40 right-20 w-3 h-3 bg-secondary/30 rounded-full"
-          animate={{ y: [0, 30, 0], opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        <motion.div
-          className="absolute bottom-40 left-20 w-1 h-1 bg-accent/40 rounded-full"
-          animate={{ y: [0, -15, 0], opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
+        <div className="absolute top-20 left-10 w-2 h-2 bg-primary/20 rounded-full animate-bounce opacity-50" />
+        <div className="absolute top-40 right-20 w-3 h-3 bg-secondary/30 rounded-full animate-pulse opacity-30" />
+        <div className="absolute bottom-40 left-20 w-1 h-1 bg-accent/40 rounded-full animate-ping opacity-40" />
       </div>
 
       <div className="text-center space-y-6 sm:space-y-8 max-w-5xl w-full relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-4"
-        >
+        <div className="space-y-4 animate-fade-in">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             {currentLocale === 'en' 
               ? 'Senior Software Engineer who ships reliable, performant platforms'
               : 'Ingeniero de Software Senior que entrega plataformas confiables y de alto rendimiento'
             }
           </h1>
-          <motion.p 
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
+          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-delay">
             {currentLocale === 'en'
               ? 'Focused on Go, Node.js, Dotnet and Java, delivering measurable outcomes like faster delivery, lower latency, and resilient systems.'
               : 'Enfocado en Go, Node.js, Dotnet y Java, entregando resultados medibles como entrega más rápida, menor latencia y sistemas resilientes.'
             }
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
-        <motion.div 
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-4 animate-fade-in-delay-2">
           <Button 
             variant="outline" 
             size="lg" 
@@ -122,39 +95,27 @@ export function HeroSection() {
               <ContactForm onSuccess={() => setOpen(false)} />
             </DialogContent>
           </Dialog>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          className="flex flex-col items-center justify-center gap-4 pt-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
+        <div className="flex flex-col items-center justify-center gap-4 pt-4 animate-fade-in-delay-2">
           <div className="flex items-center justify-center gap-2 text-muted-foreground">
             <MapPin className="h-5 w-5" />
             <span className="text-sm sm:text-base">Cali, Colombia</span>
           </div>
           
           {/* Scroll indicator under Cali, Colombia */}
-          <motion.div
-            className="cursor-pointer"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
+          <div
+            className="cursor-pointer animate-fade-in-delay-2"
             onClick={handleScrollToAbout}
           >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
-            >
+            <div className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 animate-bounce">
               <span className="text-sm font-medium">
                 {currentLocale === 'en' ? 'Scroll to explore' : 'Desplázate para explorar'}
               </span>
               <ArrowDown className="h-6 w-6" />
-            </motion.div>
-          </motion.div>
-        </motion.div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -7,7 +7,8 @@ import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
 import { GitHubStatsSection } from "@/components/sections/github-stats";
 
-export default function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
+export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection />

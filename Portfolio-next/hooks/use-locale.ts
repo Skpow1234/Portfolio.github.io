@@ -9,8 +9,13 @@ export function useLocale() {
   const router = useRouter();
 
   const currentLocale = useMemo(() => {
-    const seg = pathname?.split("/").filter(Boolean)[0];
-    return locales.includes(seg as Locale) ? (seg as Locale) : defaultLocale;
+    try {
+      const seg = pathname?.split("/").filter(Boolean)[0];
+      return locales.includes(seg as Locale) ? (seg as Locale) : defaultLocale;
+    } catch (error) {
+      console.error('Error determining locale:', error);
+      return defaultLocale;
+    }
   }, [pathname]);
 
   const switchLocale = (locale: Locale) => {

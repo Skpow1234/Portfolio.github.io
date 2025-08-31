@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -18,7 +18,7 @@ export function Header() {
   const [activeSection, setActiveSection] = useState('home');
   const scrollProgress = useScrollProgress();
 
-  const SECTION_IDS = [
+  const SECTION_IDS = useMemo(() => [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
     { id: "repositories", label: t.nav.repositories },
@@ -26,7 +26,7 @@ export function Header() {
     { id: "skills", label: t.nav.skills },
     { id: "education", label: t.nav.education },
     { id: "contact", label: t.nav.contact },
-  ];
+  ], [t.nav]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,8 +43,8 @@ export function Header() {
         });
       },
       {
-        rootMargin: '-20% 0px -20% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1],
+        rootMargin: '-30% 0px -30% 0px',
+        threshold: [0, 0.5, 1],
       }
     );
 
@@ -59,7 +59,7 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
-  }, [currentLocale]);
+  }, [currentLocale, SECTION_IDS]);
 
   const onCta = (type: string) => {
     // Plausible custom event if available
@@ -71,12 +71,20 @@ export function Header() {
   };
 
   const handleNavClick = (sectionId: string) => {
+    console.log('Header nav click:', sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
+      console.log('Scrolling to:', sectionId);
+      
+      setActiveSection(sectionId);
+      
       element.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
+      
+    } else {
+      console.error('Section not found in header:', sectionId);
     }
     onCta(`nav-${sectionId}`);
   };
