@@ -184,6 +184,8 @@ export function SkillsSection() {
                     <img
                       src={src}
                       alt={s.name}
+                      width="40"
+                      height="40"
                       className="h-10 w-10 object-contain"
                       loading="lazy"
                       onError={() => {
