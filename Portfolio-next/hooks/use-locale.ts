@@ -10,7 +10,8 @@ export function useLocale() {
 
   const currentLocale = useMemo(() => {
     try {
-      const seg = pathname?.split("/").filter(Boolean)[0];
+      if (!pathname) return defaultLocale;
+      const seg = pathname.split("/").filter(Boolean)[0];
       return locales.includes(seg as Locale) ? (seg as Locale) : defaultLocale;
     } catch (error) {
       console.error('Error determining locale:', error);
@@ -21,25 +22,43 @@ export function useLocale() {
   const switchLocale = (locale: Locale) => {
     if (locale === currentLocale) return;
     
-    const segments = pathname?.split("/").filter(Boolean) ?? [];
-    let newPath = '';
-    
-    if (!segments.length) {
-      newPath = `/${locale}`;
-    } else if (segments[0] === "en" || segments[0] === "es") {
-      segments[0] = locale;
-      newPath = "/" + segments.join("/");
-    } else {
-      segments.unshift(locale);
-      newPath = "/" + segments.join("/");
-    }
-    
     try {
-      router.replace(newPath);
+      if (!pathname) return;
+      
+      const segments = pathname.split("/").filter(Boolean);
+      let newPath = '';
+      
+      if (!segments.length) {
+        newPath = `/${locale}`;
+      } else if (segments[0] === "en" || segments[0] === "es") {
+        segments[0] = locale;
+        newPath = "/" + segments.join("/");
+      } else {
+        segments.unshift(locale);
+        newPath = "/" + segments.join("/");
+      }
+      
+      router.push(newPath);
     } catch (error) {
       console.error('Error switching locale:', error);
       // Fallback to window.location if router fails
-      window.location.href = newPath;
+      if (typeof window !== 'undefined') {
+        const currentPath = window.location.pathname;
+        const segments = currentPath.split("/").filter(Boolean);
+        let newPath = '';
+        
+        if (!segments.length) {
+          newPath = `/${locale}`;
+        } else if (segments[0] === "en" || segments[0] === "es") {
+          segments[0] = locale;
+          newPath = "/" + segments.join("/");
+        } else {
+          segments.unshift(locale);
+          newPath = "/" + segments.join("/");
+        }
+        
+        window.location.href = newPath;
+      }
     }
   };
 

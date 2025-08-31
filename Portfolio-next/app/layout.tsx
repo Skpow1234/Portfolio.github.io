@@ -2,9 +2,9 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Analytics } from '@/components/analytics';
 import { Header } from '@/components/header';
 import { PerformanceMonitor } from '@/components/performance-monitor';
-import { Analytics } from '@/components/analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -44,10 +44,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="preconnect" href="https://cdn.simpleicons.org" />
         <link rel="dns-prefetch" href="https://plausible.io" />
-
-        
-        {/* Analytics with ad blocker handling */}
-        <Analytics />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -77,6 +73,7 @@ export default function RootLayout({
         </a>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <PerformanceMonitor />
+          <Analytics />
           <Header />
           {children}
           <footer className="border-t">
