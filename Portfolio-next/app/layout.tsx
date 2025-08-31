@@ -6,15 +6,56 @@ import { ThemeProvider } from '@/components/theme-provider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Juan Hurtado - Portfolio',
-  description: 'Senior Software Engineer Portfolio',
+  title: {
+    default: 'Juan Hurtado - Senior Software Engineer',
+    template: '%s | Juan Hurtado'
+  },
+  description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership. Specialized in Go, Node.js, .NET, and Java.',
+  keywords: ['Software Engineer', 'Full Stack Developer', 'Backend Developer', 'Go Developer', 'Node.js Developer', '.NET Developer', 'Java Developer', 'Cloud Architecture', 'DevOps'],
+  authors: [{ name: 'Juan Hurtado' }],
+  creator: 'Juan Hurtado',
+  publisher: 'Juan Hurtado',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://juan-hurtado-senior-sde.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://juan-hurtado-senior-sde.vercel.app',
+    title: 'Juan Hurtado - Senior Software Engineer',
+    description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership.',
+    siteName: 'Juan Hurtado Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Juan Hurtado - Senior Software Engineer',
+    description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership.',
+    creator: '@juanhurtado',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
   },
+  manifest: '/site.webmanifest',
 };
-
-const siteUrl = 'https://your-portfolio-domain.com'; // TODO: Replace with your real domain
-const profileImage = `${siteUrl}/profile.jpg`; // TODO: Replace with your real image path
 
 export default function RootLayout({
   children,
@@ -24,21 +65,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="canonical" href={siteUrl} />
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content="Juan Hurtado - Portfolio" />
-        <meta property="og:description" content="Senior Software Engineer Portfolio" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={siteUrl} />
-        <meta property="og:image" content={profileImage} />
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Juan Hurtado - Portfolio" />
-        <meta name="twitter:description" content="Senior Software Engineer Portfolio" />
-        <meta name="twitter:image" content={profileImage} />
-        <meta name="twitter:site" content="@yourtwitter" />
-        {/* Plausible Analytics */}
-        <script defer data-domain="your-portfolio-domain.com" src="https://plausible.io/js/script.js" />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -47,14 +73,23 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Person',
               name: 'Juan Hurtado',
-              url: siteUrl,
-              image: profileImage,
+              url: 'https://juan-hurtado-senior-sde.vercel.app',
               sameAs: [
                 'https://github.com/Skpow1234',
                 'https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/',
               ],
               jobTitle: 'Senior Software Engineer',
-              description: 'Senior Software Engineer Portfolio',
+              description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership.',
+              knowsAbout: ['Software Development', 'Backend Development', 'Cloud Architecture', 'DevOps', 'Go', 'Node.js', '.NET', 'Java'],
+              worksFor: {
+                '@type': 'Organization',
+                name: 'Freelance'
+              },
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: 'Cali',
+                addressCountry: 'Colombia'
+              }
             }),
           }}
         />

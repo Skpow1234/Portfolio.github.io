@@ -94,11 +94,12 @@ export function Header() {
         <div className="flex items-center gap-6">
           <button 
             onClick={() => handleNavClick('home')}
-            className="font-semibold text-lg hover:text-primary transition-colors duration-200"
+            className="font-semibold text-lg hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+            aria-label="Go to home page"
           >
             JH
           </button>
-          <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
+          <nav className="hidden md:flex items-center gap-1" aria-label="Primary navigation">
             {SECTION_IDS.map(({ id, label }) => (
               <button
                 key={id}
@@ -107,12 +108,14 @@ export function Header() {
                   "rounded px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-all duration-200 relative group",
                   activeSection === id && "text-foreground",
                 )}
+                aria-current={activeSection === id ? 'page' : undefined}
+                aria-label={`Navigate to ${label} section`}
               >
                 {label}
                 {activeSection === id && (
-                  <span className="absolute bottom-0 left-1/2 w-1 h-1 bg-primary rounded-full transform -translate-x-1/2 transition-all duration-300" />
+                  <span className="absolute bottom-0 left-1/2 w-1 h-1 bg-primary rounded-full transform -translate-x-1/2 transition-all duration-300" aria-hidden="true" />
                 )}
-                <span className="absolute inset-0 bg-accent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <span className="absolute inset-0 bg-accent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200" aria-hidden="true" />
               </button>
             ))}
           </nav>
@@ -123,6 +126,7 @@ export function Header() {
             className="h-9 rounded-md border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
             onChange={(e) => switchLocale(e.target.value as "en" | "es")}
+            title={currentLocale === 'en' ? 'Select language' : 'Seleccionar idioma'}
           >
             <option value="en">EN</option>
             <option value="es">ES</option>

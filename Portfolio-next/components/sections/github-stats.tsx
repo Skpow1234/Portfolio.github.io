@@ -34,8 +34,38 @@ export function GitHubStatsSection() {
   if (loading) {
     return (
       <section id="github-stats" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <LoadingSpinner size="lg" text={currentLocale === 'en' ? 'Loading GitHub statistics...' : 'Cargando estadísticas de GitHub...'} />
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Github className="h-8 w-8 text-muted-foreground" />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+                {currentLocale === 'en' ? 'GitHub Statistics' : 'Estadísticas de GitHub'}
+              </h2>
+            </div>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {currentLocale === 'en' 
+                ? 'My coding activity and contributions on GitHub'
+                : 'Mi actividad de programación y contribuciones en GitHub'
+              }
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i} className="p-4 text-center">
+                <div className="h-8 w-8 bg-muted rounded mx-auto mb-2" />
+                <div className="h-4 bg-muted rounded mb-1" />
+                <div className="h-6 bg-muted rounded w-16 mx-auto" />
+              </Card>
+            ))}
+          </div>
+          
+          <div className="text-center">
+            <LoadingSpinner size="lg" />
+            <p className="text-sm text-muted-foreground mt-2">
+              {currentLocale === 'en' ? 'Loading GitHub statistics...' : 'Cargando estadísticas de GitHub...'}
+            </p>
+          </div>
         </div>
       </section>
     );

@@ -57,10 +57,16 @@ export function HeroSection() {
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             {currentLocale === 'en' 
+              ? 'Juan Hurtado'
+              : 'Juan Hurtado'
+            }
+          </h1>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            {currentLocale === 'en' 
               ? 'Senior Software Engineer who ships reliable, performant platforms'
               : 'Ingeniero de Software Senior que entrega plataformas confiables y de alto rendimiento'
             }
-          </h1>
+          </h2>
           <motion.p 
             className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
@@ -83,10 +89,10 @@ export function HeroSection() {
           <Button 
             variant="outline" 
             size="lg" 
-            className="w-full sm:w-auto group hover:scale-105 transition-all duration-300 hover:shadow-lg" 
+            className="w-full sm:w-auto group hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg touch-manipulation" 
             asChild
           >
-            <a href="https://github.com/Skpow1234" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/Skpow1234" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">
               <Github className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
               GitHub
             </a>
@@ -94,10 +100,10 @@ export function HeroSection() {
           <Button 
             variant="outline" 
             size="lg" 
-            className="w-full sm:w-auto group hover:scale-105 transition-all duration-300 hover:shadow-lg" 
+            className="w-full sm:w-auto group hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg touch-manipulation" 
             asChild
           >
-            <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" target="_blank" rel="noopener noreferrer" aria-label="Visit LinkedIn profile">
               <Linkedin className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
               LinkedIn
             </a>
@@ -107,7 +113,7 @@ export function HeroSection() {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="w-full sm:w-auto group hover:scale-105 transition-all duration-300 hover:shadow-lg"
+                className="w-full sm:w-auto group hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg touch-manipulation"
               >
                 <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                 {t.nav.contact}
@@ -137,11 +143,21 @@ export function HeroSection() {
           
           {/* Scroll indicator under Cali, Colombia */}
           <motion.div
-            className="cursor-pointer"
+            className="cursor-pointer touch-manipulation"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
             onClick={handleScrollToAbout}
+            onTouchStart={(e) => e.preventDefault()}
+            role="button"
+            tabIndex={0}
+            aria-label={currentLocale === 'en' ? 'Scroll to about section' : 'Desplázate a la sección acerca de'}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleScrollToAbout();
+              }
+            }}
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}

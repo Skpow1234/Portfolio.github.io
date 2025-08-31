@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { ContactSchema, ContactFormData } from "@/lib/validation/contact";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { z } from "zod";
 
 interface ContactFormProps {
@@ -83,7 +84,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-4" autoComplete="off" aria-live="polite">
+    <form onSubmit={handleSubmit} className="space-y-4 mt-4" autoComplete="off" aria-live="polite" noValidate>
       {/* Honeypot field (hidden from users) */}
       <div style={{ display: 'none' }} aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -160,9 +161,26 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
         {errors.message && <p id="message-error" className="text-red-500 text-sm">{errors.message}</p>}
       </div>
       {errors.website && <p className="text-red-500 text-sm">{errors.website}</p>}
-      <Button type="submit" className="w-full" disabled={isLoading}>
-        {isLoading ? "Sending..." : "Send Message"}
+      <Button 
+        type="submit" 
+        className="w-full" 
+        disabled={isLoading}
+        aria-describedby={isLoading ? "loading-description" : undefined}
+      >
+        {isLoading ? (
+          <>
+            <LoadingSpinner size="sm" className="mr-2" />
+            Sending...
+          </>
+        ) : (
+          "Send Message"
+        )}
       </Button>
+      {isLoading && (
+        <p id="loading-description" className="sr-only">
+          Form is being submitted, please wait
+        </p>
+      )}
     </form>
   );
 }

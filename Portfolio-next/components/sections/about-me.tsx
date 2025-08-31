@@ -15,8 +15,8 @@ export function AboutMeSection() {
   const highlights = [
     {
       icon: Code,
-      title: currentLocale === 'en' ? '6+ Years Experience' : '6+ Años de Experiencia',
-      description: currentLocale === 'en' ? 'Full-stack development' : 'Desarrollo full-stack'
+      title: currentLocale === 'en' ? '7+ Years Experience' : '7+ Años de Experiencia',
+      description: currentLocale === 'en' ? 'Software development' : 'Desarrollo de software'
     },
     {
       icon: Rocket,

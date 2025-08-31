@@ -1,9 +1,32 @@
 import { NextResponse } from 'next/server';
+import { rateLimit } from '../../../lib/rate-limit';
 
 const GITHUB_USERNAME = 'Skpow1234'; // Replace with your username
 const GITHUB_API_BASE = 'https://api.github.com';
 
-export async function GET() {
+// Cache for 1 hour
+export const revalidate = 3600;
+
+export async function GET(req: Request) {
+  // Rate limiting: 10 requests per minute per IP
+  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+  const limiter = rateLimit({ interval: 60000, limit: 10 });
+  const rateLimitResult = limiter(ip);
+
+  if (!rateLimitResult.success) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { 
+        status: 429,
+        headers: {
+          'X-RateLimit-Limit': '10',
+          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+          'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+        }
+      }
+    );
+  }
+
   try {
     // Fetch user data
     const userResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}`);
@@ -66,7 +89,13 @@ export async function GET() {
       }))
     };
 
-    return NextResponse.json(stats);
+    return NextResponse.json(stats, {
+      headers: {
+        'X-RateLimit-Limit': '10',
+        'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
+        'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
+      }
+    });
   } catch (error) {
     console.error('Error fetching GitHub stats:', error);
     return NextResponse.json(
