@@ -2,33 +2,41 @@
 
 A modern, responsive portfolio website built with Next.js, TypeScript, and Tailwind CSS, showcasing my professional experience, skills, and contact information.
 
-## 🚀 Features
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Customization](#customization)
+- [Contact](#contact)
+
+## Features
 
 - **Responsive Design**: Fully responsive layout that works on all devices
 - **Dark/Light Mode**: Theme toggle with system preference support
 - **Interactive Timeline**: Animated work experience timeline
-- **Contact Form**: Email contact form integration using Resend
 - **Modern UI**: Built with Tailwind CSS and shadcn/ui components
 - **Type Safety**: Full TypeScript support
 - **Modular Architecture**: Component-based structure for easy maintenance
 - **Internationalization**: English and Spanish language support
+- **GitHub Integration**: Real-time GitHub stats and repository showcase
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: Next.js 15.5.2
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **Email**: Resend
 - **Deployment**: Static Export
 
-## 📦 Project Structure
+## Project Structure
 
 ```bash
 ├── app/
 │   ├── api/
-│   │   └── send/
+│   │   └── github-stats/
 │   ├── [locale]/
 │   │   ├── layout.tsx
 │   │   └── page.tsx
@@ -37,75 +45,79 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 │   └── page.tsx
 ├── components/
 │   ├── sections/
+│   │   ├── about-me.tsx
 │   │   ├── contact.tsx
 │   │   ├── education.tsx
+│   │   ├── github-stats.tsx
 │   │   ├── hero.tsx
 │   │   ├── repositories.tsx
 │   │   ├── skills.tsx
 │   │   └── work-experience.tsx
 │   ├── ui/
-│   └── contact-form.tsx
+│   ├── contact-form.tsx
+│   ├── header.tsx
+│   ├── mobile-menu.tsx
+│   ├── mode-toggle.tsx
+│   └── theme-provider.tsx
+├── hooks/
+│   ├── use-github-stats.ts
+│   ├── use-locale.ts
+│   ├── use-scroll-progress.ts
+│   ├── use-smooth-scroll.ts
+│   └── use-toast.ts
 ├── lib/
+│   ├── config/
 │   ├── data/
 │   │   ├── education.ts
+│   │   ├── github-stats.ts
 │   │   ├── repositories.ts
 │   │   ├── skills.ts
 │   │   └── work-experience.ts
 │   ├── i18n.ts
+│   ├── rate-limit.ts
 │   ├── types/
 │   │   └── index.ts
-│   └── utils.ts
+│   ├── utils.ts
+│   └── validation/
+│       └── contact.ts
 └── public/
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
-1 **Clone the repository**
+1.**Clone the repository**
 
 ```bash
 git clone https://github.com/Skpow1234/Portfolio.github.io
 ```
 
-2 **Install dependencies**
+2.**Install dependencies**
 
 ```bash
 npm install
 ```
 
-3 **Set up environment variables**
-
-Create a `.env` file in the root directory:
-
-```env
-RESEND_API_KEY=your_resend_api_key
-FROM_EMAIL=your_verified_email
-```
-
-4 **Run the development server**
+3.**Run the development server**
 
 ```bash
 npm run dev
 ```
 
-5 **Build for production**
+4.**Build for production**
 
 ```bash
 npm run build
 ```
 
-## 🎨 Customization
+## Customization
 
 1. **Personal Information**: Update the content in `lib/data/` directory
 2. **Styling**: Modify `tailwind.config.ts` and `app/globals.css`
 3. **Components**: Customize components in the `components/` directory
-4. **Email**: Update email templates in `app/api/send/route.ts`
-5. **Translations**: Modify `lib/i18n.ts` for language content
+4. **Translations**: Modify `lib/i18n.ts` for language content
+5. **GitHub Integration**: Update GitHub username in `lib/data/github-stats.ts`
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🤝 Contact
+## Contact
 
 Feel free to reach out if you have any questions or just want to connect:
 
