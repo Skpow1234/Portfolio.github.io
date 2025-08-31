@@ -81,6 +81,10 @@ export function Header() {
     onCta(`nav-${sectionId}`);
   };
 
+  const handleLanguageChange = (locale: 'en' | 'es') => {
+    switchLocale(locale);
+  };
+
   return (
     <header className={cn(
       "sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
@@ -118,7 +122,7 @@ export function Header() {
             aria-label="Language selector"
             className="h-9 rounded-md border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
-            onChange={(e) => switchLocale(e.target.value as "en" | "es")}
+            onChange={(e) => handleLanguageChange(e.target.value as "en" | "es")}
           >
             <option value="en">EN</option>
             <option value="es">ES</option>

@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { Locale, locales, defaultLocale } from "@/lib/i18n";
 
 export function useLocale() {
@@ -16,37 +16,27 @@ export function useLocale() {
   const switchLocale = (locale: Locale) => {
     if (locale === currentLocale) return;
     
-    // Preserve the current theme before navigation
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 
-                        document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    
     const segments = pathname?.split("/").filter(Boolean) ?? [];
-    if (!segments.length) {
-      router.push(`/${locale}`);
-      return;
-    }
+    let newPath = '';
     
-    if (segments[0] === "en" || segments[0] === "es") {
+    if (!segments.length) {
+      newPath = `/${locale}`;
+    } else if (segments[0] === "en" || segments[0] === "es") {
       segments[0] = locale;
+      newPath = "/" + segments.join("/");
     } else {
       segments.unshift(locale);
+      newPath = "/" + segments.join("/");
     }
     
-    router.push("/" + segments.join("/"));
-  };
-
-  // Restore theme after locale change
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
+    try {
+      router.replace(newPath);
+    } catch (error) {
+      console.error('Error switching locale:', error);
+      // Fallback to window.location if router fails
+      window.location.href = newPath;
     }
-  }, [currentLocale]);
+  };
 
   return {
     currentLocale,

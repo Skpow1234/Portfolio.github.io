@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
@@ -14,7 +14,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ activeId }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const { currentLocale } = useLocale();
+  const { currentLocale, switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
   const SECTION_IDS = [
@@ -38,6 +38,11 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
     setOpen(false);
   };
 
+  const handleLanguageChange = (locale: 'en' | 'es') => {
+    switchLocale(locale);
+    setOpen(false);
+  };
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -51,6 +56,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[280px] sm:w-[350px] p-0">
+        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b">
@@ -114,9 +120,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                 <Button
                   variant={currentLocale === 'en' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => {
-                    // Handle language change
-                  }}
+                  onClick={() => handleLanguageChange('en')}
                   className="flex-1"
                 >
                   EN
@@ -124,9 +128,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                 <Button
                   variant={currentLocale === 'es' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => {
-                    // Handle language change
-                  }}
+                  onClick={() => handleLanguageChange('es')}
                   className="flex-1"
                 >
                   ES
