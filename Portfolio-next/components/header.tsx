@@ -48,18 +48,22 @@ export function Header() {
       }
     );
 
-    // Observe all sections
-    SECTION_IDS.forEach(({ id }) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+    // Add a small delay to ensure sections are mounted
+    const timeoutId = setTimeout(() => {
+      // Observe all sections
+      SECTION_IDS.forEach(({ id }) => {
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    }, 100);
 
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
+      clearTimeout(timeoutId);
     };
-  }, [currentLocale]);
+  }, [currentLocale, t.nav]);
 
   const onCta = (type: string) => {
     // Plausible custom event if available

@@ -5,6 +5,7 @@ import { SkillsSection } from "@/components/sections/skills";
 import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
+import { GitHubStatsSection } from "@/components/sections/github-stats";
 
 export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
   return (
@@ -12,6 +13,7 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
       <HeroSection />
       <AboutMeSection />
       <RepositoriesSection />
+      <GitHubStatsSection />
       <WorkExperienceSection />
       <SkillsSection />
       <EducationSection />
