@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,7 +14,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ activeId }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const { currentLocale } = useLocale();
+  const { currentLocale, switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
   const SECTION_IDS = [
@@ -55,14 +55,6 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b">
             <h2 className="text-lg font-semibold">Menu</h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setOpen(false)}
-              className="p-2 hover:bg-accent hover:scale-105 transition-all duration-200"
-            >
-              <X className="h-5 w-5" />
-            </Button>
           </div>
 
           {/* Navigation */}
@@ -115,7 +107,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   variant={currentLocale === 'en' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => {
-                    // Handle language change
+                    switchLocale('en');
                   }}
                   className="flex-1"
                 >
@@ -125,7 +117,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   variant={currentLocale === 'es' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => {
-                    // Handle language change
+                    switchLocale('es');
                   }}
                   className="flex-1"
                 >
