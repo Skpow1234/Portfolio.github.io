@@ -61,8 +61,8 @@ export function AboutMeSection() {
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-lg leading-relaxed text-muted-foreground">
                 {currentLocale === 'en' 
-                  ? 'Dedicated and results-driven software engineer with 6 years of experience in software development. Highly skilled in backend development using Spring Boot, Node.js, Go and .NET technologies. Demonstrated capacity for effective teamwork and adaptability to changing project requirements.'
-                  : 'Ingeniero de software dedicado y orientado a resultados con 6 años de experiencia en desarrollo de software. Altamente capacitado en desarrollo backend usando tecnologías Spring Boot, Node.js, Go y .NET. Capacidad demostrada para el trabajo en equipo efectivo y adaptabilidad a los cambios en los requisitos del proyecto.'
+                  ? 'Dedicated and results-driven software engineer with 7 years of experience in software development. Highly skilled in backend development using Spring Boot, Node.js, Go and .NET technologies. Demonstrated capacity for effective teamwork and adaptability to changing project requirements.'
+                  : 'Ingeniero de software dedicado y orientado a resultados con 7 años de experiencia en desarrollo de software. Altamente capacitado en desarrollo backend usando tecnologías Spring Boot, Node.js, Go y .NET. Capacidad demostrada para el trabajo en equipo efectivo y adaptabilidad a los cambios en los requisitos del proyecto.'
                 }
               </p>
               <p className="text-lg leading-relaxed text-muted-foreground">
