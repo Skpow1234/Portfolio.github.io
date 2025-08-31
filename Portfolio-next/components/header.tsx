@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -10,7 +10,6 @@ import { getTranslation } from "@/lib/i18n";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
 import { ChevronDown } from "lucide-react";
-import { trackNavigation } from "@/lib/analytics";
 
 export function Header() {
   const { currentLocale, switchLocale } = useLocale();
@@ -19,7 +18,7 @@ export function Header() {
   const [activeSection, setActiveSection] = useState('home');
   const scrollProgress = useScrollProgress();
 
-  const SECTION_IDS = useMemo(() => [
+  const SECTION_IDS = [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
     { id: "repositories", label: t.nav.repositories },
@@ -27,7 +26,7 @@ export function Header() {
     { id: "skills", label: t.nav.skills },
     { id: "education", label: t.nav.education },
     { id: "contact", label: t.nav.contact },
-  ], [t.nav]);
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,8 +43,8 @@ export function Header() {
         });
       },
       {
-        rootMargin: '-30% 0px -30% 0px',
-        threshold: [0, 0.5, 1],
+        rootMargin: '-20% 0px -20% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1],
       }
     );
 
@@ -60,33 +59,26 @@ export function Header() {
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
-  }, [currentLocale, SECTION_IDS]);
+  }, [currentLocale]);
 
   const onCta = (type: string) => {
-    trackNavigation(type);
+    // Plausible custom event if available
+    // @ts-ignore
+    if (typeof window !== "undefined" && window?.plausible) {
+      // @ts-ignore
+      window.plausible("CTA", { props: { type } });
+    }
   };
 
   const handleNavClick = (sectionId: string) => {
-    console.log('Header nav click:', sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
-      console.log('Scrolling to:', sectionId);
-      
-      setActiveSection(sectionId);
-      
       element.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
-      
-    } else {
-      console.error('Section not found in header:', sectionId);
     }
     onCta(`nav-${sectionId}`);
-  };
-
-  const handleLanguageChange = (locale: 'en' | 'es') => {
-    switchLocale(locale);
   };
 
   return (
@@ -126,7 +118,7 @@ export function Header() {
             aria-label="Language selector"
             className="h-9 rounded-md border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
-            onChange={(e) => handleLanguageChange(e.target.value as "en" | "es")}
+            onChange={(e) => switchLocale(e.target.value as "en" | "es")}
           >
             <option value="en">EN</option>
             <option value="es">ES</option>

@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { githubConfig } from "@/lib/data/github-stats";
-
+import { motion } from "framer-motion";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { Github, Star, GitCommit, GitPullRequest, GitBranch, Users, Calendar, TrendingUp, RefreshCw } from "lucide-react";
@@ -79,7 +79,13 @@ export function GitHubStatsSection() {
     <ErrorBoundary>
       <section id="github-stats" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12 animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4 }}
+            className="text-center mb-12"
+          >
             <div className="flex items-center justify-center gap-3 mb-4">
               <Github className="h-8 w-8 text-muted-foreground" />
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -91,26 +97,38 @@ export function GitHubStatsSection() {
                 ? 'My coding activity and contributions on GitHub'
                 : 'Mi actividad de programación y contribuciones en GitHub'
               }
-                            </p>
-              </div>
+            </p>
+          </motion.div>
 
           {/* GitHub Stats Cards */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-12">
             {statsItems.map((item, index) => (
-              <div key={item.label} className="animate-fade-in">
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+              >
                 <Card className="p-4 text-center hover:scale-105 transition-transform duration-300 group">
                   <item.icon className="h-6 w-6 mx-auto mb-2 text-muted-foreground group-hover:text-primary transition-colors duration-200" />
                   <div className="text-2xl font-bold">{item.value}</div>
                   <div className="text-xs text-muted-foreground">{item.label}</div>
                 </Card>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* GitHub Stats Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {/* Main Stats Card */}
-            <div className="lg:col-span-2 animate-fade-in">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4 }}
+              className="lg:col-span-2"
+            >
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
@@ -121,14 +139,17 @@ export function GitHubStatsSection() {
                   alt="GitHub Stats"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                  width="400"
-                  height="200"
                 />
               </Card>
-            </div>
+            </motion.div>
 
             {/* GitHub Profile README */}
-            <div className="animate-fade-in-delay">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Github className="h-5 w-5" />
@@ -139,14 +160,17 @@ export function GitHubStatsSection() {
                   alt="GitHub Profile README"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                  width="400"
-                  height="200"
                 />
               </Card>
-            </div>
+            </motion.div>
 
             {/* Summary Cards */}
-            <div className="animate-fade-in-delay-2">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <GitCommit className="h-5 w-5" />
@@ -157,13 +181,16 @@ export function GitHubStatsSection() {
                   alt="Most Commit Language"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                  width="400"
-                  height="200"
                 />
               </Card>
-            </div>
+            </motion.div>
 
-            <div className="animate-fade-in-delay-2">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+            >
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <GitBranch className="h-5 w-5" />
@@ -174,13 +201,16 @@ export function GitHubStatsSection() {
                   alt="Repos per Language"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                  width="400"
-                  height="200"
                 />
-                </Card>
-              </div>
+              </Card>
+            </motion.div>
 
-            <div className="animate-fade-in-delay-2">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+            >
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
@@ -191,15 +221,19 @@ export function GitHubStatsSection() {
                   alt="Productive Time"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                  width="400"
-                  height="200"
                 />
-                </Card>
-              </div>
+              </Card>
+            </motion.div>
           </div>
 
           {/* GitHub Snake Animation */}
-          <div className="mb-12 animate-fade-in-delay-2">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            className="mb-12"
+          >
             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-xl font-semibold mb-4 text-center flex items-center justify-center gap-2">
                 <span role="img" aria-label="snake" className="text-2xl">🐍</span>
@@ -211,15 +245,18 @@ export function GitHubStatsSection() {
                   alt="GitHub Snake Animation"
                   className="w-full max-w-4xl h-auto rounded-lg"
                   loading="lazy"
-                  width="800"
-                  height="200"
                 />
               </div>
             </Card>
-          </div>
+          </motion.div>
 
           {/* Top Languages */}
-          <div className="animate-fade-in">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4 }}
+          >
             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-xl font-semibold mb-6 text-center">
                 {currentLocale === 'en' ? 'Top Languages' : 'Lenguajes Principales'}
@@ -231,15 +268,17 @@ export function GitHubStatsSection() {
                     alt="Top Languages"
                     className="w-full h-auto rounded-lg"
                     loading="lazy"
-                    width="400"
-                    height="200"
                   />
                 </div>
                 <div className="space-y-4">
                   {stats.stats.topLanguages.map((lang, index) => (
-                    <div 
+                    <motion.div 
                       key={lang.name} 
-                      className="flex items-center justify-between animate-fade-in"
+                      className="flex items-center justify-between"
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
                       <div className="flex items-center gap-3">
                         <div 
@@ -249,15 +288,21 @@ export function GitHubStatsSection() {
                         <span className="font-medium">{lang.name}</span>
                       </div>
                       <Badge variant="secondary">{lang.percentage}%</Badge>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
             </Card>
-          </div>
+          </motion.div>
 
           {/* Contribution Graph */}
-          <div className="mt-8 animate-fade-in-delay">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="mt-8"
+          >
             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-xl font-semibold mb-4 text-center">
                 {currentLocale === 'en' ? 'Contribution Activity' : 'Actividad de Contribuciones'}
@@ -267,11 +312,9 @@ export function GitHubStatsSection() {
                 alt="Contribution Graph"
                 className="w-full h-auto rounded-lg"
                 loading="lazy"
-                width="800"
-                height="200"
               />
             </Card>
-          </div>
+          </motion.div>
         </div>
       </section>
     </ErrorBoundary>

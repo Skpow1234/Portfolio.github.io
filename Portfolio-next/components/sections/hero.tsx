@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useState } from "react";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
-
+import { motion } from "framer-motion";
 
 export function HeroSection() {
   const [open, setOpen] = useState(false);
@@ -25,34 +25,61 @@ export function HeroSection() {
   };
 
   return (
-    <section id="home" className="hero-section relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="home" className="relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
       
       {/* Floating elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-2 h-2 bg-primary/20 rounded-full animate-bounce opacity-50" />
-        <div className="absolute top-40 right-20 w-3 h-3 bg-secondary/30 rounded-full animate-pulse opacity-30" />
-        <div className="absolute bottom-40 left-20 w-1 h-1 bg-accent/40 rounded-full animate-ping opacity-40" />
+        <motion.div
+          className="absolute top-20 left-10 w-2 h-2 bg-primary/20 rounded-full"
+          animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute top-40 right-20 w-3 h-3 bg-secondary/30 rounded-full"
+          animate={{ y: [0, 30, 0], opacity: [0.3, 0.8, 0.3] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        <motion.div
+          className="absolute bottom-40 left-20 w-1 h-1 bg-accent/40 rounded-full"
+          animate={{ y: [0, -15, 0], opacity: [0.4, 1, 0.4] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
       </div>
 
       <div className="text-center space-y-6 sm:space-y-8 max-w-5xl w-full relative z-10">
-        <div className="space-y-4 animate-fade-in">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-4"
+        >
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             {currentLocale === 'en' 
               ? 'Senior Software Engineer who ships reliable, performant platforms'
               : 'Ingeniero de Software Senior que entrega plataformas confiables y de alto rendimiento'
             }
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-delay">
+          <motion.p 
+            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             {currentLocale === 'en'
               ? 'Focused on Go, Node.js, Dotnet and Java, delivering measurable outcomes like faster delivery, lower latency, and resilient systems.'
               : 'Enfocado en Go, Node.js, Dotnet y Java, entregando resultados medibles como entrega más rápida, menor latencia y sistemas resilientes.'
             }
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-4 animate-fade-in-delay-2">
+        <motion.div 
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
           <Button 
             variant="outline" 
             size="lg" 
@@ -95,28 +122,39 @@ export function HeroSection() {
               <ContactForm onSuccess={() => setOpen(false)} />
             </DialogContent>
           </Dialog>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center justify-center gap-4 pt-4 animate-fade-in-delay-2">
+        <motion.div 
+          className="flex flex-col items-center justify-center gap-4 pt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
           <div className="flex items-center justify-center gap-2 text-muted-foreground">
             <MapPin className="h-5 w-5" />
             <span className="text-sm sm:text-base">Cali, Colombia</span>
           </div>
           
           {/* Scroll indicator under Cali, Colombia */}
-          <button
-            className="cursor-pointer animate-fade-in-delay-2 bg-transparent border-none p-0"
+          <motion.div
+            className="cursor-pointer"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
             onClick={handleScrollToAbout}
-            aria-label={currentLocale === 'en' ? 'Scroll to about section' : 'Desplázate a la sección sobre mí'}
           >
-            <div className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 animate-bounce">
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
+            >
               <span className="text-sm font-medium">
                 {currentLocale === 'en' ? 'Scroll to explore' : 'Desplázate para explorar'}
               </span>
               <ArrowDown className="h-6 w-6" />
-            </div>
-          </button>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

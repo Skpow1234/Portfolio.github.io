@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { Locale, locales, defaultLocale } from "@/lib/i18n";
 
 export function useLocale() {
@@ -9,58 +9,44 @@ export function useLocale() {
   const router = useRouter();
 
   const currentLocale = useMemo(() => {
-    try {
-      if (!pathname) return defaultLocale;
-      const seg = pathname.split("/").filter(Boolean)[0];
-      return locales.includes(seg as Locale) ? (seg as Locale) : defaultLocale;
-    } catch (error) {
-      console.error('Error determining locale:', error);
-      return defaultLocale;
-    }
+    const seg = pathname?.split("/").filter(Boolean)[0];
+    return locales.includes(seg as Locale) ? (seg as Locale) : defaultLocale;
   }, [pathname]);
 
   const switchLocale = (locale: Locale) => {
     if (locale === currentLocale) return;
     
-    try {
-      if (!pathname) return;
-      
-      const segments = pathname.split("/").filter(Boolean);
-      let newPath = '';
-      
-      if (!segments.length) {
-        newPath = `/${locale}`;
-      } else if (segments[0] === "en" || segments[0] === "es") {
-        segments[0] = locale;
-        newPath = "/" + segments.join("/");
+    // Preserve the current theme before navigation
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 
+                        document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    
+    const segments = pathname?.split("/").filter(Boolean) ?? [];
+    if (!segments.length) {
+      router.push(`/${locale}`);
+      return;
+    }
+    
+    if (segments[0] === "en" || segments[0] === "es") {
+      segments[0] = locale;
+    } else {
+      segments.unshift(locale);
+    }
+    
+    router.push("/" + segments.join("/"));
+  };
+
+  // Restore theme after locale change
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
       } else {
-        segments.unshift(locale);
-        newPath = "/" + segments.join("/");
-      }
-      
-      router.push(newPath);
-    } catch (error) {
-      console.error('Error switching locale:', error);
-      // Fallback to window.location if router fails
-      if (typeof window !== 'undefined') {
-        const currentPath = window.location.pathname;
-        const segments = currentPath.split("/").filter(Boolean);
-        let newPath = '';
-        
-        if (!segments.length) {
-          newPath = `/${locale}`;
-        } else if (segments[0] === "en" || segments[0] === "es") {
-          segments[0] = locale;
-          newPath = "/" + segments.join("/");
-        } else {
-          segments.unshift(locale);
-          newPath = "/" + segments.join("/");
-        }
-        
-        window.location.href = newPath;
+        document.documentElement.classList.remove('dark');
       }
     }
-  };
+  }, [currentLocale]);
 
   return {
     currentLocale,

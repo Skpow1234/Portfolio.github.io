@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, X } from "lucide-react";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface MobileMenuProps {
   activeId: string;
@@ -13,10 +14,10 @@ interface MobileMenuProps {
 
 export function MobileMenu({ activeId }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const { currentLocale, switchLocale } = useLocale();
+  const { currentLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
-  const SECTION_IDS = useMemo(() => [
+  const SECTION_IDS = [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
     { id: "repositories", label: t.nav.repositories },
@@ -24,40 +25,17 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
     { id: "skills", label: t.nav.skills },
     { id: "education", label: t.nav.education },
     { id: "contact", label: t.nav.contact },
-  ], [t.nav]);
+  ];
 
   const handleNavClick = (sectionId: string) => {
-    console.log('Mobile menu click:', sectionId);
-    
-    // Close the menu immediately
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
     setOpen(false);
-    
-    // Use a longer delay to ensure menu is fully closed
-    setTimeout(() => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        console.log('Scrolling to:', sectionId);
-        
-        // Use window.scrollTo for more reliable scrolling
-        const rect = element.getBoundingClientRect();
-        const scrollTop = window.pageYOffset + rect.top - 80; // Account for header height
-        
-        window.scrollTo({
-          top: scrollTop,
-          behavior: 'smooth'
-        });
-        
-      } else {
-        console.error('Section not found:', sectionId);
-      }
-    }, 300);
-  };
-
-  const handleLanguageChange = (locale: 'en' | 'es') => {
-    setOpen(false);
-    setTimeout(() => {
-      switchLocale(locale);
-    }, 300);
   };
 
   return (
@@ -73,7 +51,6 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[280px] sm:w-[350px] p-0">
-        <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b">
@@ -91,25 +68,39 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
           {/* Navigation */}
           <nav className="flex-1 p-6">
             <ul className="space-y-2">
-              {SECTION_IDS.map(({ id, label }) => (
-                <li key={id}>
-                  <button
-                    onClick={() => handleNavClick(id)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-accent hover:scale-[1.02] active:scale-[0.98] ${
-                      activeId === id
-                        ? "bg-primary text-primary-foreground shadow-md"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
+              <AnimatePresence>
+                {SECTION_IDS.map(({ id, label }, index) => (
+                  <motion.li
+                    key={id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{label}</span>
-                      {activeId === id && (
-                        <div className="w-2 h-2 bg-primary-foreground rounded-full" />
-                      )}
-                    </div>
-                  </button>
-                </li>
-              ))}
+                    <button
+                      onClick={() => handleNavClick(id)}
+                      className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-accent hover:scale-[1.02] active:scale-[0.98] ${
+                        activeId === id
+                          ? "bg-primary text-primary-foreground shadow-md"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{label}</span>
+                        {activeId === id && (
+                          <motion.div
+                            layoutId="activeIndicator"
+                            className="w-2 h-2 bg-primary-foreground rounded-full"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                          />
+                        )}
+                      </div>
+                    </button>
+                  </motion.li>
+                ))}
+              </AnimatePresence>
             </ul>
           </nav>
 
@@ -123,7 +114,9 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                 <Button
                   variant={currentLocale === 'en' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => handleLanguageChange('en')}
+                  onClick={() => {
+                    // Handle language change
+                  }}
                   className="flex-1"
                 >
                   EN
@@ -131,7 +124,9 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                 <Button
                   variant={currentLocale === 'es' ? 'default' : 'outline'}
                   size="sm"
-                  onClick={() => handleLanguageChange('es')}
+                  onClick={() => {
+                    // Handle language change
+                  }}
                   className="flex-1"
                 >
                   ES
