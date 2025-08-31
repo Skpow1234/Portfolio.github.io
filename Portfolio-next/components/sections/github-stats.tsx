@@ -121,6 +121,8 @@ export function GitHubStatsSection() {
                   alt="GitHub Stats"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  width="400"
+                  height="200"
                 />
               </Card>
             </div>
@@ -137,6 +139,8 @@ export function GitHubStatsSection() {
                   alt="GitHub Profile README"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  width="400"
+                  height="200"
                 />
               </Card>
             </div>
@@ -153,6 +157,8 @@ export function GitHubStatsSection() {
                   alt="Most Commit Language"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  width="400"
+                  height="200"
                 />
               </Card>
             </div>
@@ -168,7 +174,9 @@ export function GitHubStatsSection() {
                   alt="Repos per Language"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                                  />
+                  width="400"
+                  height="200"
+                />
                 </Card>
               </div>
 
@@ -183,7 +191,9 @@ export function GitHubStatsSection() {
                   alt="Productive Time"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
-                                  />
+                  width="400"
+                  height="200"
+                />
                 </Card>
               </div>
           </div>
@@ -201,6 +211,8 @@ export function GitHubStatsSection() {
                   alt="GitHub Snake Animation"
                   className="w-full max-w-4xl h-auto rounded-lg"
                   loading="lazy"
+                  width="800"
+                  height="200"
                 />
               </div>
             </Card>
@@ -219,6 +231,8 @@ export function GitHubStatsSection() {
                     alt="Top Languages"
                     className="w-full h-auto rounded-lg"
                     loading="lazy"
+                    width="400"
+                    height="200"
                   />
                 </div>
                 <div className="space-y-4">
@@ -253,6 +267,8 @@ export function GitHubStatsSection() {
                 alt="Contribution Graph"
                 className="w-full h-auto rounded-lg"
                 loading="lazy"
+                width="800"
+                height="200"
               />
             </Card>
           </div>

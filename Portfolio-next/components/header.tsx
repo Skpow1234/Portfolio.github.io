@@ -10,6 +10,7 @@ import { getTranslation } from "@/lib/i18n";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
 import { ChevronDown } from "lucide-react";
+import { trackNavigation } from "@/lib/analytics";
 
 export function Header() {
   const { currentLocale, switchLocale } = useLocale();
@@ -62,12 +63,7 @@ export function Header() {
   }, [currentLocale, SECTION_IDS]);
 
   const onCta = (type: string) => {
-    // Plausible custom event if available
-    // @ts-ignore
-    if (typeof window !== "undefined" && window?.plausible) {
-      // @ts-ignore
-      window.plausible("CTA", { props: { type } });
-    }
+    trackNavigation(type);
   };
 
   const handleNavClick = (sectionId: string) => {

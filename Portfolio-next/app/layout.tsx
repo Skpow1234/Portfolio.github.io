@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
-import Script from 'next/script';
 import { PerformanceMonitor } from '@/components/performance-monitor';
+import { Analytics } from '@/components/analytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -44,14 +44,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="preconnect" href="https://cdn.simpleicons.org" />
         <link rel="dns-prefetch" href="https://plausible.io" />
+
         
-        {/* Plausible Analytics - Load asynchronously */}
-        <Script
-          defer
-          data-domain="your-portfolio-domain.com"
-          src="https://plausible.io/js/script.js"
-          strategy="lazyOnload"
-        />
+        {/* Analytics with ad blocker handling */}
+        <Analytics />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -87,8 +83,8 @@ export default function RootLayout({
             <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
               <p>© {new Date().getFullYear()} Juan Hurtado</p>
               <div className="flex items-center gap-4">
-                <a href="https://github.com/Skpow1234" className="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" target="_blank" rel="noreferrer noopener">GitHub</a>
-                <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" className="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" target="_blank" rel="noreferrer noopener">LinkedIn</a>
+                <a href="https://github.com/Skpow1234" className="text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" target="_blank" rel="noreferrer noopener" aria-label="Visit GitHub profile">GitHub</a>
+                <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" className="text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors" target="_blank" rel="noreferrer noopener" aria-label="Visit LinkedIn profile">LinkedIn</a>
               </div>
             </div>
           </footer>

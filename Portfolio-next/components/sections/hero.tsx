@@ -25,7 +25,7 @@ export function HeroSection() {
   };
 
   return (
-    <section id="home" className="relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="home" className="hero-section relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
       
@@ -104,9 +104,10 @@ export function HeroSection() {
           </div>
           
           {/* Scroll indicator under Cali, Colombia */}
-          <div
-            className="cursor-pointer animate-fade-in-delay-2"
+          <button
+            className="cursor-pointer animate-fade-in-delay-2 bg-transparent border-none p-0"
             onClick={handleScrollToAbout}
+            aria-label={currentLocale === 'en' ? 'Scroll to about section' : 'Desplázate a la sección sobre mí'}
           >
             <div className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300 animate-bounce">
               <span className="text-sm font-medium">
@@ -114,7 +115,7 @@ export function HeroSection() {
               </span>
               <ArrowDown className="h-6 w-6" />
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </section>

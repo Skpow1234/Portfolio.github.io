@@ -48,6 +48,7 @@ export function RepositoriesSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label={`Open ${repo.name} repository in new tab`}
                   >
                     <ExternalLink className="h-4 w-4" />
                   </a>

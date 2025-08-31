@@ -4,32 +4,32 @@ import { HeroSection } from "@/components/sections/hero";
 
 // Dynamic imports for better performance
 const WorkExperienceSection = dynamic(() => import("@/components/sections/work-experience").then(mod => ({ default: mod.WorkExperienceSection })), {
-  loading: () => <div className="h-96 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>,
+  loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div></div>,
   ssr: true
 });
 
 const SkillsSection = dynamic(() => import("@/components/sections/skills").then(mod => ({ default: mod.SkillsSection })), {
-  loading: () => <div className="h-96 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>,
+  loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div></div>,
   ssr: true
 });
 
 const EducationSection = dynamic(() => import("@/components/sections/education").then(mod => ({ default: mod.EducationSection })), {
-  loading: () => <div className="h-96 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>,
+  loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div></div>,
   ssr: true
 });
 
 const ContactSection = dynamic(() => import("@/components/sections/contact").then(mod => ({ default: mod.ContactSection })), {
-  loading: () => <div className="h-96 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>,
+  loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div></div>,
   ssr: true
 });
 
 const RepositoriesSection = dynamic(() => import("@/components/sections/repositories").then(mod => ({ default: mod.RepositoriesSection })), {
-  loading: () => <div className="h-96 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>,
+  loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div></div>,
   ssr: true
 });
 
 const GitHubStatsSection = dynamic(() => import("@/components/sections/github-stats").then(mod => ({ default: mod.GitHubStatsSection })), {
-  loading: () => <div className="h-96 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>,
+  loading: () => <div className="h-64 flex items-center justify-center"><div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div></div>,
   ssr: true
 });
 

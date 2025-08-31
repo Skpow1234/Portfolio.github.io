@@ -19,11 +19,17 @@ const nextConfig = {
   poweredByHeader: false,
   generateEtags: false,
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
 
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   webpack: (config, { dev, isServer }) => {
+    // Configure source maps
+    if (!dev && !isServer) {
+      config.devtool = 'source-map';
+    }
+
     // Optimize bundle size
     if (!dev && !isServer) {
       config.optimization.splitChunks = {
@@ -33,15 +39,33 @@ const nextConfig = {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             chunks: 'all',
+            priority: 10,
           },
           common: {
             name: 'common',
             minChunks: 2,
             chunks: 'all',
             enforce: true,
+            priority: 5,
+          },
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react',
+            chunks: 'all',
+            priority: 20,
           },
         },
       };
+      
+      // Enable tree shaking
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = false;
+    }
+
+    // Optimize for production
+    if (!dev) {
+      config.optimization.minimize = true;
+      config.optimization.minimizer = config.optimization.minimizer || [];
     }
 
     return config;
@@ -76,6 +100,19 @@ const nextConfig = {
       {
         source: '/_next/static/(.*)',
         headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)\\.map',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
