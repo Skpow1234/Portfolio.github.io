@@ -3,13 +3,13 @@
 import { Card } from "@/components/ui/card";
 import { repositories } from "@/lib/data/repositories";
 import { motion } from "framer-motion";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { ExternalLink, Github, Star, GitFork } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export function RepositoriesSection() {
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   const getLanguageColor = (language: string): string => {

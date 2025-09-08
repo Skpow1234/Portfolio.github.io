@@ -2,11 +2,11 @@
 
 import { Card } from "@/components/ui/card";
 import { education } from "@/lib/data/education";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 
 export function EducationSection() {
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   return (

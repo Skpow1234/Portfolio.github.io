@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     default: 'Juan Hurtado - Senior Software Engineer',
     template: '%s | Juan Hurtado'
   },
-  description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership. Specialized in Go, Node.js, .NET, and Java.',
+  description: 'Senior Software Engineer with 7+ years of experience in full-stack development, cloud architecture, and team leadership. Specialized in Go, Node.js, .NET, and Java.',
   keywords: ['Software Engineer', 'Full Stack Developer', 'Backend Developer', 'Go Developer', 'Node.js Developer', '.NET Developer', 'Java Developer', 'Cloud Architecture', 'DevOps'],
   authors: [{ name: 'Juan Hurtado' }],
   creator: 'Juan Hurtado',
@@ -29,13 +29,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://juan-hurtado-senior-sde.vercel.app',
     title: 'Juan Hurtado - Senior Software Engineer',
-    description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership.',
+    description: 'Senior Software Engineer with 7+ years of experience in full-stack development, cloud architecture, and team leadership.',
     siteName: 'Juan Hurtado Portfolio',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Juan Hurtado - Senior Software Engineer',
-    description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership.',
+    description: 'Senior Software Engineer with 7+ years of experience in full-stack development, cloud architecture, and team leadership.',
     creator: '@juanhurtado',
   },
   robots: {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -79,7 +79,7 @@ export default function RootLayout({
                 'https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/',
               ],
               jobTitle: 'Senior Software Engineer',
-              description: 'Senior Software Engineer with 6+ years of experience in full-stack development, cloud architecture, and team leadership.',
+              description: 'Senior Software Engineer with 7+ years of experience in full-stack development, cloud architecture, and team leadership.',
               knowsAbout: ['Software Development', 'Backend Development', 'Cloud Architecture', 'DevOps', 'Go', 'Node.js', '.NET', 'Java'],
               worksFor: {
                 '@type': 'Organization',
@@ -101,7 +101,13 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="dark" 
+          enableSystem
+          disableTransitionOnChange={false}
+          storageKey="theme"
+        >
           {children}
         </ThemeProvider>
       </body>

@@ -3,11 +3,11 @@
 import { Card } from "@/components/ui/card";
 import { workExperience } from "@/lib/data/work-experience";
 import { motion } from "framer-motion";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 
 export function WorkExperienceSection() {
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   return (

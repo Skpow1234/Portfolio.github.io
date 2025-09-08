@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
+import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { MobileMenu } from "@/components/mobile-menu";
@@ -12,13 +13,14 @@ import { useScrollProgress } from "@/hooks/use-scroll-progress";
 import { ChevronDown } from "lucide-react";
 
 export function Header() {
-  const { currentLocale, switchLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
+  const { switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const scrollProgress = useScrollProgress();
 
-  const SECTION_IDS = [
+  const SECTION_IDS = useMemo(() => [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
     { id: "repositories", label: t.nav.repositories },
@@ -26,7 +28,7 @@ export function Header() {
     { id: "skills", label: t.nav.skills },
     { id: "education", label: t.nav.education },
     { id: "contact", label: t.nav.contact },
-  ];
+  ], [t.nav]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,7 @@ export function Header() {
       observer.disconnect();
       clearTimeout(timeoutId);
     };
-  }, [currentLocale, t.nav]);
+  }, [currentLocale, t.nav, SECTION_IDS]);
 
   const onCta = (type: string) => {
     // Plausible custom event if available

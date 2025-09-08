@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 
 export function ContactSection() {
   const [open, setOpen] = useState(false);
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   return (

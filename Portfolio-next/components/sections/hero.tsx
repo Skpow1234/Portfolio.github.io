@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
 
 export function HeroSection() {
   const [open, setOpen] = useState(false);
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   const handleScrollToAbout = () => {
@@ -56,10 +56,7 @@ export function HeroSection() {
           className="space-y-4"
         >
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-            {currentLocale === 'en' 
-              ? 'Juan Hurtado'
-              : 'Juan Hurtado'
-            }
+            Juan Hurtado
           </h1>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
             {currentLocale === 'en' 

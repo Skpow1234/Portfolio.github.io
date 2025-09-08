@@ -4,11 +4,12 @@ import { Card } from "@/components/ui/card";
 import { skills } from "@/lib/data/skills";
 import { useMemo, useState } from "react";
 import { useCallback } from "react";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
+import Image from "next/image";
 
 export function SkillsSection() {
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
   
   const categories = Array.from(new Set(skills.map((skill) => skill.category)));
@@ -181,9 +182,11 @@ export function SkillsSection() {
                     return null;
                   }
                   return (
-                    <img
+                    <Image
                       src={src}
                       alt={s.name}
+                      width={40}
+                      height={40}
                       className="h-10 w-10 object-contain"
                       loading="lazy"
                       onError={() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useLocale } from "@/hooks/use-locale";
+import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { User, Code, Rocket, Target } from "lucide-react";
 
 export function AboutMeSection() {
-  const { currentLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   const highlights = [

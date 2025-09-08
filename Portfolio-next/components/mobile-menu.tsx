@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,7 +15,8 @@ interface MobileMenuProps {
 
 export function MobileMenu({ activeId }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
-  const { currentLocale, switchLocale } = useLocale();
+  const { locale: currentLocale } = useLocaleContext();
+  const { switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
   const SECTION_IDS = [
