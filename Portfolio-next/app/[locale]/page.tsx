@@ -6,12 +6,14 @@ import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
 import { GitHubStatsSection } from "@/components/sections/github-stats";
+import { CodingTerminalSection } from "@/components/sections/coding-terminal-section";
 
 export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection />
       <AboutMeSection />
+      <CodingTerminalSection />
       <RepositoriesSection />
       <GitHubStatsSection />
       <WorkExperienceSection />

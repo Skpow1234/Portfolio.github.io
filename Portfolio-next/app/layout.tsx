@@ -63,8 +63,24 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="dark">
       <head>
+        {/* Prevent flash of light mode */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+                  document.documentElement.classList.remove('dark')
+                } else {
+                  document.documentElement.classList.add('dark')
+                }
+              } catch (_) {
+                document.documentElement.classList.add('dark')
+              }
+            `,
+          }}
+        />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -104,7 +120,7 @@ export default async function RootLayout({
         <ThemeProvider 
           attribute="class" 
           defaultTheme="dark" 
-          enableSystem
+          enableSystem={false}
           disableTransitionOnChange={false}
           storageKey="theme"
         >

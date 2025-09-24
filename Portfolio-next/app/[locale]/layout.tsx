@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LocaleProvider } from "@/components/locale-provider";
 import { Header } from "@/components/header";
+import { Chatbot } from "@/components/chatbot";
 import { Locale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default async function LocaleLayout({
     <LocaleProvider locale={validLocale}>
       <Header />
       {children}
+      <Chatbot />
       <footer className="border-t">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
           <p>© {new Date().getFullYear()} Juan Hurtado</p>

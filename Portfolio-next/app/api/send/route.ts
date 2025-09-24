@@ -1,29 +1,23 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { ContactSchema } from '../../../lib/validation/contact';
 import { sendContactMail } from './mailer';
+import { createRateLimitMiddleware, getClientIP, createRateLimitHeaders } from '../../../lib/middleware/rate-limit';
 import { rateLimit } from '../../../lib/rate-limit';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const fromEmail = process.env.FROM_EMAIL || 'contact@example.com';
 
-  // Rate limiting: 5 requests per minute per IP
-  const ip = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown';
+  // Apply rate limiting middleware
+  const rateLimitMiddleware = createRateLimitMiddleware('contact');
+  const rateLimitResponse = rateLimitMiddleware(req);
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
+  // Get rate limit info for response headers
+  const ip = getClientIP(req);
   const limiter = rateLimit({ interval: 60000, limit: 5 });
   const rateLimitResult = limiter(ip);
-
-  if (!rateLimitResult.success) {
-    return NextResponse.json(
-      { error: 'Too many requests. Please try again later.' },
-      { 
-        status: 429,
-        headers: {
-          'X-RateLimit-Limit': '5',
-          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
-          'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
-        }
-      }
-    );
-  }
 
   try {
     const body = await req.json();
@@ -46,11 +40,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { success: true, data: info },
       {
-        headers: {
-          'X-RateLimit-Limit': '5',
-          'X-RateLimit-Remaining': rateLimitResult.remaining.toString(),
-          'X-RateLimit-Reset': new Date(rateLimitResult.resetTime).toISOString(),
-        }
+        headers: createRateLimitHeaders(5, rateLimitResult.remaining, rateLimitResult.resetTime)
       }
     );
   } catch (error) {

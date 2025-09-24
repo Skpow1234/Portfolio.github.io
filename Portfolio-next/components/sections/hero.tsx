@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
+import { ParticleBackground, FloatingShapes, AnimatedGradient } from "@/components/particle-background";
 
 export function HeroSection() {
   const [open, setOpen] = useState(false);
@@ -26,10 +27,16 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+      {/* Enhanced Background Effects */}
+      <AnimatedGradient />
+      <ParticleBackground 
+        particleCount={30} 
+        speed={0.3}
+        colors={['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981']}
+      />
+      <FloatingShapes />
       
-      {/* Floating elements */}
+      {/* Original floating elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-20 left-10 w-2 h-2 bg-primary/20 rounded-full"
