@@ -19,7 +19,6 @@ export function createRateLimitMiddleware(type: RateLimitType = 'general') {
   return function rateLimitMiddleware(req: NextRequest) {
     const ip = req.headers.get('x-forwarded-for') || 
                req.headers.get('x-real-ip') || 
-               req.ip || 
                'unknown';
     
     const limiter = rateLimit(RATE_LIMITS[type]);
@@ -51,7 +50,6 @@ export function createRateLimitMiddleware(type: RateLimitType = 'general') {
 export function getClientIP(req: NextRequest): string {
   return req.headers.get('x-forwarded-for') || 
          req.headers.get('x-real-ip') || 
-         req.ip || 
          'unknown';
 }
 

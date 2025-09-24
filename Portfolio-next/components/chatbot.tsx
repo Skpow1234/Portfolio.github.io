@@ -29,7 +29,7 @@ export function Chatbot({ className }: ChatbotProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hi! I\'m Juan\'s AI assistant. I can help answer questions about his experience, skills, projects, or how to get in touch. What would you like to know?',
+      text: 'Hi! I&apos;m Juan&apos;s AI assistant. I can help answer questions about his experience, skills, projects, or how to get in touch. What would you like to know?',
       isUser: false,
       timestamp: new Date()
     }
@@ -109,7 +109,7 @@ export function Chatbot({ className }: ChatbotProps) {
     "What technologies do you use?",
     "How can I contact you?",
     "What projects have you worked on?",
-    "What's your experience with AI?"
+    "What&apos;s your experience with AI?"
   ];
 
   return (
@@ -130,7 +130,7 @@ export function Chatbot({ className }: ChatbotProps) {
               <div className="flex items-center gap-2">
                 <Bot className="h-5 w-5 text-primary" />
                 <span className="font-semibold">AI Assistant</span>
-                <Badge variant="secondary" className="text-xs">Juan's Portfolio</Badge>
+                <Badge variant="secondary" className="text-xs">Juan&apos;s Portfolio</Badge>
               </div>
               <div className="flex items-center gap-1">
                 <Button

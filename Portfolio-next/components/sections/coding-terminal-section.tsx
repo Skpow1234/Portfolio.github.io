@@ -34,8 +34,8 @@ export function CodingTerminalSection() {
           </div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {currentLocale === 'en' 
-              ? 'Explore my code samples and see them run in real-time. Switch between different languages and frameworks.'
-              : 'Explora mis muestras de código y ve cómo se ejecutan en tiempo real. Cambia entre diferentes lenguajes y frameworks.'
+              ? 'Explore my code samples across multiple languages (Go, C++, Java, Python, SQL, TypeScript, C#) and see them run in real-time. Switch between different languages and frameworks.'
+              : 'Explora mis muestras de código en múltiples lenguajes (Go, C++, Java, Python, SQL, TypeScript, C#) y ve cómo se ejecutan en tiempo real. Cambia entre diferentes lenguajes y frameworks.'
             }
           </p>
         </motion.div>
@@ -67,7 +67,7 @@ export function CodingTerminalSection() {
             </div>
             <div className="flex items-center gap-2">
               <Play className="h-4 w-4" />
-              <span>Multiple languages</span>
+              <span>7 Programming Languages</span>
             </div>
             <div className="flex items-center gap-2">
               <Code2 className="h-4 w-4" />
