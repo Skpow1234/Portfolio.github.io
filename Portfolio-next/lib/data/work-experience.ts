@@ -2,6 +2,14 @@ import { WorkExperience } from '../types';
 
 export const workExperience: WorkExperience[] = [
   {
+    title: 'Software Engineer II',
+    company: 'Microsoft',
+    period: 'September 2024 – Present',
+    description: `As a Software Engineer II at Microsoft, I contribute to the MS365 product ecosystem, specifically working on the Copilot platform within the infrastructure team. My role focuses on developing reliable, scalable, and secure code that powers Microsoft's AI-driven productivity solutions. I collaborate with cross-functional teams to design and implement robust infrastructure components that support the Copilot platform's advanced capabilities, ensuring optimal performance and seamless user experiences across the MS365 suite. My responsibilities include building and maintaining critical systems that enable AI-powered features, implementing best practices for code quality and security, and contributing to the continuous improvement of platform reliability and scalability.`,
+    skills: ['C#', '.NET', 'Azure', 'AI/ML Infrastructure', 'Cloud Computing', 'Distributed Systems', 'Microservices', 'API Development', 'Security', 'Performance Optimization', 'Code Quality', 'System Design', 'MS365', 'Copilot Platform', 'DevOps', 'CI/CD'],
+    methodologies: ['Agile', 'Scrum'],
+  },
+  {
     title: 'Senior Software Engineer',
     company: 'OORTech LLC',
     period: 'May 2025 – June 2025',
