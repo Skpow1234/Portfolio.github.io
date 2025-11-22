@@ -1,4 +1,4 @@
-# Juan Hurtado - Portfolio - Ejemplo Santiago
+# Juan Hurtado - Portfolio
 
 A modern, responsive portfolio website built with Next.js, TypeScript, and Tailwind CSS, showcasing my professional experience, skills, and contact information.
 
