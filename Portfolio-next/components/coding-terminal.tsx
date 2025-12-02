@@ -825,19 +825,20 @@ export function CodingTerminal({
   }, [lines]);
 
   return (
-    <Card className={`${isFullscreen ? 'fixed inset-4 z-50' : ''} ${className}`}>
+    <Card className={`${isFullscreen ? 'fixed inset-4 z-50 flex flex-col' : ''} ${className}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b bg-muted/50">
-        <div className="flex items-center gap-2">
-          <Terminal className="h-5 w-5" />
-          <span className="font-semibold">Interactive Terminal</span>
-          <Badge variant="secondary">{CODE_SAMPLES[currentSample].language}</Badge>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 border-b bg-muted/50 gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Terminal className="h-5 w-5 flex-shrink-0" />
+          <span className="font-semibold text-sm sm:text-base">Interactive Terminal</span>
+          <Badge variant="secondary" className="text-xs">{CODE_SAMPLES[currentSample].language}</Badge>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setCurrentSample((prev) => (prev + 1) % CODE_SAMPLES.length)}
+            className="flex-1 sm:flex-none text-xs sm:text-sm"
           >
             Switch Sample
           </Button>
@@ -846,6 +847,8 @@ export function CodingTerminal({
               variant="outline"
               size="sm"
               onClick={onToggleFullscreen}
+              className="flex-shrink-0"
+              aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
             >
               {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
             </Button>
@@ -853,24 +856,38 @@ export function CodingTerminal({
         </div>
       </div>
 
-      <div className="flex h-96">
+      <div className={`flex flex-col lg:flex-row ${isFullscreen ? 'flex-1 overflow-hidden' : 'h-[500px] sm:h-[600px] lg:h-96'}`}>
         {/* Code Editor */}
-        <div className="flex-1 border-r">
-          <div className="p-4 border-b bg-muted/30">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">{CODE_SAMPLES[currentSample].title}</h3>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={copyCode}>
+        <div className="flex-1 border-b lg:border-b-0 lg:border-r flex flex-col min-h-0">
+          <div className="p-3 sm:p-4 border-b bg-muted/30 flex-shrink-0">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-semibold text-sm sm:text-base truncate flex-1">{CODE_SAMPLES[currentSample].title}</h3>
+              <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={copyCode}
+                  className="h-8 w-8 sm:h-9 sm:w-auto p-0 sm:px-3"
+                  aria-label="Copy code"
+                >
                   <Copy className="h-4 w-4" />
+                  <span className="hidden sm:inline ml-2">Copy</span>
                 </Button>
-                <Button variant="outline" size="sm" onClick={downloadCode}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={downloadCode}
+                  className="h-8 w-8 sm:h-9 sm:w-auto p-0 sm:px-3"
+                  aria-label="Download code"
+                >
                   <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline ml-2">Download</span>
                 </Button>
               </div>
             </div>
           </div>
-          <div className="p-4 h-full overflow-auto">
-            <pre className="text-sm font-mono leading-relaxed">
+          <div className="flex-1 p-3 sm:p-4 overflow-auto min-h-0">
+            <pre className="text-xs sm:text-sm font-mono leading-relaxed">
               <code className={`language-${CODE_SAMPLES[currentSample].language}`}>
                 {CODE_SAMPLES[currentSample].code}
               </code>
@@ -879,21 +896,27 @@ export function CodingTerminal({
         </div>
 
         {/* Terminal */}
-        <div className="flex-1 flex flex-col">
-          <div className="p-4 border-b bg-muted/30">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold">Terminal Output</h3>
-              <div className="flex items-center gap-2">
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="p-3 sm:p-4 border-b bg-muted/30 flex-shrink-0">
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-semibold text-sm sm:text-base">Terminal Output</h3>
+              <div className="flex items-center gap-1 sm:gap-2">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={runCode}
                   disabled={isRunning || isTyping}
+                  className="h-8 sm:h-9 text-xs sm:text-sm"
                 >
-                  {isRunning ? <Square className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  {isRunning ? <Square className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />}
                   {isRunning ? 'Running...' : 'Run'}
                 </Button>
-                <Button variant="outline" size="sm" onClick={clearTerminal}>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={clearTerminal}
+                  className="h-8 sm:h-9 text-xs sm:text-sm"
+                >
                   Clear
                 </Button>
               </div>
@@ -901,7 +924,7 @@ export function CodingTerminal({
           </div>
           <div 
             ref={terminalRef}
-            className="flex-1 p-4 bg-black text-green-400 font-mono text-sm overflow-auto"
+            className="flex-1 p-3 sm:p-4 bg-black text-green-400 font-mono text-xs sm:text-sm overflow-auto min-h-0"
           >
             <AnimatePresence>
               {lines.map((line) => (
@@ -910,7 +933,7 @@ export function CodingTerminal({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
-                  className={`mb-1 ${
+                  className={`mb-1 whitespace-pre-wrap break-words ${
                     line.type === 'command' ? 'text-blue-400' :
                     line.type === 'error' ? 'text-red-400' :
                     line.type === 'info' ? 'text-yellow-400' :
@@ -922,11 +945,16 @@ export function CodingTerminal({
                 </motion.div>
               ))}
             </AnimatePresence>
+            {lines.length === 0 && !isRunning && (
+              <div className="text-muted-foreground text-xs sm:text-sm opacity-50">
+                Click &quot;Run&quot; to execute the code sample...
+              </div>
+            )}
             {isTyping && (
               <motion.div
                 animate={{ opacity: [1, 0, 1] }}
                 transition={{ duration: 1, repeat: Infinity }}
-                className="inline-block w-2 h-4 bg-green-400 ml-1"
+                className="inline-block w-2 h-3 sm:h-4 bg-green-400 ml-1"
               />
             )}
           </div>

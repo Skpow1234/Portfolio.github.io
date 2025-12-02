@@ -22,6 +22,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   const SECTION_IDS = [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
+    { id: "coding-terminal", label: "Terminal" },
     { id: "repositories", label: t.nav.repositories },
     { id: "experience", label: t.nav.experience },
     { id: "skills", label: t.nav.skills },
