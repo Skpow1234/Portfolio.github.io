@@ -5,13 +5,13 @@ import { githubConfig } from "@/lib/data/github-stats";
 import { motion } from "framer-motion";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
-import { Github, Star, GitCommit, GitPullRequest, GitBranch, Users, Calendar, TrendingUp, RefreshCw } from "lucide-react";
+import { Github, Star, GitCommit, GitBranch, Users, Calendar, TrendingUp, RefreshCw } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useGitHubStats } from "@/hooks/use-github-stats";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Button } from "@/components/ui/button";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import Image from "next/image";
+import { FallbackImage } from "@/components/ui/fallback-image";
 
 export function GitHubStatsSection() {
   const { locale: currentLocale } = useLocaleContext();
@@ -165,13 +165,14 @@ export function GitHubStatsSection() {
                   <TrendingUp className="h-5 w-5" />
                   {currentLocale === 'en' ? 'GitHub Stats' : 'Estadísticas'}
                 </h3>
-                <Image
+                <FallbackImage
                   src={githubConfig.statsUrl}
                   alt="GitHub Stats"
                   width={500}
                   height={200}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  unoptimized
                 />
               </Card>
             </motion.div>
@@ -188,13 +189,14 @@ export function GitHubStatsSection() {
                   <Github className="h-5 w-5" />
                   {currentLocale === 'en' ? 'Profile README' : 'README del Perfil'}
                 </h3>
-                <Image
+                <FallbackImage
                   src={githubConfig.profileReadmeUrl}
                   alt="GitHub Profile README"
                   width={500}
                   height={200}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  unoptimized
                 />
               </Card>
             </motion.div>
@@ -211,13 +213,14 @@ export function GitHubStatsSection() {
                   <GitCommit className="h-5 w-5" />
                   {currentLocale === 'en' ? 'Most Commits' : 'Más Commits'}
                 </h3>
-                <Image
+                <FallbackImage
                   src={githubConfig.commitsCardUrl}
                   alt="Most Commit Language"
                   width={500}
                   height={200}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  unoptimized
                 />
               </Card>
             </motion.div>
@@ -233,13 +236,14 @@ export function GitHubStatsSection() {
                   <GitBranch className="h-5 w-5" />
                   {currentLocale === 'en' ? 'Repos per Language' : 'Repos por Lenguaje'}
                 </h3>
-                <Image
+                <FallbackImage
                   src={githubConfig.reposCardUrl}
                   alt="Repos per Language"
                   width={500}
                   height={200}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  unoptimized
                 />
               </Card>
             </motion.div>
@@ -255,13 +259,14 @@ export function GitHubStatsSection() {
                   <Calendar className="h-5 w-5" />
                   {currentLocale === 'en' ? 'Productive Time' : 'Tiempo Productivo'}
                 </h3>
-                <Image
+                <FallbackImage
                   src={githubConfig.productiveTimeUrl}
                   alt="Productive Time"
                   width={500}
                   height={200}
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
+                  unoptimized
                 />
               </Card>
             </motion.div>
@@ -281,13 +286,14 @@ export function GitHubStatsSection() {
                 {currentLocale === 'en' ? 'GitHub Snake Animation' : 'Animación de Serpiente de GitHub'}
               </h3>
               <div className="flex justify-center">
-                <Image
+                <FallbackImage
                   src={githubConfig.snakeUrl}
                   alt="GitHub Snake Animation"
                   width={800}
                   height={200}
                   className="w-full max-w-4xl h-auto rounded-lg"
                   loading="lazy"
+                  unoptimized
                 />
               </div>
             </Card>
@@ -306,13 +312,14 @@ export function GitHubStatsSection() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <Image
+                  <FallbackImage
                     src={githubConfig.topLanguagesUrl}
                     alt="Top Languages"
                     width={500}
                     height={200}
                     className="w-full h-auto rounded-lg"
                     loading="lazy"
+                    unoptimized
                   />
                 </div>
                 <div className="space-y-4">
@@ -352,13 +359,14 @@ export function GitHubStatsSection() {
               <h3 className="text-xl font-semibold mb-4 text-center">
                 {currentLocale === 'en' ? 'Contribution Activity' : 'Actividad de Contribuciones'}
               </h3>
-              <Image
+              <FallbackImage
                 src={githubConfig.contributionGraphUrl}
                 alt="Contribution Graph"
                 width={800}
                 height={200}
                 className="w-full h-auto rounded-lg"
                 loading="lazy"
+                unoptimized
               />
             </Card>
           </motion.div>
