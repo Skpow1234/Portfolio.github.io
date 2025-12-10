@@ -162,7 +162,7 @@ export function SkillsSection() {
             className={`rounded-full border px-3 py-1 text-sm ${filter === "all" ? "bg-primary text-primary-foreground" : "hover:bg-accent"}`}
             onClick={() => setFilter("all")}
           >
-            {currentLocale === 'en' ? 'All' : 'Todas'}
+            {t.skills.all}
           </button>
           {categories.map((c) => (
             <button

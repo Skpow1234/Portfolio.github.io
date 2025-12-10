@@ -66,10 +66,7 @@ export function HeroSection() {
             Juan Hurtado
           </h1>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            {currentLocale === 'en' 
-              ? 'Senior Software Engineer who ships reliable, performant platforms'
-              : 'Ingeniero de Software Senior que entrega plataformas confiables y de alto rendimiento'
-            }
+            {t.hero.subtitle}
           </h2>
           <motion.p 
             className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
@@ -77,10 +74,7 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            {currentLocale === 'en'
-              ? 'Focused on Go, Node.js, Dotnet and Java, delivering measurable outcomes like faster delivery, lower latency, and resilient systems.'
-              : 'Enfocado en Go, Node.js, Dotnet y Java, entregando resultados medibles como entrega más rápida, menor latencia y sistemas resilientes.'
-            }
+            {t.hero.description}
           </motion.p>
         </motion.div>
 
@@ -126,7 +120,7 @@ export function HeroSection() {
             <DialogContent className="sm:max-w-[425px]">
               <DialogHeader>
                 <DialogTitle>
-                  {currentLocale === 'en' ? 'Send me a message' : 'Envíame un mensaje'}
+                  {t.contact.sendMessage}
                 </DialogTitle>
               </DialogHeader>
               <ContactForm onSuccess={() => setOpen(false)} />
@@ -155,7 +149,7 @@ export function HeroSection() {
             onTouchStart={(e) => e.preventDefault()}
             role="button"
             tabIndex={0}
-            aria-label={currentLocale === 'en' ? 'Scroll to about section' : 'Desplázate a la sección acerca de'}
+            aria-label={t.hero.scrollToExplore}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
@@ -169,7 +163,7 @@ export function HeroSection() {
               className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
             >
               <span className="text-sm font-medium">
-                {currentLocale === 'en' ? 'Scroll to explore' : 'Desplázate para explorar'}
+                {t.hero.scrollToExplore}
               </span>
               <ArrowDown className="h-6 w-6" />
             </motion.div>

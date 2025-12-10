@@ -40,14 +40,11 @@ export function GitHubStatsSection() {
             <div className="flex items-center justify-center gap-3 mb-4">
               <Github className="h-8 w-8 text-muted-foreground" />
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-                {currentLocale === 'en' ? 'GitHub Statistics' : 'Estadísticas de GitHub'}
+                {t.github.title}
               </h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {currentLocale === 'en' 
-                ? 'My coding activity and contributions on GitHub'
-                : 'Mi actividad de programación y contribuciones en GitHub'
-              }
+              {t.github.subtitle}
             </p>
           </div>
           
@@ -64,7 +61,7 @@ export function GitHubStatsSection() {
           <div className="text-center">
             <LoadingSpinner size="lg" />
             <p className="text-sm text-muted-foreground mt-2">
-              {currentLocale === 'en' ? 'Loading GitHub statistics...' : 'Cargando estadísticas de GitHub...'}
+              {t.github.loading}
             </p>
           </div>
         </div>
@@ -79,17 +76,14 @@ export function GitHubStatsSection() {
           <Card className="p-8 max-w-md mx-auto">
             <Github className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">
-              {currentLocale === 'en' ? 'Unable to load GitHub statistics' : 'No se pudieron cargar las estadísticas de GitHub'}
+              {t.github.unableToLoad}
             </h3>
             <p className="text-muted-foreground mb-4">
-              {currentLocale === 'en' 
-                ? 'There was an issue loading the GitHub data. Please try again.'
-                : 'Hubo un problema al cargar los datos de GitHub. Por favor, inténtalo de nuevo.'
-              }
+              {t.github.errorMessage}
             </p>
             <Button onClick={refetch} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
-              {currentLocale === 'en' ? 'Retry' : 'Reintentar'}
+              {t.github.retry}
             </Button>
           </Card>
         </div>
@@ -120,14 +114,11 @@ export function GitHubStatsSection() {
             <div className="flex items-center justify-center gap-3 mb-4">
               <Github className="h-8 w-8 text-muted-foreground" />
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-                {currentLocale === 'en' ? 'GitHub Statistics' : 'Estadísticas de GitHub'}
+                {t.github.title}
               </h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {currentLocale === 'en' 
-                ? 'My coding activity and contributions on GitHub'
-                : 'Mi actividad de programación y contribuciones en GitHub'
-              }
+              {t.github.subtitle}
             </p>
           </motion.div>
 
@@ -163,7 +154,7 @@ export function GitHubStatsSection() {
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <TrendingUp className="h-5 w-5" />
-                  {currentLocale === 'en' ? 'GitHub Stats' : 'Estadísticas'}
+                  {t.github.stats}
                 </h3>
                 <FallbackImage
                   src={githubConfig.statsUrl}
@@ -187,7 +178,7 @@ export function GitHubStatsSection() {
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Github className="h-5 w-5" />
-                  {currentLocale === 'en' ? 'Profile README' : 'README del Perfil'}
+                  {t.github.profileReadme}
                 </h3>
                 <FallbackImage
                   src={githubConfig.profileReadmeUrl}
@@ -211,7 +202,7 @@ export function GitHubStatsSection() {
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <GitCommit className="h-5 w-5" />
-                  {currentLocale === 'en' ? 'Most Commits' : 'Más Commits'}
+                  {t.github.mostCommits}
                 </h3>
                 <FallbackImage
                   src={githubConfig.commitsCardUrl}
@@ -234,7 +225,7 @@ export function GitHubStatsSection() {
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <GitBranch className="h-5 w-5" />
-                  {currentLocale === 'en' ? 'Repos per Language' : 'Repos por Lenguaje'}
+                  {t.github.reposPerLanguage}
                 </h3>
                 <FallbackImage
                   src={githubConfig.reposCardUrl}
@@ -257,7 +248,7 @@ export function GitHubStatsSection() {
               <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
                 <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                   <Calendar className="h-5 w-5" />
-                  {currentLocale === 'en' ? 'Productive Time' : 'Tiempo Productivo'}
+                  {t.github.productiveTime}
                 </h3>
                 <FallbackImage
                   src={githubConfig.productiveTimeUrl}
@@ -283,7 +274,7 @@ export function GitHubStatsSection() {
             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-xl font-semibold mb-4 text-center flex items-center justify-center gap-2">
                 <span role="img" aria-label="snake" className="text-2xl">🐍</span>
-                {currentLocale === 'en' ? 'GitHub Snake Animation' : 'Animación de Serpiente de GitHub'}
+                {t.github.snakeAnimation}
               </h3>
               <div className="flex justify-center">
                 <FallbackImage
@@ -308,7 +299,7 @@ export function GitHubStatsSection() {
           >
             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-xl font-semibold mb-6 text-center">
-                {currentLocale === 'en' ? 'Top Languages' : 'Lenguajes Principales'}
+                {t.github.topLanguages}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
@@ -357,7 +348,7 @@ export function GitHubStatsSection() {
           >
             <Card className="p-6 hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-xl font-semibold mb-4 text-center">
-                {currentLocale === 'en' ? 'Contribution Activity' : 'Actividad de Contribuciones'}
+                {t.github.contributionActivity}
               </h3>
               <FallbackImage
                 src={githubConfig.contributionGraphUrl}

@@ -35,7 +35,7 @@ export function WorkExperienceSection() {
                 {experience.skills && experience.skills.length > 0 && (
                   <div className="mb-2">
                     <span className="font-semibold">
-                      {currentLocale === 'en' ? 'Skills: ' : 'Habilidades: '}
+                      {t.experience.skillsLabel}
                     </span>
                     <span className="text-sm text-muted-foreground">{experience.skills.join(", ")}</span>
                   </div>
@@ -43,7 +43,7 @@ export function WorkExperienceSection() {
                 {experience.methodologies && experience.methodologies.length > 0 && (
                   <div>
                     <span className="font-semibold">
-                      {currentLocale === 'en' ? 'Methodologies: ' : 'Metodologías: '}
+                      {t.experience.methodologiesLabel}
                     </span>
                     <span className="text-sm text-muted-foreground">{experience.methodologies.join(", ")}</span>
                   </div>

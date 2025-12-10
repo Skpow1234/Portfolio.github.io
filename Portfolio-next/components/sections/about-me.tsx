@@ -15,18 +15,18 @@ export function AboutMeSection() {
   const highlights = [
     {
       icon: Code,
-      title: currentLocale === 'en' ? '7+ Years Experience' : '7+ Años de Experiencia',
-      description: currentLocale === 'en' ? 'Software development' : 'Desarrollo de software'
+      title: t.about.yearsExperience,
+      description: t.about.softwareDevelopment
     },
     {
       icon: Rocket,
-      title: currentLocale === 'en' ? 'High Performance' : 'Alto Rendimiento',
-      description: currentLocale === 'en' ? 'Scalable solutions' : 'Soluciones escalables'
+      title: t.about.highPerformance,
+      description: t.about.scalableSolutions
     },
     {
       icon: Target,
-      title: currentLocale === 'en' ? 'Results Driven' : 'Orientado a Resultados',
-      description: currentLocale === 'en' ? 'Measurable outcomes' : 'Resultados medibles'
+      title: t.about.resultsDriven,
+      description: t.about.measurableOutcomes
     }
   ];
 
@@ -60,16 +60,10 @@ export function AboutMeSection() {
           >
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-lg leading-relaxed text-muted-foreground">
-                {currentLocale === 'en' 
-                  ? 'Dedicated and results-driven software engineer with 7 years of experience in software development. Highly skilled in backend development using Spring Boot, Node.js, Go and .NET technologies. Demonstrated capacity for effective teamwork and adaptability to changing project requirements.'
-                  : 'Ingeniero de software dedicado y orientado a resultados con 7 años de experiencia en desarrollo de software. Altamente capacitado en desarrollo backend usando tecnologías Spring Boot, Node.js, Go y .NET. Capacidad demostrada para el trabajo en equipo efectivo y adaptabilidad a los cambios en los requisitos del proyecto.'
-                }
+                {t.about.paragraph1}
               </p>
               <p className="text-lg leading-relaxed text-muted-foreground">
-                {currentLocale === 'en'
-                  ? 'A self-taught individual who is passionate about continuous learning and staying up-to-date with the latest industry trends and technologies. Committed to delivering high-quality solutions that meet client requirements and exceed expectations.'
-                  : 'Un individuo autodidacta que es apasionado por el aprendizaje continuo y mantenerse al día con las últimas tendencias y tecnologías de la industria. Comprometido a entregar soluciones de alta calidad que cumplan con los requisitos del cliente y superen las expectativas.'
-                }
+                {t.about.paragraph2}
               </p>
             </div>
 
@@ -106,14 +100,14 @@ export function AboutMeSection() {
                 <div className="flex items-center gap-3">
                   <User className="h-6 w-6 text-primary" />
                   <h3 className="text-xl font-semibold">
-                    {currentLocale === 'en' ? 'Core Strengths' : 'Fortalezas Principales'}
+                    {t.about.coreStrengths}
                   </h3>
                 </div>
                 
                 <div className="space-y-4">
                   <div>
                     <h4 className="font-medium mb-2">
-                      {currentLocale === 'en' ? 'Backend Development' : 'Desarrollo Backend'}
+                      {t.about.backendDevelopment}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {['Spring Boot', 'Node.js', 'Go', '.NET'].map((tech) => (
@@ -126,7 +120,7 @@ export function AboutMeSection() {
                   
                   <div>
                     <h4 className="font-medium mb-2">
-                      {currentLocale === 'en' ? 'Frontend Development' : 'Desarrollo Frontend'}
+                      {t.about.frontendDevelopment}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {['React', 'Angular', 'TypeScript', 'Next.js'].map((tech) => (
@@ -139,7 +133,7 @@ export function AboutMeSection() {
                   
                   <div>
                     <h4 className="font-medium mb-2">
-                      {currentLocale === 'en' ? 'DevOps & Cloud' : 'DevOps y Cloud'}
+                      {t.about.devopsCloud}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {['AWS', 'Docker', 'Kubernetes', 'CI/CD'].map((tech) => (

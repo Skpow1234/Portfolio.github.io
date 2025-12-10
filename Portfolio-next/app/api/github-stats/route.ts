@@ -4,8 +4,28 @@ import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 const GITHUB_USERNAME = 'Skpow1234'; // Replace with your username
 const GITHUB_API_BASE = 'https://api.github.com';
 
+// Optional: Set GITHUB_TOKEN in environment for higher rate limits (5000/hour vs 60/hour)
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
 // Cache for 1 hour
 export const revalidate = 3600;
+
+/**
+ * Create headers for GitHub API requests.
+ * Includes authentication if GITHUB_TOKEN is set.
+ */
+function getGitHubHeaders(): HeadersInit {
+  const headers: HeadersInit = {
+    'Accept': 'application/vnd.github.v3+json',
+    'User-Agent': 'Portfolio-App',
+  };
+  
+  if (GITHUB_TOKEN) {
+    headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+  }
+  
+  return headers;
+}
 
 export async function GET(req: NextRequest) {
   // Check rate limit (single call handles both blocking and headers)
@@ -14,13 +34,31 @@ export async function GET(req: NextRequest) {
     return rateLimitResponse;
   }
 
+  const githubHeaders = getGitHubHeaders();
+
   try {
     // Fetch user data
-    const userResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}`);
+    const userResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}`, {
+      headers: githubHeaders,
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+    
+    if (!userResponse.ok) {
+      throw new Error(`GitHub API error: ${userResponse.status} ${userResponse.statusText}`);
+    }
+    
     const userData = await userResponse.json();
 
     // Fetch repositories
-    const reposResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`);
+    const reposResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`, {
+      headers: githubHeaders,
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+    
+    if (!reposResponse.ok) {
+      throw new Error(`GitHub API error: ${reposResponse.status} ${reposResponse.statusText}`);
+    }
+    
     const reposData = await reposResponse.json();
 
     // Calculate stats
