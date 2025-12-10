@@ -2,8 +2,7 @@
 
 import { Card } from "@/components/ui/card";
 import { skills } from "@/lib/data/skills";
-import { useMemo, useState } from "react";
-import { useCallback } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import Image from "next/image";
@@ -19,12 +18,23 @@ export function SkillsSection() {
     [filter]
   );
 
-  const [hiddenIdx, setHiddenIdx] = useState<Record<number, boolean>>({});
+  // Track which skills should show fallback (no valid logo found)
+  const [showFallback, setShowFallback] = useState<Record<number, boolean>>({});
+  // Track current attempt index for each skill's logo candidates
   const [logoAttemptIndex, setLogoAttemptIndex] = useState<Record<number, number>>({});
-  const handleImgError = useCallback((idx: number) => {
+  
+  // Handle image load error - try next candidate or show fallback
+  const handleImgError = useCallback((idx: number, totalCandidates: number) => {
     setLogoAttemptIndex((prev) => {
-      const next = (prev[idx] ?? 0) + 1;
-      return { ...prev, [idx]: next };
+      const currentAttempt = prev[idx] ?? 0;
+      const nextAttempt = currentAttempt + 1;
+      
+      // If we've exhausted all candidates, mark as fallback
+      if (nextAttempt >= totalCandidates) {
+        setShowFallback((prevFallback) => ({ ...prevFallback, [idx]: true }));
+      }
+      
+      return { ...prev, [idx]: nextAttempt };
     });
   }, []);
 
@@ -165,45 +175,36 @@ export function SkillsSection() {
           ))}
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
-          {filtered.map((s, idx) => (
-            <Card key={`${s.name}-${idx}`} className="flex flex-col items-center gap-2 p-4 transition-transform duration-200 hover:scale-[1.02]">
-              {hiddenIdx[idx] ? (
-                <div aria-hidden className="flex h-10 w-10 items-center justify-center rounded bg-accent text-xs font-semibold">
-                  {s.name.slice(0, 2).toUpperCase()}
-                </div>
-              ) : (
-                (() => {
-                  const attempts = logoAttemptIndex[idx] ?? 0;
-                  const candidates = getLogoCandidates(s.name);
-                  const src = candidates[attempts] ?? '';
-                  if (!src) {
-                    // No candidates, hide
-                    setHiddenIdx((prev) => ({ ...prev, [idx]: true }));
-                    return null;
-                  }
-                  return (
-                    <Image
-                      src={src}
-                      alt={s.name}
-                      width={40}
-                      height={40}
-                      className="h-10 w-10 object-contain"
-                      loading="lazy"
-                      onError={() => {
-                        const nextAttempts = (logoAttemptIndex[idx] ?? 0) + 1;
-                        if (nextAttempts >= candidates.length) {
-                          setHiddenIdx((prev) => ({ ...prev, [idx]: true }));
-                        } else {
-                          setLogoAttemptIndex((prev) => ({ ...prev, [idx]: nextAttempts }));
-                        }
-                      }}
-                    />
-                  );
-                })()
-              )}
-              <span className="text-sm text-center text-muted-foreground">{s.name}</span>
-            </Card>
-          ))}
+          {filtered.map((s, idx) => {
+            const candidates = getLogoCandidates(s.name);
+            const currentAttempt = logoAttemptIndex[idx] ?? 0;
+            const shouldShowFallback = showFallback[idx] || candidates.length === 0;
+            const currentSrc = candidates[currentAttempt];
+            
+            return (
+              <Card key={`${s.name}-${idx}`} className="flex flex-col items-center gap-2 p-4 transition-transform duration-200 hover:scale-[1.02]">
+                {shouldShowFallback || !currentSrc ? (
+                  <div 
+                    aria-hidden 
+                    className="flex h-10 w-10 items-center justify-center rounded bg-accent text-xs font-semibold"
+                  >
+                    {s.name.slice(0, 2).toUpperCase()}
+                  </div>
+                ) : (
+                  <Image
+                    src={currentSrc}
+                    alt={s.name}
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 object-contain"
+                    loading="lazy"
+                    onError={() => handleImgError(idx, candidates.length)}
+                  />
+                )}
+                <span className="text-sm text-center text-muted-foreground">{s.name}</span>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
