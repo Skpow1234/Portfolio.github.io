@@ -3,55 +3,128 @@ interface RateLimitConfig {
   limit: number; // Maximum requests per interval
 }
 
-interface RateLimitStore {
-  [key: string]: {
-    count: number;
-    resetTime: number;
-  };
+interface RateLimitEntry {
+  count: number;
+  resetTime: number;
 }
 
-const store: RateLimitStore = {};
+interface RateLimitResult {
+  success: boolean;
+  remaining: number;
+  resetTime: number;
+}
 
-export function rateLimit(config: RateLimitConfig) {
-  return function (identifier: string): { success: boolean; remaining: number; resetTime: number } {
+/**
+ * Rate limiter with automatic cleanup using LRU-style eviction.
+ * 
+ * Note: This is an in-memory implementation suitable for single-instance deployments.
+ * For production with multiple instances, consider using:
+ * - Upstash Rate Limit (@upstash/ratelimit)
+ * - Redis-based rate limiting
+ * - Vercel KV
+ */
+class RateLimiter {
+  private store: Map<string, RateLimitEntry> = new Map();
+  private readonly maxEntries = 10000; // Prevent unbounded growth
+  private lastCleanup = Date.now();
+  private readonly cleanupInterval = 60000; // 1 minute
+
+  check(identifier: string, config: RateLimitConfig): RateLimitResult {
     const now = Date.now();
-    const key = identifier;
     
-    if (!store[key] || now > store[key].resetTime) {
-      store[key] = {
+    // Perform cleanup if needed (lazy cleanup instead of setInterval)
+    if (now - this.lastCleanup > this.cleanupInterval) {
+      this.cleanup(now);
+    }
+
+    const entry = this.store.get(identifier);
+    
+    // New entry or expired entry
+    if (!entry || now > entry.resetTime) {
+      const newEntry: RateLimitEntry = {
         count: 1,
         resetTime: now + config.interval,
       };
+      
+      // Check if we need to evict old entries before adding
+      if (this.store.size >= this.maxEntries) {
+        this.evictOldest();
+      }
+      
+      this.store.set(identifier, newEntry);
       return {
         success: true,
         remaining: config.limit - 1,
-        resetTime: store[key].resetTime,
+        resetTime: newEntry.resetTime,
       };
     }
     
-    if (store[key].count >= config.limit) {
+    // Rate limit exceeded
+    if (entry.count >= config.limit) {
       return {
         success: false,
         remaining: 0,
-        resetTime: store[key].resetTime,
+        resetTime: entry.resetTime,
       };
     }
     
-    store[key].count++;
+    // Increment count
+    entry.count++;
     return {
       success: true,
-      remaining: config.limit - store[key].count,
-      resetTime: store[key].resetTime,
+      remaining: config.limit - entry.count,
+      resetTime: entry.resetTime,
     };
+  }
+
+  private cleanup(now: number): void {
+    this.lastCleanup = now;
+    const keysToDelete: string[] = [];
+    
+    this.store.forEach((entry, key) => {
+      if (now > entry.resetTime) {
+        keysToDelete.push(key);
+      }
+    });
+    
+    keysToDelete.forEach(key => this.store.delete(key));
+  }
+
+  private evictOldest(): void {
+    // Map maintains insertion order, so first entry is oldest
+    let firstKey: string | undefined;
+    this.store.forEach((_, key) => {
+      if (firstKey === undefined) {
+        firstKey = key;
+      }
+    });
+    if (firstKey) {
+      this.store.delete(firstKey);
+    }
+  }
+
+  // For testing purposes
+  clear(): void {
+    this.store.clear();
+  }
+
+  get size(): number {
+    return this.store.size;
+  }
+}
+
+// Singleton instance
+const rateLimiter = new RateLimiter();
+
+/**
+ * Creates a rate limiter function for the given configuration.
+ * Uses a shared in-memory store with automatic cleanup.
+ */
+export function rateLimit(config: RateLimitConfig) {
+  return function (identifier: string): RateLimitResult {
+    return rateLimiter.check(identifier, config);
   };
 }
 
-// Clean up old entries periodically
-setInterval(() => {
-  const now = Date.now();
-  Object.keys(store).forEach(key => {
-    if (now > store[key].resetTime) {
-      delete store[key];
-    }
-  });
-}, 60000); // Clean up every minute
+// Export for testing
+export { RateLimiter };
