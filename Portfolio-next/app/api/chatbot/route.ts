@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRateLimitMiddleware, getClientIP, createRateLimitHeaders } from '../../../lib/middleware/rate-limit';
-import { rateLimit } from '../../../lib/rate-limit';
+import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 // Knowledge base for the chatbot
 const KNOWLEDGE_BASE = {
@@ -89,17 +88,11 @@ function findBestResponse(question: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  // Apply rate limiting middleware
-  const rateLimitMiddleware = createRateLimitMiddleware('chatbot');
-  const rateLimitResponse = rateLimitMiddleware(req);
-  if (rateLimitResponse) {
+  // Check rate limit (single call handles both blocking and headers)
+  const { response: rateLimitResponse, headers, allowed } = checkRateLimit(req, 'chatbot');
+  if (!allowed && rateLimitResponse) {
     return rateLimitResponse;
   }
-
-  // Get rate limit info for response headers
-  const ip = getClientIP(req);
-  const limiter = rateLimit({ interval: 60000, limit: 20 });
-  const rateLimitResult = limiter(ip);
 
   try {
     const body = await req.json();
@@ -108,7 +101,7 @@ export async function POST(req: NextRequest) {
     if (!message || typeof message !== 'string') {
       return NextResponse.json(
         { error: 'Message is required' },
-        { status: 400 }
+        { status: 400, headers }
       );
     }
 
@@ -119,15 +112,13 @@ export async function POST(req: NextRequest) {
         response,
         timestamp: new Date().toISOString()
       },
-      {
-        headers: createRateLimitHeaders(20, rateLimitResult.remaining, rateLimitResult.resetTime)
-      }
+      { headers }
     );
   } catch (error) {
     console.error('Chatbot error:', error);
     return NextResponse.json(
       { error: 'Failed to process message' },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 }

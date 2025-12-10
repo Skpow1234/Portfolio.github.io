@@ -10,7 +10,6 @@ import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
-import { ChevronDown } from "lucide-react";
 
 export function Header() {
   const { locale: currentLocale } = useLocaleContext();

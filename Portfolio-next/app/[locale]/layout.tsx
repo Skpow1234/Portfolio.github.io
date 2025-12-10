@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LocaleProvider } from "@/components/locale-provider";
 import { Header } from "@/components/header";
 import { Chatbot } from "@/components/chatbot";
+import { DocumentLang } from "@/components/document-lang";
 import { Locale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default async function LocaleLayout({
   
   return (
     <LocaleProvider locale={validLocale}>
+      <DocumentLang />
       <Header />
       {children}
       <Chatbot />

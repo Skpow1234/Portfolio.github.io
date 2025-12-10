@@ -15,34 +15,80 @@ const RATE_LIMITS = {
 
 type RateLimitType = keyof typeof RATE_LIMITS;
 
-export function createRateLimitMiddleware(type: RateLimitType = 'general') {
-  return function rateLimitMiddleware(req: NextRequest) {
-    const ip = req.headers.get('x-forwarded-for') || 
-               req.headers.get('x-real-ip') || 
-               'unknown';
-    
-    const limiter = rateLimit(RATE_LIMITS[type]);
-    const result = limiter(ip);
-    
-    if (!result.success) {
-      return NextResponse.json(
+interface RateLimitCheckResult {
+  /** If rate limit exceeded, this contains the 429 response to return */
+  response: NextResponse | null;
+  /** Headers to add to successful responses */
+  headers: Record<string, string>;
+  /** Whether the request is allowed */
+  allowed: boolean;
+  /** Remaining requests in the current window */
+  remaining: number;
+  /** When the rate limit resets */
+  resetTime: number;
+}
+
+/**
+ * Check rate limit for a request.
+ * Returns both the blocking response (if exceeded) and headers for successful responses.
+ * 
+ * @example
+ * const { response, headers, allowed } = checkRateLimit(req, 'contact');
+ * if (!allowed) return response;
+ * // ... handle request ...
+ * return NextResponse.json(data, { headers });
+ */
+export function checkRateLimit(req: NextRequest, type: RateLimitType = 'general'): RateLimitCheckResult {
+  const ip = getClientIP(req);
+  const config = RATE_LIMITS[type];
+  const limiter = rateLimit(config);
+  const result = limiter(ip);
+  
+  const headers: Record<string, string> = {
+    'X-RateLimit-Limit': config.limit.toString(),
+    'X-RateLimit-Remaining': result.remaining.toString(),
+    'X-RateLimit-Reset': new Date(result.resetTime).toISOString(),
+  };
+  
+  if (!result.success) {
+    const retryAfter = Math.ceil((result.resetTime - Date.now()) / 1000);
+    return {
+      response: NextResponse.json(
         { 
           error: 'Too many requests. Please try again later.',
-          retryAfter: Math.ceil((result.resetTime - Date.now()) / 1000)
+          retryAfter,
         },
         { 
           status: 429,
           headers: {
-            'X-RateLimit-Limit': RATE_LIMITS[type].limit.toString(),
-            'X-RateLimit-Remaining': result.remaining.toString(),
-            'X-RateLimit-Reset': new Date(result.resetTime).toISOString(),
-            'Retry-After': Math.ceil((result.resetTime - Date.now()) / 1000).toString(),
-          }
+            ...headers,
+            'Retry-After': retryAfter.toString(),
+          },
         }
-      );
-    }
-    
-    return null; // No rate limit exceeded
+      ),
+      headers,
+      allowed: false,
+      remaining: result.remaining,
+      resetTime: result.resetTime,
+    };
+  }
+  
+  return {
+    response: null,
+    headers,
+    allowed: true,
+    remaining: result.remaining,
+    resetTime: result.resetTime,
+  };
+}
+
+/**
+ * @deprecated Use checkRateLimit instead for cleaner code
+ */
+export function createRateLimitMiddleware(type: RateLimitType = 'general') {
+  return function rateLimitMiddleware(req: NextRequest) {
+    const { response } = checkRateLimit(req, type);
+    return response;
   };
 }
 
@@ -53,7 +99,9 @@ export function getClientIP(req: NextRequest): string {
          'unknown';
 }
 
-// Helper function to create rate limit headers
+/**
+ * @deprecated Use checkRateLimit instead - it returns headers directly
+ */
 export function createRateLimitHeaders(limit: number, remaining: number, resetTime: number) {
   return {
     'X-RateLimit-Limit': limit.toString(),

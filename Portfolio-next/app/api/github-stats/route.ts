@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRateLimitMiddleware, getClientIP, createRateLimitHeaders } from '../../../lib/middleware/rate-limit';
-import { rateLimit } from '../../../lib/rate-limit';
+import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 const GITHUB_USERNAME = 'Skpow1234'; // Replace with your username
 const GITHUB_API_BASE = 'https://api.github.com';
@@ -9,17 +8,11 @@ const GITHUB_API_BASE = 'https://api.github.com';
 export const revalidate = 3600;
 
 export async function GET(req: NextRequest) {
-  // Apply rate limiting middleware
-  const rateLimitMiddleware = createRateLimitMiddleware('github');
-  const rateLimitResponse = rateLimitMiddleware(req);
-  if (rateLimitResponse) {
+  // Check rate limit (single call handles both blocking and headers)
+  const { response: rateLimitResponse, headers, allowed } = checkRateLimit(req, 'github');
+  if (!allowed && rateLimitResponse) {
     return rateLimitResponse;
   }
-
-  // Get rate limit info for response headers
-  const ip = getClientIP(req);
-  const limiter = rateLimit({ interval: 60000, limit: 10 });
-  const rateLimitResult = limiter(ip);
 
   try {
     // Fetch user data
@@ -83,14 +76,12 @@ export async function GET(req: NextRequest) {
       }))
     };
 
-    return NextResponse.json(stats, {
-      headers: createRateLimitHeaders(10, rateLimitResult.remaining, rateLimitResult.resetTime)
-    });
+    return NextResponse.json(stats, { headers });
   } catch (error) {
     console.error('Error fetching GitHub stats:', error);
     return NextResponse.json(
       { error: 'Failed to fetch GitHub statistics' },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 }

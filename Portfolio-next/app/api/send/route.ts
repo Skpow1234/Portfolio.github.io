@@ -1,23 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ContactSchema } from '../../../lib/validation/contact';
 import { sendContactMail } from './mailer';
-import { createRateLimitMiddleware, getClientIP, createRateLimitHeaders } from '../../../lib/middleware/rate-limit';
-import { rateLimit } from '../../../lib/rate-limit';
+import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 export async function POST(req: NextRequest) {
   const fromEmail = process.env.FROM_EMAIL || 'contact@example.com';
 
-  // Apply rate limiting middleware
-  const rateLimitMiddleware = createRateLimitMiddleware('contact');
-  const rateLimitResponse = rateLimitMiddleware(req);
-  if (rateLimitResponse) {
+  // Check rate limit (single call handles both blocking and headers)
+  const { response: rateLimitResponse, headers, allowed } = checkRateLimit(req, 'contact');
+  if (!allowed && rateLimitResponse) {
     return rateLimitResponse;
   }
-
-  // Get rate limit info for response headers
-  const ip = getClientIP(req);
-  const limiter = rateLimit({ interval: 60000, limit: 5 });
-  const rateLimitResult = limiter(ip);
 
   try {
     const body = await req.json();
@@ -25,7 +18,7 @@ export async function POST(req: NextRequest) {
     if (!parseResult.success) {
       return NextResponse.json(
         { error: 'Invalid input', details: parseResult.error.flatten() },
-        { status: 400 }
+        { status: 400, headers }
       );
     }
     const data = parseResult.data;
@@ -33,21 +26,19 @@ export async function POST(req: NextRequest) {
     if (data.website && data.website.trim() !== "") {
       return NextResponse.json(
         { error: 'Spam detected' },
-        { status: 400 }
+        { status: 400, headers }
       );
     }
     const info = await sendContactMail(data, fromEmail);
     return NextResponse.json(
       { success: true, data: info },
-      {
-        headers: createRateLimitHeaders(5, rateLimitResult.remaining, rateLimitResult.resetTime)
-      }
+      { headers }
     );
   } catch (error) {
     console.error('Email error:', error);
     return NextResponse.json(
       { error: 'Failed to send email' },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 }
