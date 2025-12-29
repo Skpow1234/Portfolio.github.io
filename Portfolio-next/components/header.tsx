@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
+import { Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
@@ -94,13 +94,15 @@ export function Header() {
     )}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <div className="flex items-center gap-6">
-          <button 
-            onClick={() => handleNavClick('home')}
-            className="font-semibold text-lg hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
-            aria-label="Go to home page"
+          <a 
+            href="https://github.com/Skpow1234"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded p-1"
+            aria-label="Visit GitHub profile"
           >
-            JH
-          </button>
+            <Github className="h-6 w-6" />
+          </a>
           <nav className="hidden md:flex items-center gap-1" aria-label="Primary navigation">
             {SECTION_IDS.map(({ id, label }) => (
               <button
@@ -141,7 +143,6 @@ export function Header() {
           > 
             {t.nav.contact}
           </Button>
-          <ModeToggle />
           <MobileMenu activeId={activeSection} />
         </div>
       </div>

@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
-import { ParticleBackground, FloatingShapes, AnimatedGradient } from "@/components/particle-background";
 
 export function HeroSection() {
   const [open, setOpen] = useState(false);
@@ -27,33 +26,6 @@ export function HeroSection() {
 
   return (
     <section id="home" className="relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
-      {/* Enhanced Background Effects */}
-      <AnimatedGradient />
-      <ParticleBackground 
-        particleCount={30} 
-        speed={0.3}
-        colors={['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981']}
-      />
-      <FloatingShapes />
-      
-      {/* Original floating elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-20 left-10 w-2 h-2 bg-primary/20 rounded-full"
-          animate={{ y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute top-40 right-20 w-3 h-3 bg-secondary/30 rounded-full"
-          animate={{ y: [0, 30, 0], opacity: [0.3, 0.8, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        />
-        <motion.div
-          className="absolute bottom-40 left-20 w-1 h-1 bg-accent/40 rounded-full"
-          animate={{ y: [0, -15, 0], opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        />
-      </div>
 
       <div className="text-center space-y-6 sm:space-y-8 max-w-5xl w-full relative z-10">
         <motion.div
