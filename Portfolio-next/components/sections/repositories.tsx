@@ -20,6 +20,7 @@ export function RepositoriesSection() {
       Java: "bg-orange-500",
       Python: "bg-green-500",
       "C#": "bg-purple-500",
+      "C++": "bg-pink-500",
       PHP: "bg-indigo-500",
       Ruby: "bg-red-500",
       Rust: "bg-orange-600",
