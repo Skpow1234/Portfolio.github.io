@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Terminal, Play, Square, Copy, Download, Maximize2, Minimize2 } from 'lucide-react';
+import { Terminal, Play, Square, Copy, Download, Maximize2, Minimize2, Info, Lightbulb } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface TerminalLine {
@@ -25,6 +25,7 @@ const CODE_SAMPLES = [
   {
     title: "Go Microservice",
     language: "go",
+    description: "A RESTful microservice built with Go and the Gin framework. It demonstrates structured logging with Zap, dependency injection for the database layer, and proper error handling. The UserService struct encapsulates business logic while keeping HTTP concerns separate.",
     code: `package main
 
 import (
@@ -75,11 +76,13 @@ func main() {
     output: `$ go run main.go
 [GIN-debug] Listening and serving HTTP on :8080
 [GIN] 2024/01/15 - 10:30:45 | 200 |     1.234ms | GET      "/users/123"
-[GIN] 2024/01/15 - 10:30:46 | 200 |     0.856ms | GET      "/users/456"`
+[GIN] 2024/01/15 - 10:30:46 | 200 |     0.856ms | GET      "/users/456"`,
+    outputExplanation: "The server starts on port 8080. The log shows two successful GET requests (HTTP 200) to fetch users 123 and 456, with response times of ~1.2ms and ~0.8ms respectively—demonstrating Go's excellent performance for API endpoints."
   },
   {
     title: "C++ Performance Engine",
     language: "cpp",
+    description: "A thread-safe task scheduler using modern C++17 features. It creates a pool of worker threads that process tasks from a shared queue. The implementation uses mutex locks for thread safety, perfect forwarding for zero-copy task submission, and RAII for automatic resource cleanup.",
     code: `#include <iostream>
 #include <vector>
 #include <memory>
@@ -167,11 +170,13 @@ Task 5 executed on thread 140123456789248
 Task 6 executed on thread 140123456789248
 Task 7 executed on thread 140123456789248
 Task 8 executed on thread 140123456789248
-Task 9 executed on thread 140123456789248`
+Task 9 executed on thread 140123456789248`,
+    outputExplanation: "First, the code is compiled with C++17, optimizations (-O2), and pthread support. Then, all 10 tasks execute successfully. The thread ID shows which worker processed each task—in this case, one thread handled all tasks due to their quick execution, demonstrating efficient work stealing."
   },
   {
     title: "Java Spring Boot API",
     language: "java",
+    description: "A production-ready REST API controller using Spring Boot 3. Features include pagination support, response caching with @Cacheable, async processing with CompletableFuture, input validation, and proper HTTP status codes. The controller follows RESTful conventions with CRUD operations.",
     code: `package com.juanhurtado.portfolio.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -262,11 +267,13 @@ public class ProjectController {
  :: Spring Boot ::                (v3.2.0)
 
 2024-01-15 10:30:45.123  INFO 12345 --- [           main] c.j.p.PortfolioApplication               : Starting PortfolioApplication
-2024-01-15 10:30:45.456  INFO 12345 --- [           main] c.j.p.PortfolioApplication               : Started PortfolioApplication in 2.334 seconds`
+2024-01-15 10:30:45.456  INFO 12345 --- [           main] c.j.p.PortfolioApplication               : Started PortfolioApplication in 2.334 seconds`,
+    outputExplanation: "Maven builds and starts the Spring Boot application. The iconic Spring banner confirms version 3.2.0. The application starts in 2.3 seconds and is ready to receive HTTP requests. The INFO logs show the startup lifecycle managed by the Spring container."
   },
   {
     title: "Python Data Pipeline",
     language: "python",
+    description: "An async data pipeline that fetches sensor data from multiple APIs concurrently. Uses aiohttp for non-blocking HTTP requests, dataclasses for type-safe data structures, and pandas for analysis. The pipeline processes data in parallel, normalizes values, and generates statistical summaries.",
     code: `import asyncio
 import aiohttp
 import pandas as pd
@@ -406,11 +413,13 @@ INFO:__main__:Processing 1,247 data points...
 INFO:__main__:Analysis complete
 Processed 1247 records
 Date range: 2024-01-15 00:00:00 to 2024-01-15 23:59:59
-Sources: {'temperature': 415, 'humidity': 416, 'pressure': 416}`
+Sources: {'temperature': 415, 'humidity': 416, 'pressure': 416}`,
+    outputExplanation: "The pipeline fetches data from 3 sensor APIs concurrently (not sequentially, saving time). It processes 1,247 data points across a full day. The sources show an even distribution: ~415 readings each from temperature, humidity, and pressure sensors, indicating balanced data collection."
   },
   {
     title: "SQL Analytics Queries",
     language: "sql",
+    description: "Advanced PostgreSQL analytics queries using CTEs (Common Table Expressions) and window functions. Analyzes user engagement patterns, section performance, and conversion rates. Demonstrates LAG for time-between-visits, PERCENTILE_CONT for medians, and EXPLAIN ANALYZE for query optimization.",
     code: `-- Advanced SQL Analytics for Portfolio Analytics
 -- Performance optimization and complex data analysis
 
@@ -540,6 +549,7 @@ ORDER BY view_count DESC;`,
   {
     title: "React Component",
     language: "typescript",
+    description: "A modern React component with TypeScript that demonstrates data fetching patterns. Uses useState for state management, useEffect for side effects, and proper error/loading states. Features Framer Motion animations and follows best practices for async operations with cleanup.",
     code: `import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
@@ -609,11 +619,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({
 ✓ Ready in 2.3s
 ✓ Compiled /components/UserProfile in 1.2s
 ✓ Compiled /pages/users/[id] in 0.8s
-✓ Ready on http://localhost:3000`
+✓ Ready on http://localhost:3000`,
+    outputExplanation: "Next.js dev server starts in 2.3 seconds with hot module replacement enabled. The component compiles in ~1.2s showing TypeScript type-checking. The page route compiles separately, and the server is ready at localhost:3000 for development."
   },
   {
     title: "C# API Controller",
     language: "csharp",
+    description: "A .NET Core Web API controller following clean architecture principles. Features dependency injection for logging and services, async/await for non-blocking I/O, model validation, and proper HTTP status codes (200, 201, 400, 500). Uses the repository pattern via IProjectService.",
     code: `using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -682,7 +694,8 @@ info: Microsoft.Hosting.Lifetime[14]
 info: Microsoft.Hosting.Lifetime[0]
       Application started. Press Ctrl+C to shut down.
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 GET https://localhost:5001/api/projects`
+      Request starting HTTP/1.1 GET https://localhost:5001/api/projects`,
+    outputExplanation: "The .NET runtime starts Kestrel web server on both HTTPS (5001) and HTTP (5000) ports. The application lifecycle is managed by Microsoft.Hosting. The final log shows an incoming GET request to the projects endpoint, confirming the API is live and receiving traffic."
   }
 ];
 
@@ -837,7 +850,10 @@ export function CodingTerminal({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentSample((prev) => (prev + 1) % CODE_SAMPLES.length)}
+            onClick={() => {
+              setCurrentSample((prev) => (prev + 1) % CODE_SAMPLES.length);
+              setLines([]);
+            }}
             className="flex-1 sm:flex-none text-xs sm:text-sm"
           >
             Switch Sample
@@ -860,7 +876,7 @@ export function CodingTerminal({
         {/* Code Editor */}
         <div className="flex-1 border-b lg:border-b-0 lg:border-r flex flex-col min-h-0">
           <div className="p-3 sm:p-4 border-b bg-muted/30 flex-shrink-0">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 mb-2">
               <h3 className="font-semibold text-sm sm:text-base truncate flex-1">{CODE_SAMPLES[currentSample].title}</h3>
               <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
                 <Button 
@@ -884,6 +900,11 @@ export function CodingTerminal({
                   <span className="hidden sm:inline ml-2">Download</span>
                 </Button>
               </div>
+            </div>
+            {/* Code Description */}
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <Info className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-primary" />
+              <p className="leading-relaxed">{CODE_SAMPLES[currentSample].description}</p>
             </div>
           </div>
           <div className="flex-1 p-3 sm:p-4 overflow-auto min-h-0">
@@ -958,6 +979,19 @@ export function CodingTerminal({
               />
             )}
           </div>
+          {/* Output Explanation */}
+          {lines.length > 0 && !isRunning && !isTyping && (
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="p-3 sm:p-4 border-t bg-muted/30 flex-shrink-0"
+            >
+              <div className="flex items-start gap-2 text-xs text-muted-foreground">
+                <Lightbulb className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-yellow-500" />
+                <p className="leading-relaxed"><span className="font-medium text-foreground">What this means: </span>{CODE_SAMPLES[currentSample].outputExplanation}</p>
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </Card>
