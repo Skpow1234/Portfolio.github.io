@@ -24,6 +24,7 @@ export function Header() {
     { id: "about", label: t.nav.about },
     { id: "coding-terminal", label: "Terminal" },
     { id: "repositories", label: t.nav.repositories },
+    { id: "leetcode", label: t.nav.leetcode },
     { id: "experience", label: t.nav.experience },
     { id: "skills", label: t.nav.skills },
     { id: "education", label: t.nav.education },

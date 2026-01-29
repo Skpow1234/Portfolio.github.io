@@ -5,6 +5,7 @@ import { SkillsSection } from "@/components/sections/skills";
 import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
+import { LeetCodeSection } from "@/components/sections/leetcode";
 import { CodingTerminalSection } from "@/components/sections/coding-terminal-section";
 
 export default function LocaleHome() {
@@ -14,6 +15,7 @@ export default function LocaleHome() {
       <AboutMeSection />
       <CodingTerminalSection />
       <RepositoriesSection />
+      <LeetCodeSection />
       <WorkExperienceSection />
       <SkillsSection />
       <EducationSection />
