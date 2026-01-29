@@ -198,6 +198,7 @@ export function SkillsSection() {
                     height={40}
                     className="h-10 w-10 object-contain"
                     loading="lazy"
+                    unoptimized
                     onError={() => handleImgError(idx, candidates.length)}
                   />
                 )}

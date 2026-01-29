@@ -109,6 +109,19 @@ npm run dev
 npm run build
 ```
 
+For a faster (experimental) production build using Turbopack:
+
+```bash
+npm run build:turbo
+```
+
+## Performance
+
+- **Dev**: `npm run dev` uses Turbopack for faster startup and HMR.
+- **Build**: `npm run build:turbo` uses Turbopack (experimental) for faster compilation.
+- **Bundle**: Radix UI and other barrel exports are tree-shaken via `optimizePackageImports`.
+- **Lazy loading**: Chatbot and Coding Terminal load after the initial page so the first paint stays light.
+
 ## Customization
 
 1. **Personal Information**: Update the content in `lib/data/` directory
