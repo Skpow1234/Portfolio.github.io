@@ -20,19 +20,25 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   const { switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
-  const PRIMARY_SECTION_IDS = [
-    { id: "home", label: t.nav.home, icon: House },
-    { id: "about", label: t.nav.about, icon: User },
-    { id: "experience", label: t.nav.experience, icon: Briefcase },
-    { id: "repositories", label: t.nav.repositories, icon: FolderGit2 },
-    { id: "skills", label: t.nav.skills, icon: Wrench },
-    { id: "contact", label: t.nav.contact, icon: Mail },
-  ];
-  const SECONDARY_SECTION_IDS = [
-    { id: "leetcode", label: t.nav.leetcode, icon: Code2 },
-    { id: "coding-terminal", label: "Terminal", icon: Terminal },
-    { id: "education", label: t.nav.education, icon: GraduationCap },
-  ];
+  const PRIMARY_SECTION_IDS = useMemo(
+    () => [
+      { id: "home", label: t.nav.home, icon: House },
+      { id: "about", label: t.nav.about, icon: User },
+      { id: "experience", label: t.nav.experience, icon: Briefcase },
+      { id: "repositories", label: t.nav.repositories, icon: FolderGit2 },
+      { id: "skills", label: t.nav.skills, icon: Wrench },
+      { id: "contact", label: t.nav.contact, icon: Mail },
+    ],
+    [t.nav]
+  );
+  const SECONDARY_SECTION_IDS = useMemo(
+    () => [
+      { id: "leetcode", label: t.nav.leetcode, icon: Code2 },
+      { id: "coding-terminal", label: "Terminal", icon: Terminal },
+      { id: "education", label: t.nav.education, icon: GraduationCap },
+    ],
+    [t.nav]
+  );
   const secondarySectionIdSet = useMemo(
     () => new Set(SECONDARY_SECTION_IDS.map((section) => section.id)),
     [SECONDARY_SECTION_IDS]
