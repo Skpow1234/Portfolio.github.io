@@ -20,6 +20,11 @@ export function middleware(req: NextRequest) {
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set("x-nonce", nonce);
 
+  // Forward detected locale so the root layout can set lang= server-side
+  const pathname = req.nextUrl.pathname;
+  const locale = pathname.startsWith("/es") ? "es" : "en";
+  requestHeaders.set("x-locale", locale);
+
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,

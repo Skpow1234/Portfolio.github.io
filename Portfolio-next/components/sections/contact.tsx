@@ -77,7 +77,7 @@ export function ContactSection() {
           </DrawerContent>
         </Drawer>
         <div className="mt-4 flex items-center justify-center gap-4 text-sm">
-          <a href="mailto:juan@example.com" className="underline-offset-2 hover:underline">
+          <a href="mailto:jfhvjfhv0015@gmail.com" className="underline-offset-2 hover:underline">
             {currentLocale === 'en' ? 'Email directly' : 'Enviar email directamente'}
           </a>
         </div>

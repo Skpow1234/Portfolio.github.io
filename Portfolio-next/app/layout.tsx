@@ -64,10 +64,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const nonce = (await headers()).get('x-nonce') || undefined;
+  const headersList = await headers();
+  const nonce = headersList.get('x-nonce') || undefined;
+  const lang = headersList.get('x-locale') || 'en';
 
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
+    <html lang={lang} suppressHydrationWarning className="dark">
       <head>
         <Script
           defer

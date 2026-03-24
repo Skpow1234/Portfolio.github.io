@@ -4,7 +4,7 @@ import { sendContactMail } from './mailer';
 import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 export async function POST(req: NextRequest) {
-  const fromEmail = process.env.FROM_EMAIL || 'contact@example.com';
+  const fromEmail = process.env.FROM_EMAIL || 'jfhvjfhv0015@gmail.com';
 
   // Check rate limit (single call handles both blocking and headers)
   const { response: rateLimitResponse, headers, allowed } = checkRateLimit(req, 'contact');
