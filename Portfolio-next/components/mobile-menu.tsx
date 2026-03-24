@@ -48,7 +48,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="md:hidden p-2 hover:bg-accent hover:scale-105 transition-all duration-200"
+          className="md:hidden p-2 hover:bg-accent hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle menu</span>
@@ -88,7 +88,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   >
                     <button
                       onClick={() => handleNavClick(id)}
-                      className={`w-full text-left px-4 py-4 rounded-xl transition-all duration-200 hover:bg-accent hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                      className={`w-full text-left px-4 py-4 rounded-xl transition-all duration-200 hover:bg-accent hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
                         activeId === id
                           ? "bg-primary text-primary-foreground shadow-lg"
                           : "text-muted-foreground hover:text-foreground"

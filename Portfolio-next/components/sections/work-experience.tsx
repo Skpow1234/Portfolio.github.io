@@ -25,7 +25,7 @@ export function WorkExperienceSection() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              <Card className="p-6 transform transition-all duration-300 hover:scale-105">
+              <Card className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
                 <h3 className="text-xl font-semibold">{experience.title}</h3>
                 <p className="text-muted-foreground mb-1">{experience.company}</p>
                 <p className="text-sm text-muted-foreground mb-3">{experience.period}</p>

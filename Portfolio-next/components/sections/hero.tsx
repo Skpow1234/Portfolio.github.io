@@ -59,7 +59,7 @@ export function HeroSection() {
           <Button 
             variant="outline" 
             size="lg" 
-            className="w-full sm:w-auto group hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg touch-manipulation" 
+            className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation" 
             asChild
           >
             <a href="https://github.com/Skpow1234" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">
@@ -70,7 +70,7 @@ export function HeroSection() {
           <Button 
             variant="outline" 
             size="lg" 
-            className="w-full sm:w-auto group hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg touch-manipulation" 
+            className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation" 
             asChild
           >
             <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" target="_blank" rel="noopener noreferrer" aria-label="Visit LinkedIn profile">
@@ -83,7 +83,7 @@ export function HeroSection() {
               <Button 
                 variant="outline" 
                 size="lg" 
-                className="w-full sm:w-auto group hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg touch-manipulation"
+                className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation"
               >
                 <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
                 {t.nav.contact}

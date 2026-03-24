@@ -44,7 +44,7 @@ export function RepositoriesSection() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              <Card className="p-6 transform transition-all duration-300 hover:scale-105 h-full flex flex-col">
+              <Card className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md h-full flex flex-col">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <Github className="h-5 w-5 text-muted-foreground" />

@@ -17,7 +17,7 @@ export function EducationSection() {
         </h2>
         <div className="space-y-6">
           {education.map((edu, index) => (
-            <Card key={index} className="p-6 transform transition-all duration-300 hover:scale-105">
+            <Card key={index} className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
               <h3 className="text-xl font-semibold">{edu.institution}</h3>
               <p className="text-muted-foreground">{edu.degree}</p>
               <p className="text-sm text-muted-foreground">{edu.period}</p>

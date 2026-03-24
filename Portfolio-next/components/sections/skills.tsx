@@ -182,7 +182,7 @@ export function SkillsSection() {
             const currentSrc = candidates[currentAttempt];
             
             return (
-              <Card key={`${s.name}-${idx}`} className="flex flex-col items-center gap-2 p-4 transition-transform duration-200 hover:scale-[1.02]">
+              <Card key={`${s.name}-${idx}`} className="flex flex-col items-center gap-2 p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-sm">
                 {shouldShowFallback || !currentSrc ? (
                   <div 
                     aria-hidden 

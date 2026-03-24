@@ -140,7 +140,7 @@ export function Header() {
           <Button 
             size="sm" 
             onClick={() => handleNavClick("contact")} 
-            className="hidden sm:inline-flex hover:scale-105 transition-transform duration-200"
+            className="hidden sm:inline-flex transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
           > 
             {t.nav.contact}
           </Button>
