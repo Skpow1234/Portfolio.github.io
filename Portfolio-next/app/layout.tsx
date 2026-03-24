@@ -71,6 +71,8 @@ export default async function RootLayout({
   return (
     <html lang={lang} suppressHydrationWarning className="dark">
       <head>
+        <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
+        <link rel="dns-prefetch" href="//plausible.io" />
         <Script
           defer
           data-domain="juan-hurtado-senior-sde.vercel.app"
