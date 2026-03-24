@@ -70,9 +70,7 @@ export function Header() {
 
   const onCta = (type: string) => {
     // Plausible custom event if available
-    // @ts-ignore
     if (typeof window !== "undefined" && window?.plausible) {
-      // @ts-ignore
       window.plausible("CTA", { props: { type } });
     }
   };
