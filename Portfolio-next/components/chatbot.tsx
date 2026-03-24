@@ -84,6 +84,35 @@ export function Chatbot({ className }: ChatbotProps) {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    if (!isMobile || !isOpen) return;
+
+    const scrollY = window.scrollY;
+    const originalBodyStyle = {
+      overflow: document.body.style.overflow,
+      position: document.body.style.position,
+      top: document.body.style.top,
+      width: document.body.style.width,
+    };
+
+    // Prevent background scroll bleed while chat panel is open on mobile.
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+
+    return () => {
+      document.body.style.overflow = originalBodyStyle.overflow;
+      document.body.style.position = originalBodyStyle.position;
+      document.body.style.top = originalBodyStyle.top;
+      document.body.style.width = originalBodyStyle.width;
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
+
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
