@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 
 Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: (query: string) => ({
+  value: (query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -26,4 +26,12 @@ Object.defineProperty(window, "visualViewport", {
 if (!Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = jest.fn();
 }
+
+class MockIntersectionObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+global.IntersectionObserver = MockIntersectionObserver;
 
