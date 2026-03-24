@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Mail, MapPin, ArrowDown, Download } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
@@ -57,11 +57,21 @@ export function HeroSection() {
         </motion.div>
 
         <motion.div 
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-4"
+          className="flex flex-col items-center justify-center gap-3 pt-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
+          <Button
+            variant="default"
+            size="lg"
+            className="w-full sm:w-auto min-w-44 group transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 touch-manipulation"
+            onClick={handleScrollToContact}
+          >
+            <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+            {t.nav.contact}
+          </Button>
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
           <Button 
             variant="outline" 
             size="lg" 
@@ -84,15 +94,7 @@ export function HeroSection() {
               LinkedIn
             </a>
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation"
-            onClick={handleScrollToContact}
-          >
-            <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-            {t.nav.contact}
-          </Button>
+          </div>
         </motion.div>
 
         <motion.div 
