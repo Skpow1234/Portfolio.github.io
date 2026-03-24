@@ -36,6 +36,7 @@ export function Chatbot({ className }: ChatbotProps) {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sendError, setSendError] = useState<string | null>(null);
   const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -96,6 +97,7 @@ export function Chatbot({ className }: ChatbotProps) {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    setSendError(null);
 
     try {
       const response = await fetch('/api/chatbot', {
@@ -121,9 +123,14 @@ export function Chatbot({ className }: ChatbotProps) {
 
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
+      const errorMessage =
+        currentLocale === 'es'
+          ? 'No se pudo obtener respuesta. Intenta de nuevo.'
+          : 'Failed to get response. Please try again.';
+      setSendError(errorMessage);
       toast({
         title: "Error",
-        description: "Failed to get response. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -296,6 +303,21 @@ export function Chatbot({ className }: ChatbotProps) {
                       <Send className="h-4 w-4" />
                     </Button>
                   </div>
+                  {sendError && (
+                    <div className="mt-3 rounded-lg border border-border/60 bg-secondary/30 p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm text-muted-foreground">{sendError}</p>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSendError(null)}
+                        >
+                          {currentLocale === 'es' ? 'Cerrar' : 'Dismiss'}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </>
             )}

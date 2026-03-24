@@ -204,8 +204,8 @@ export function LeetCodeSection() {
                 )}
 
                 {error && !loading && (
-                  <div className="space-y-4">
-                    <p className="text-muted-foreground text-sm">{t.leetcode.previewError}</p>
+                  <div className="space-y-3 rounded-lg border border-border/60 bg-secondary/30 p-3">
+                    <p className="text-sm text-muted-foreground">{t.leetcode.previewError}</p>
                     <a
                       href={LEETCODE_PROFILE_URL}
                       target="_blank"
@@ -213,7 +213,7 @@ export function LeetCodeSection() {
                       className="inline-flex"
                       aria-label={t.leetcode.visitProfile}
                     >
-                      <Button variant="default" className="gap-2 bg-[#FFA116] hover:bg-[#e8920d] text-black">
+                      <Button variant="outline" className="gap-2">
                         {t.leetcode.viewProfile}
                         <ExternalLink className="h-4 w-4" />
                       </Button>

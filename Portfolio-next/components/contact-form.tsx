@@ -19,6 +19,7 @@ type FormState = ContactFormData & { website?: string };
 export function ContactForm({ onSuccess }: ContactFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormState>({
     name: "",
     email: "",
@@ -32,6 +33,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     e.preventDefault();
     setIsLoading(true);
     setErrors({});
+    setSubmitError(null);
 
     // Client-side validation
     const extendedSchema = ContactSchema.extend({ website: z.string().max(0, "Spam detected") });
@@ -68,6 +70,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
       setFormData({ name: "", email: "", subject: "", message: "", website: "" });
       onSuccess?.();
     } catch (error) {
+      setSubmitError("Failed to send message. Please try again later.");
       toast({
         title: "Error",
         description: "Failed to send message. Please try again later.",
@@ -186,6 +189,11 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
         <p id="loading-description" className="sr-only">
           Form is being submitted, please wait
         </p>
+      )}
+      {submitError && (
+        <div className="rounded-lg border border-border/60 bg-secondary/30 p-3">
+          <p className="text-sm text-muted-foreground">{submitError}</p>
+        </div>
       )}
     </form>
   );
