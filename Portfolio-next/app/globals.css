@@ -153,6 +153,25 @@
   margin-bottom: 0 !important;
 }
 
+/* Mobile/touch performance profile: lighter and shorter motion */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  [role="button"],
+  input,
+  textarea,
+  select {
+    transition-duration: 0.12s !important;
+  }
+
+  .timeline-item {
+    animation-duration: 0.25s;
+  }
+
+  .timeline-content {
+    transform: none !important;
+  }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
