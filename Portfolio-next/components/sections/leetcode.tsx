@@ -30,6 +30,9 @@ interface LeetCodeStats {
   ranking: number;
 }
 
+const LOCAL_CACHE_KEY = "leetcode-stats-cache-v1";
+const LOCAL_CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
+
 export function LeetCodeSection() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
@@ -39,36 +42,82 @@ export function LeetCodeSection() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/leetcode-stats")
+    let hasLocalCache = false;
+
+    const applyStats = (data: any) => {
+      setStats({
+        totalSolved: data.totalSolved,
+        easySolved: data.easySolved,
+        totalEasy: data.totalEasy,
+        mediumSolved: data.mediumSolved,
+        totalMedium: data.totalMedium,
+        hardSolved: data.hardSolved,
+        totalHard: data.totalHard,
+        acceptanceRate: data.acceptanceRate,
+        ranking: data.ranking,
+      });
+    };
+
+    // Immediate UI from local cache (if fresh), then background refresh.
+    try {
+      const raw = localStorage.getItem(LOCAL_CACHE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as { cachedAt: number; data: LeetCodeStats };
+        if (Date.now() - parsed.cachedAt < LOCAL_CACHE_TTL_MS) {
+          applyStats(parsed.data);
+          setLoading(false);
+          hasLocalCache = true;
+        }
+      }
+    } catch {
+      // ignore local cache parse errors
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    fetch("/api/leetcode-stats", { signal: controller.signal })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
       })
       .then((data) => {
         if (!cancelled && data.status === "success") {
-          setStats({
-            totalSolved: data.totalSolved,
-            easySolved: data.easySolved,
-            totalEasy: data.totalEasy,
-            mediumSolved: data.mediumSolved,
-            totalMedium: data.totalMedium,
-            hardSolved: data.hardSolved,
-            totalHard: data.totalHard,
-            acceptanceRate: data.acceptanceRate,
-            ranking: data.ranking,
-          });
+          applyStats(data);
+          localStorage.setItem(
+            LOCAL_CACHE_KEY,
+            JSON.stringify({
+              cachedAt: Date.now(),
+              data: {
+                totalSolved: data.totalSolved,
+                easySolved: data.easySolved,
+                totalEasy: data.totalEasy,
+                mediumSolved: data.mediumSolved,
+                totalMedium: data.totalMedium,
+                hardSolved: data.hardSolved,
+                totalHard: data.totalHard,
+                acceptanceRate: data.acceptanceRate,
+                ranking: data.ranking,
+              },
+            })
+          );
+          setError(false);
         } else if (!cancelled) {
           setError(true);
         }
       })
       .catch(() => {
-        if (!cancelled) setError(true);
+        if (!cancelled && !hasLocalCache) setError(true);
       })
       .finally(() => {
+        clearTimeout(timeout);
         if (!cancelled) setLoading(false);
       });
+
     return () => {
       cancelled = true;
+      clearTimeout(timeout);
+      controller.abort();
     };
   }, []);
 

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 const LEETCODE_USERNAME = 'Skpow1234';
 const LEETCODE_STATS_API = `https://leetcode-stats-api.herokuapp.com/${LEETCODE_USERNAME}`;
+const CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
+const FETCH_TIMEOUT_MS = 6000;
 
 // Cache for 1 hour (stats don't change every second)
 export const revalidate = 3600;
@@ -24,11 +26,22 @@ export interface LeetCodeStatsResponse {
   submissionCalendar?: Record<string, number>;
 }
 
-export async function GET() {
+type CacheEntry = {
+  data: LeetCodeStatsResponse;
+  cachedAt: number;
+};
+
+let memoryCache: CacheEntry | null = null;
+
+async function fetchLeetCodeStats(): Promise<LeetCodeStatsResponse> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
   try {
     const res = await fetch(LEETCODE_STATS_API, {
       next: { revalidate: 3600 },
       headers: { 'User-Agent': 'Portfolio-App' },
+      signal: controller.signal,
     });
 
     if (!res.ok) {
@@ -41,9 +54,39 @@ export async function GET() {
       throw new Error(data.message || 'Failed to retrieve stats');
     }
 
-    return NextResponse.json(data);
+    return data;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+export async function GET() {
+  const now = Date.now();
+
+  // Fast path: return warm cache immediately.
+  if (memoryCache && now - memoryCache.cachedAt < CACHE_TTL_MS) {
+    return NextResponse.json(memoryCache.data, {
+      headers: { 'X-Cache': 'HIT' },
+    });
+  }
+
+  try {
+    const data = await fetchLeetCodeStats();
+    memoryCache = { data, cachedAt: now };
+
+    return NextResponse.json(data, {
+      headers: { 'X-Cache': 'MISS' },
+    });
   } catch (error) {
     console.error('Error fetching LeetCode stats:', error);
+
+    // Fallback: serve stale cache if available instead of failing.
+    if (memoryCache) {
+      return NextResponse.json(memoryCache.data, {
+        headers: { 'X-Cache': 'STALE' },
+      });
+    }
+
     return NextResponse.json(
       { error: 'Failed to fetch LeetCode statistics' },
       { status: 500 }
