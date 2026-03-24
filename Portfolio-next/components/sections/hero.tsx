@@ -2,6 +2,7 @@
 
 import { Github, Linkedin, Mail, MapPin, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
@@ -40,6 +41,21 @@ export function HeroSection() {
           transition={{ duration: 0.8 }}
           className="space-y-4"
         >
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex justify-center"
+          >
+            <Badge
+              variant="outline"
+              className="gap-2 rounded-full border-border/70 bg-secondary/40 px-3 py-1 text-xs font-medium text-foreground"
+              aria-label={currentLocale === "en" ? "Open to work" : "Disponible para trabajar"}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-foreground/80" aria-hidden="true" />
+              {currentLocale === "en" ? "Open to work" : "Disponible para trabajar"}
+            </Badge>
+          </motion.div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Juan Hurtado
           </h1>
