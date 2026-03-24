@@ -91,8 +91,8 @@ export function Header() {
       "sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
       isScrolled && "shadow-lg bg-background/95"
     )}>
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
-        <div className="flex items-center gap-6">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-2.5 sm:px-6 sm:py-3">
+        <div className="flex items-center gap-3 sm:gap-6">
           <a 
             href="https://github.com/Skpow1234"
             target="_blank"
@@ -128,10 +128,10 @@ export function Header() {
             ))}
           </nav>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <select
             aria-label="Language selector"
-            className="h-9 rounded-md border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
+            className="h-8 w-[60px] rounded-md border bg-background px-1.5 text-xs sm:h-9 sm:w-auto sm:px-2 sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
             onChange={(e) => switchLocale(e.target.value as "en" | "es")}
             title={currentLocale === 'en' ? 'Select language' : 'Seleccionar idioma'}
