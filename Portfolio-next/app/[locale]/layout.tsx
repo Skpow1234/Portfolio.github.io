@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LocaleProvider } from "@/components/locale-provider";
 import { Header } from "@/components/header";
 import { ChatbotLazy } from "@/components/chatbot-lazy";
+import { BackToTopButton } from "@/components/back-to-top";
 import { DocumentLang } from "@/components/document-lang";
 import { Locale } from "@/lib/i18n";
 
@@ -29,6 +30,7 @@ export default async function LocaleLayout({
       <Header />
       {children}
       <ChatbotLazy />
+      <BackToTopButton />
       <footer className="border-t">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
           <p>© {new Date().getFullYear()} Juan Hurtado</p>
