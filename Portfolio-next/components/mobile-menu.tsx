@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface MobileMenuProps {
   activeId: string;
@@ -15,20 +15,23 @@ interface MobileMenuProps {
 
 export function MobileMenu({ activeId }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const { locale: currentLocale } = useLocaleContext();
   const { switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
-  const SECTION_IDS = [
+  const PRIMARY_SECTION_IDS = [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
-    { id: "coding-terminal", label: "Terminal" },
     { id: "repositories", label: t.nav.repositories },
-    { id: "leetcode", label: t.nav.leetcode },
     { id: "experience", label: t.nav.experience },
+    { id: "contact", label: t.nav.contact },
+  ];
+  const SECONDARY_SECTION_IDS = [
+    { id: "coding-terminal", label: "Terminal" },
+    { id: "leetcode", label: t.nav.leetcode },
     { id: "skills", label: t.nav.skills },
     { id: "education", label: t.nav.education },
-    { id: "contact", label: t.nav.contact },
   ];
 
   const handleNavClick = (sectionId: string) => {
@@ -72,42 +75,68 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
 
           {/* Navigation */}
           <nav className="flex-1 p-6" role="navigation" aria-label="Mobile navigation">
-            <ul className="space-y-3">
-              <AnimatePresence>
-                {SECTION_IDS.map(({ id, label }, index) => (
-                  <motion.li
-                    key={id}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
+            <ul className="space-y-2">
+              {PRIMARY_SECTION_IDS.map(({ id, label }, index) => (
+                <motion.li
+                  key={id}
+                  initial={{ opacity: 0, x: 12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.24, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <button
+                    onClick={() => handleNavClick(id)}
+                    className={`w-full rounded-2xl px-4 py-3 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                      activeId === id
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                    }`}
+                    aria-current={activeId === id ? 'page' : undefined}
                   >
-                    <button
-                      onClick={() => handleNavClick(id)}
-                      className={`w-full text-left px-4 py-4 rounded-xl transition-all duration-200 hover:bg-accent hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
-                        activeId === id
-                          ? "bg-primary text-primary-foreground shadow-lg"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                      aria-current={activeId === id ? 'page' : undefined}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="font-medium text-base">{label}</span>
-                        {activeId === id && (
-                          <motion.div
-                            layoutId="activeIndicator"
-                            className="w-2 h-2 bg-primary-foreground rounded-full"
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                          />
-                        )}
-                      </div>
-                    </button>
-                  </motion.li>
-                ))}
-              </AnimatePresence>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-base">{label}</span>
+                      {activeId === id && (
+                        <span className="h-2 w-2 rounded-full bg-primary-foreground" aria-hidden="true" />
+                      )}
+                    </div>
+                  </button>
+                </motion.li>
+              ))}
             </ul>
+
+            <div className="mt-5 border-t border-border/60 pt-4">
+              <button
+                type="button"
+                onClick={() => setShowMore((prev) => !prev)}
+                className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                aria-expanded={showMore}
+              >
+                <span>{currentLocale === "en" ? "More sections" : "Más secciones"}</span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform duration-200 ${showMore ? "rotate-180" : ""}`}
+                  aria-hidden="true"
+                />
+              </button>
+
+              {showMore && (
+                <ul className="mt-2 space-y-1">
+                  {SECONDARY_SECTION_IDS.map(({ id, label }) => (
+                    <li key={id}>
+                      <button
+                        onClick={() => handleNavClick(id)}
+                        className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                          activeId === id
+                            ? "bg-primary/20 text-foreground"
+                            : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                        }`}
+                        aria-current={activeId === id ? "page" : undefined}
+                      >
+                        {label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </nav>
 
           {/* Footer */}
