@@ -44,7 +44,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="md:hidden p-2 hover:bg-accent hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
+          className="h-11 w-11 md:hidden p-0 hover:bg-accent hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
         >
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle menu</span>
@@ -68,7 +68,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
               variant="ghost"
               size="sm"
               onClick={() => setOpen(false)}
-              className="p-2 hover:bg-accent"
+              className="h-11 w-11 p-0 hover:bg-accent"
             >
               <span className="sr-only">Close menu</span>
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,7 +130,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   switchLocale('en');
                   setOpen(false);
                 }}
-                className="flex-1"
+                className="h-11 flex-1"
                 aria-label="Switch to English"
               >
                 EN
@@ -142,7 +142,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   switchLocale('es');
                   setOpen(false);
                 }}
-                className="flex-1"
+                className="h-11 flex-1"
                 aria-label="Cambiar a Español"
               >
                 ES
@@ -154,7 +154,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full"
+                className="h-11 w-full"
                 onClick={() => {
                   handleNavClick('contact');
                 }}

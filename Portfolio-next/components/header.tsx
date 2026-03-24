@@ -97,7 +97,7 @@ export function Header() {
             href="https://github.com/Skpow1234"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded p-1"
+            className="flex h-11 w-11 items-center justify-center rounded hover:text-primary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:h-auto sm:w-auto sm:p-1"
             aria-label="Visit GitHub profile"
           >
             <Github className="h-6 w-6" />
@@ -131,7 +131,7 @@ export function Header() {
         <div className="flex items-center gap-1.5 sm:gap-2">
           <select
             aria-label="Language selector"
-            className="h-8 w-[60px] rounded-md border bg-background px-1.5 text-xs sm:h-9 sm:w-auto sm:px-2 sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
+            className="h-11 w-[64px] rounded-md border bg-background px-1.5 text-xs sm:h-9 sm:w-auto sm:px-2 sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
             onChange={(e) => switchLocale(e.target.value as "en" | "es")}
             title={currentLocale === 'en' ? 'Select language' : 'Seleccionar idioma'}
