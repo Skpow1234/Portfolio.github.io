@@ -2,15 +2,11 @@
 
 import { Github, Linkedin, Mail, MapPin, ArrowDown, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ContactForm } from "@/components/contact-form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { motion } from "framer-motion";
 
 export function HeroSection() {
-  const [open, setOpen] = useState(false);
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
@@ -20,6 +16,16 @@ export function HeroSection() {
       element.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
+      });
+    }
+  };
+
+  const handleScrollToContact = () => {
+    const element = document.getElementById("contact");
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
     }
   };
@@ -78,26 +84,15 @@ export function HeroSection() {
               LinkedIn
             </a>
           </Button>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation"
-              >
-                <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-                {t.nav.contact}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>
-                  {t.contact.sendMessage}
-                </DialogTitle>
-              </DialogHeader>
-              <ContactForm onSuccess={() => setOpen(false)} />
-            </DialogContent>
-          </Dialog>
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation"
+            onClick={handleScrollToContact}
+          >
+            <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+            {t.nav.contact}
+          </Button>
         </motion.div>
 
         <motion.div 
