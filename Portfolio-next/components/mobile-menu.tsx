@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { ChevronDown, Menu } from "lucide-react";
+import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, Menu, Terminal, User, Wrench } from "lucide-react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
@@ -21,17 +21,17 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   const t = getTranslation(currentLocale);
 
   const PRIMARY_SECTION_IDS = [
-    { id: "home", label: t.nav.home },
-    { id: "about", label: t.nav.about },
-    { id: "experience", label: t.nav.experience },
-    { id: "repositories", label: t.nav.repositories },
-    { id: "skills", label: t.nav.skills },
-    { id: "contact", label: t.nav.contact },
+    { id: "home", label: t.nav.home, icon: House },
+    { id: "about", label: t.nav.about, icon: User },
+    { id: "experience", label: t.nav.experience, icon: Briefcase },
+    { id: "repositories", label: t.nav.repositories, icon: FolderGit2 },
+    { id: "skills", label: t.nav.skills, icon: Wrench },
+    { id: "contact", label: t.nav.contact, icon: Mail },
   ];
   const SECONDARY_SECTION_IDS = [
-    { id: "leetcode", label: t.nav.leetcode },
-    { id: "coding-terminal", label: "Terminal" },
-    { id: "education", label: t.nav.education },
+    { id: "leetcode", label: t.nav.leetcode, icon: Code2 },
+    { id: "coding-terminal", label: "Terminal", icon: Terminal },
+    { id: "education", label: t.nav.education, icon: GraduationCap },
   ];
   const secondarySectionIdSet = useMemo(
     () => new Set(SECONDARY_SECTION_IDS.map((section) => section.id)),
@@ -94,7 +94,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
           {/* Navigation */}
           <nav className="flex-1 p-6" role="navigation" aria-label="Mobile navigation">
             <ul className="space-y-2">
-              {PRIMARY_SECTION_IDS.map(({ id, label }, index) => (
+              {PRIMARY_SECTION_IDS.map(({ id, label, icon: Icon }, index) => (
                 <motion.li
                   key={id}
                   initial={{ opacity: 0, x: 12 }}
@@ -111,7 +111,10 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                     aria-current={activeId === id ? 'page' : undefined}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-base">{label}</span>
+                      <span className="flex items-center gap-2.5">
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                        <span className="font-medium text-base">{label}</span>
+                      </span>
                       {activeId === id && (
                         <span className="h-2 w-2 rounded-full bg-primary-foreground" aria-hidden="true" />
                       )}
@@ -137,7 +140,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
 
               {showMore && (
                 <ul className="mt-2 space-y-1">
-                  {SECONDARY_SECTION_IDS.map(({ id, label }) => (
+                  {SECONDARY_SECTION_IDS.map(({ id, label, icon: Icon }) => (
                     <li key={id}>
                       <button
                         onClick={() => handleNavClick(id)}
@@ -148,7 +151,10 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                         }`}
                         aria-current={activeId === id ? "page" : undefined}
                       >
-                        {label}
+                        <span className="flex items-center gap-2.5">
+                          <Icon className="h-4 w-4" aria-hidden="true" />
+                          <span>{label}</span>
+                        </span>
                       </button>
                     </li>
                   ))}
