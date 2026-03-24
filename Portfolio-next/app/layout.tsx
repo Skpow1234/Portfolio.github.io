@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -65,6 +66,12 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="dark">
       <head>
+        <Script
+          defer
+          data-domain="juan-hurtado-senior-sde.vercel.app"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
