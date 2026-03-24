@@ -277,7 +277,13 @@ export function Chatbot({ className }: ChatbotProps) {
           className="group relative"
         >
           <span
-            className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2.5 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100"
+            className="pointer-events-none absolute right-16 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2.5 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100 sm:block"
+            aria-hidden="true"
+          >
+            Juan AI
+          </span>
+          <span
+            className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded-full border border-border/70 bg-background/95 px-2 py-0.5 text-[11px] font-medium text-foreground shadow-sm sm:hidden"
             aria-hidden="true"
           >
             Juan AI
