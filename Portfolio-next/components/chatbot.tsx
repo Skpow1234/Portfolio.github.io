@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, Bot, User, X, Minimize2, Maximize2 } from 'lucide-react';
+import { Send, Bot, User, X, Minimize2, Maximize2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import { useLocaleContext } from '@/components/locale-provider';
@@ -262,13 +262,24 @@ export function Chatbot({ className }: ChatbotProps) {
           animate={{ scale: 1 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          className="group relative"
         >
+          <span
+            className="pointer-events-none absolute right-16 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2.5 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100"
+            aria-hidden="true"
+          >
+            Juan AI
+          </span>
           <Button
             onClick={() => setIsOpen(true)}
-            className="w-14 h-14 rounded-full shadow-lg bg-primary hover:bg-primary/90"
+            className="w-14 h-14 rounded-full border border-black/30 shadow-lg bg-primary text-black hover:bg-primary/90"
             size="lg"
+            aria-label="Open Juan AI chatbot"
+            title="Juan AI"
           >
-            <MessageCircle className="h-6 w-6" />
+            <span className="text-2xl leading-none" aria-hidden="true">
+              🤖
+            </span>
           </Button>
         </motion.div>
       )}
