@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ChevronDown, Menu } from "lucide-react";
@@ -33,6 +33,16 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
     { id: "coding-terminal", label: "Terminal" },
     { id: "education", label: t.nav.education },
   ];
+  const secondarySectionIdSet = useMemo(
+    () => new Set(SECONDARY_SECTION_IDS.map((section) => section.id)),
+    [SECONDARY_SECTION_IDS]
+  );
+
+  useEffect(() => {
+    if (open && secondarySectionIdSet.has(activeId)) {
+      setShowMore(true);
+    }
+  }, [activeId, open, secondarySectionIdSet]);
 
   const handleNavClick = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -46,7 +56,15 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   };
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet
+      open={open}
+      onOpenChange={(nextOpen) => {
+        setOpen(nextOpen);
+        if (!nextOpen) {
+          setShowMore(false);
+        }
+      }}
+    >
       <SheetTrigger asChild>
         <Button
           variant="ghost"
