@@ -34,11 +34,12 @@ export function BackToTopButton() {
 
   return (
     <div
-      className={`fixed bottom-24 right-4 z-[60] transition-all duration-300 ${
+      className={`fixed right-4 z-[60] transition-all duration-300 ${
         visible && !chatbotOpen
           ? "translate-y-0 opacity-100 pointer-events-auto"
           : "translate-y-2 opacity-0 pointer-events-none"
       }`}
+      style={{ bottom: "calc(6rem + env(safe-area-inset-bottom))" }}
     >
       <Button
         type="button"

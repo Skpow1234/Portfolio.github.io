@@ -123,7 +123,10 @@ export function Chatbot({ className }: ChatbotProps) {
   ];
 
   return (
-    <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
+    <div
+      className={`fixed right-4 z-50 ${className}`}
+      style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
+    >
       <AnimatePresence>
         {isOpen && (
           <motion.div
