@@ -201,7 +201,7 @@ export function LeetCodeSection() {
                       <p className="text-2xl font-bold tabular-nums">{stats.totalSolved}</p>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="grid grid-cols-2 gap-3 text-center sm:grid-cols-3">
                       <div className="rounded-lg bg-green-500/10 dark:bg-green-500/20 px-3 py-2">
                         <p className="text-xs font-medium text-green-700 dark:text-green-400">
                           {t.leetcode.easy}
