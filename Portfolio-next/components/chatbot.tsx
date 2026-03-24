@@ -49,6 +49,16 @@ export function Chatbot({ className }: ChatbotProps) {
     scrollToBottom();
   }, [messages]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("chatbot-visibility-change", {
+          detail: { isOpen },
+        })
+      );
+    }
+  }, [isOpen]);
+
   const sendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
