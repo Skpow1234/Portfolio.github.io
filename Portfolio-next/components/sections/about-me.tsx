@@ -38,7 +38,7 @@ export function AboutMeSection() {
   ];
 
   return (
-    <section id="about" className="scroll-mt-24 py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative">
+    <section id="about" className="scroll-mt-24 py-20 sm:py-24 px-4 sm:px-6 lg:px-8 relative bg-secondary/20 border-y border-border/40">
       {/* Background pattern */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/20 to-transparent" />
       

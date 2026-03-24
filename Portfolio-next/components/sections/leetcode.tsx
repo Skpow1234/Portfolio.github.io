@@ -73,7 +73,7 @@ export function LeetCodeSection() {
   }, []);
 
   return (
-    <section id="leetcode" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/50">
+    <section id="leetcode" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/40 border-y border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
           {t.leetcode.title}

@@ -22,7 +22,7 @@ export function ContactSection() {
   const t = getTranslation(currentLocale);
 
   return (
-    <section id="contact" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-t border-border/40">
       <motion.div
         className="max-w-2xl mx-auto text-center"
         initial={sectionMotion.initial}

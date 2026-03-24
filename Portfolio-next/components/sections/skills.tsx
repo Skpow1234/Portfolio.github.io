@@ -154,7 +154,7 @@ export function SkillsSection() {
   };
 
   return (
-    <section id="skills" className="scroll-mt-24 py-16 sm:py-20 bg-secondary/50">
+    <section id="skills" className="scroll-mt-24 py-16 sm:py-20 bg-secondary/40 border-y border-border/40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">{t.skills.title}</h2>
         <div className="mb-6 flex flex-wrap items-center justify-center gap-2">
