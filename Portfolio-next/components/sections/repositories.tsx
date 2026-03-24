@@ -8,6 +8,13 @@ import { getTranslation } from "@/lib/i18n";
 import { ExternalLink, Github, Star, GitFork } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+const sectionMotion = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+};
+
 export function RepositoriesSection() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
@@ -39,10 +46,13 @@ export function RepositoriesSection() {
           {repositories.map((repo, index) => (
             <motion.div
               key={repo.name}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              initial={sectionMotion.initial}
+              whileInView={sectionMotion.whileInView}
+              viewport={sectionMotion.viewport}
+              transition={{
+                ...sectionMotion.transition,
+                delay: index * 0.08,
+              }}
             >
               <Card className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md h-full flex flex-col">
                 <div className="flex items-start justify-between mb-4">

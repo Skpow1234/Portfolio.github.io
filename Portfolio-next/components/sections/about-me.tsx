@@ -8,6 +8,13 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { User, Code, Rocket, Target } from "lucide-react";
 
+const sectionMotion = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+};
+
 export function AboutMeSection() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
@@ -37,10 +44,10 @@ export function AboutMeSection() {
       
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8 }}
+          initial={sectionMotion.initial}
+          whileInView={sectionMotion.whileInView}
+          viewport={sectionMotion.viewport}
+          transition={sectionMotion.transition}
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
@@ -52,10 +59,10 @@ export function AboutMeSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Main content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={sectionMotion.initial}
+            whileInView={sectionMotion.whileInView}
+            viewport={sectionMotion.viewport}
+            transition={{ ...sectionMotion.transition, delay: 0.08 }}
             className="space-y-6"
           >
             <div className="prose prose-lg dark:prose-invert max-w-none">
@@ -72,10 +79,10 @@ export function AboutMeSection() {
               {highlights.map((highlight, index) => (
                 <motion.div
                   key={highlight.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  initial={sectionMotion.initial}
+                  whileInView={sectionMotion.whileInView}
+                  viewport={sectionMotion.viewport}
+                  transition={{ ...sectionMotion.transition, delay: 0.16 + index * 0.08 }}
                 >
                   <Card className="p-4 text-center hover:shadow-lg transition-all duration-300 group">
                     <highlight.icon className="h-8 w-8 mx-auto mb-3 text-primary group-hover:scale-110 transition-transform duration-300" />
@@ -89,10 +96,10 @@ export function AboutMeSection() {
 
           {/* Visual element */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={sectionMotion.initial}
+            whileInView={sectionMotion.whileInView}
+            viewport={sectionMotion.viewport}
+            transition={{ ...sectionMotion.transition, delay: 0.16 }}
             className="relative"
           >
             <Card className="p-8 bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/10">

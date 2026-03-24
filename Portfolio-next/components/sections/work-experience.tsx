@@ -6,6 +6,13 @@ import { motion } from "framer-motion";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 
+const sectionMotion = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+};
+
 export function WorkExperienceSection() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
@@ -20,10 +27,13 @@ export function WorkExperienceSection() {
           {workExperience.map((experience, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              initial={sectionMotion.initial}
+              whileInView={sectionMotion.whileInView}
+              viewport={sectionMotion.viewport}
+              transition={{
+                ...sectionMotion.transition,
+                delay: index * 0.08,
+              }}
             >
               <Card className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
                 <h3 className="text-xl font-semibold">{experience.title}</h3>

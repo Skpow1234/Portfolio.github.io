@@ -8,6 +8,13 @@ import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
+const sectionMotion = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+};
+
 const LEETCODE_USERNAME = "Skpow1234";
 const LEETCODE_PROFILE_URL = `https://leetcode.com/u/${LEETCODE_USERNAME}/`;
 
@@ -73,10 +80,10 @@ export function LeetCodeSection() {
         </h2>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4 }}
+          initial={sectionMotion.initial}
+          whileInView={sectionMotion.whileInView}
+          viewport={sectionMotion.viewport}
+          transition={sectionMotion.transition}
           className="space-y-6"
         >
           {/* Brief intro */}

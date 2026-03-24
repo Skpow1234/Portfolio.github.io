@@ -7,6 +7,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useState } from "react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
+import { motion } from "framer-motion";
+
+const sectionMotion = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
+};
 
 export function ContactSection() {
   const [open, setOpen] = useState(false);
@@ -15,7 +23,13 @@ export function ContactSection() {
 
   return (
     <section id="contact" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto text-center">
+      <motion.div
+        className="max-w-2xl mx-auto text-center"
+        initial={sectionMotion.initial}
+        whileInView={sectionMotion.whileInView}
+        viewport={sectionMotion.viewport}
+        transition={sectionMotion.transition}
+      >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
           {currentLocale === 'en' ? "Let's Connect" : "Conectemos"}
         </h2>
@@ -46,7 +60,7 @@ export function ContactSection() {
             {currentLocale === 'en' ? 'Email directly' : 'Enviar email directamente'}
           </a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
