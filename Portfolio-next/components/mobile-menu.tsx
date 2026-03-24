@@ -22,8 +22,12 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   const SECTION_IDS = [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
+    { id: "coding-terminal", label: "Terminal" },
     { id: "repositories", label: t.nav.repositories },
+    { id: "leetcode", label: t.nav.leetcode },
     { id: "experience", label: t.nav.experience },
+    { id: "skills", label: t.nav.skills },
+    { id: "education", label: t.nav.education },
     { id: "contact", label: t.nav.contact },
   ];
 
@@ -53,7 +57,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
       <SheetContent side="right" className="w-[280px] sm:w-[350px] p-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b">
+          <div className="p-6 border-b">
             <div>
               <SheetTitle>
                 {currentLocale === 'en' ? 'Navigation' : 'Navegación'}
@@ -64,17 +68,6 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   : 'Selecciona una sección para navegar el portafolio'}
               </SheetDescription>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setOpen(false)}
-              className="h-11 w-11 p-0 hover:bg-accent"
-            >
-              <span className="sr-only">Close menu</span>
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </Button>
           </div>
 
           {/* Navigation */}

@@ -36,6 +36,7 @@ export function Chatbot({ className }: ChatbotProps) {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const { locale: currentLocale } = useLocaleContext();
@@ -48,6 +49,29 @@ export function Chatbot({ className }: ChatbotProps) {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updateViewportHeight = () => {
+      const vv = window.visualViewport;
+      const height = vv ? Math.round(vv.height) : window.innerHeight;
+      setViewportHeight(height);
+    };
+
+    updateViewportHeight();
+
+    const vv = window.visualViewport;
+    vv?.addEventListener("resize", updateViewportHeight);
+    vv?.addEventListener("scroll", updateViewportHeight);
+    window.addEventListener("resize", updateViewportHeight);
+
+    return () => {
+      vv?.removeEventListener("resize", updateViewportHeight);
+      vv?.removeEventListener("scroll", updateViewportHeight);
+      window.removeEventListener("resize", updateViewportHeight);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -139,6 +163,11 @@ export function Chatbot({ className }: ChatbotProps) {
                 ? 'h-12 w-[calc(100vw-1rem)] max-w-sm sm:w-80'
                 : 'h-[70vh] max-h-[560px] w-[calc(100vw-1rem)] max-w-sm sm:h-[500px] sm:w-96'
             } flex flex-col`}
+            style={
+              !isMinimized && viewportHeight
+                ? { height: `min(560px, calc(${viewportHeight}px - 7.5rem))` }
+                : undefined
+            }
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b bg-primary/5">
@@ -254,6 +283,10 @@ export function Chatbot({ className }: ChatbotProps) {
                       placeholder="Ask me anything about Juan..."
                       disabled={isLoading}
                       className="flex-1"
+                      enterKeyHint="send"
+                      autoComplete="off"
+                      autoCorrect="on"
+                      autoCapitalize="sentences"
                     />
                     <Button
                       onClick={sendMessage}

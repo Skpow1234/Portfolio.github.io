@@ -110,6 +110,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? "name-error" : undefined}
           autoComplete="name"
+          enterKeyHint="next"
         />
         {errors.name && <p id="name-error" className="text-red-500 text-sm">{errors.name}</p>}
       </div>
@@ -126,6 +127,8 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? "email-error" : undefined}
           autoComplete="email"
+          inputMode="email"
+          enterKeyHint="next"
         />
         {errors.email && <p id="email-error" className="text-red-500 text-sm">{errors.email}</p>}
       </div>
@@ -141,6 +144,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           aria-invalid={!!errors.subject}
           aria-describedby={errors.subject ? "subject-error" : undefined}
           autoComplete="off"
+          enterKeyHint="next"
         />
         {errors.subject && <p id="subject-error" className="text-red-500 text-sm">{errors.subject}</p>}
       </div>
@@ -157,6 +161,8 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           aria-invalid={!!errors.message}
           aria-describedby={errors.message ? "message-error" : undefined}
           autoComplete="off"
+          enterKeyHint="send"
+          autoCapitalize="sentences"
         />
         {errors.message && <p id="message-error" className="text-red-500 text-sm">{errors.message}</p>}
       </div>
