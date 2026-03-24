@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContactForm } from "@/components/contact-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { useState } from "react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
@@ -17,7 +18,8 @@ const sectionMotion = {
 };
 
 export function ContactSection() {
-  const [open, setOpen] = useState(false);
+  const [openDesktop, setOpenDesktop] = useState(false);
+  const [openMobile, setOpenMobile] = useState(false);
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
@@ -39,9 +41,9 @@ export function ContactSection() {
             : "Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tus visiones."
           }
         </p>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={openDesktop} onOpenChange={setOpenDesktop}>
           <DialogTrigger asChild>
-            <Button size="lg" className="text-lg w-full sm:w-auto">
+            <Button size="lg" className="hidden text-lg sm:inline-flex">
               <Mail className="mr-2 h-5 w-5" />
               {currentLocale === 'en' ? 'Get In Touch' : 'Ponte en Contacto'}
             </Button>
@@ -52,9 +54,28 @@ export function ContactSection() {
                 {currentLocale === 'en' ? 'Send me a message' : 'Envíame un mensaje'}
               </DialogTitle>
             </DialogHeader>
-            <ContactForm onSuccess={() => setOpen(false)} />
+            <ContactForm onSuccess={() => setOpenDesktop(false)} />
           </DialogContent>
         </Dialog>
+
+        <Drawer open={openMobile} onOpenChange={setOpenMobile}>
+          <DrawerTrigger asChild>
+            <Button size="lg" className="w-full text-lg sm:hidden">
+              <Mail className="mr-2 h-5 w-5" />
+              {currentLocale === 'en' ? 'Get In Touch' : 'Ponte en Contacto'}
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent className="max-h-[88vh]">
+            <DrawerHeader>
+              <DrawerTitle>
+                {currentLocale === 'en' ? 'Send me a message' : 'Envíame un mensaje'}
+              </DrawerTitle>
+            </DrawerHeader>
+            <div className="overflow-y-auto px-4 pb-4">
+              <ContactForm onSuccess={() => setOpenMobile(false)} />
+            </div>
+          </DrawerContent>
+        </Drawer>
         <div className="mt-4 flex items-center justify-center gap-4 text-sm">
           <a href="mailto:juan@example.com" className="underline-offset-2 hover:underline">
             {currentLocale === 'en' ? 'Email directly' : 'Enviar email directamente'}
