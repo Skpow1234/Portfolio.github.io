@@ -74,7 +74,7 @@ export const translations = {
       sendMessage: 'Send me a message',
     },
     footer: {
-      copyright: '© 2024 Juan Hurtado',
+      copyright: '© Juan Hurtado',
     },
     github: {
       title: 'GitHub Statistics',
@@ -174,7 +174,7 @@ export const translations = {
       sendMessage: 'Envíame un mensaje',
     },
     footer: {
-      copyright: '© 2024 Juan Hurtado',
+      copyright: '© Juan Hurtado',
     },
     github: {
       title: 'Estadísticas de GitHub',
