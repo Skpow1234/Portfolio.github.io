@@ -22,13 +22,13 @@ export function Header() {
   const SECTION_IDS = useMemo(() => [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
-    { id: "coding-terminal", label: "Terminal" },
-    { id: "repositories", label: t.nav.repositories },
-    { id: "leetcode", label: t.nav.leetcode },
     { id: "experience", label: t.nav.experience },
+    { id: "repositories", label: t.nav.repositories },
     { id: "skills", label: t.nav.skills },
-    { id: "education", label: t.nav.education },
     { id: "contact", label: t.nav.contact },
+    { id: "leetcode", label: t.nav.leetcode },
+    { id: "coding-terminal", label: "Terminal" },
+    { id: "education", label: t.nav.education },
   ], [t.nav]);
 
   useEffect(() => {

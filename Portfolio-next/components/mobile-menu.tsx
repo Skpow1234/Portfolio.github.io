@@ -23,14 +23,14 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   const PRIMARY_SECTION_IDS = [
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
-    { id: "repositories", label: t.nav.repositories },
     { id: "experience", label: t.nav.experience },
+    { id: "repositories", label: t.nav.repositories },
+    { id: "skills", label: t.nav.skills },
     { id: "contact", label: t.nav.contact },
   ];
   const SECONDARY_SECTION_IDS = [
-    { id: "coding-terminal", label: "Terminal" },
     { id: "leetcode", label: t.nav.leetcode },
-    { id: "skills", label: t.nav.skills },
+    { id: "coding-terminal", label: "Terminal" },
     { id: "education", label: t.nav.education },
   ];
 

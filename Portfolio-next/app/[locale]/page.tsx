@@ -18,13 +18,13 @@ export default function LocaleHome() {
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection />
       <AboutMeSection />
-      <CodingTerminalSection />
-      <RepositoriesSection />
-      <LeetCodeSection />
       <WorkExperienceSection />
+      <RepositoriesSection />
       <SkillsSection />
-      <EducationSection />
       <ContactSection />
+      <LeetCodeSection />
+      <CodingTerminalSection />
+      <EducationSection />
     </main>
   );
 }
