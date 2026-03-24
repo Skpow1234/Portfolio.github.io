@@ -32,6 +32,17 @@ interface LeetCodeStats {
 
 const LOCAL_CACHE_KEY = "leetcode-stats-cache-v1";
 const LOCAL_CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
+const FALLBACK_STATS: LeetCodeStats = {
+  totalSolved: 350,
+  easySolved: 170,
+  totalEasy: 850,
+  mediumSolved: 150,
+  totalMedium: 1780,
+  hardSolved: 30,
+  totalHard: 790,
+  acceptanceRate: 58.2,
+  ranking: 0,
+};
 
 export function LeetCodeSection() {
   const { locale: currentLocale } = useLocaleContext();
@@ -39,12 +50,14 @@ export function LeetCodeSection() {
   const [stats, setStats] = useState<LeetCodeStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
+  const [isFallbackData, setIsFallbackData] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     let hasLocalCache = false;
 
-    const applyStats = (data: any) => {
+    const applyStats = (data: any, updatedAt?: string, fallback = false) => {
       setStats({
         totalSolved: data.totalSolved,
         easySolved: data.easySolved,
@@ -56,6 +69,8 @@ export function LeetCodeSection() {
         acceptanceRate: data.acceptanceRate,
         ranking: data.ranking,
       });
+      setLastUpdatedAt(updatedAt ?? new Date().toISOString());
+      setIsFallbackData(fallback);
     };
 
     // Immediate UI from local cache (if fresh), then background refresh.
@@ -64,7 +79,7 @@ export function LeetCodeSection() {
       if (raw) {
         const parsed = JSON.parse(raw) as { cachedAt: number; data: LeetCodeStats };
         if (Date.now() - parsed.cachedAt < LOCAL_CACHE_TTL_MS) {
-          applyStats(parsed.data);
+          applyStats(parsed.data, new Date(parsed.cachedAt).toISOString());
           setLoading(false);
           hasLocalCache = true;
         }
@@ -83,11 +98,14 @@ export function LeetCodeSection() {
       })
       .then((data) => {
         if (!cancelled && data.status === "success") {
-          applyStats(data);
+          const updatedAt = typeof data.lastUpdatedAt === "string"
+            ? data.lastUpdatedAt
+            : new Date().toISOString();
+          applyStats(data, updatedAt);
           localStorage.setItem(
             LOCAL_CACHE_KEY,
             JSON.stringify({
-              cachedAt: Date.now(),
+              cachedAt: new Date(updatedAt).getTime(),
               data: {
                 totalSolved: data.totalSolved,
                 easySolved: data.easySolved,
@@ -107,7 +125,11 @@ export function LeetCodeSection() {
         }
       })
       .catch(() => {
-        if (!cancelled && !hasLocalCache) setError(true);
+        if (!cancelled && !hasLocalCache) {
+          // Keep section useful even if API is down.
+          applyStats(FALLBACK_STATS, new Date().toISOString(), true);
+          setError(false);
+        }
       })
       .finally(() => {
         clearTimeout(timeout);
@@ -120,6 +142,13 @@ export function LeetCodeSection() {
       controller.abort();
     };
   }, []);
+
+  const formattedLastUpdated =
+    lastUpdatedAt &&
+    new Intl.DateTimeFormat(currentLocale === "es" ? "es-ES" : "en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    }).format(new Date(lastUpdatedAt));
 
   return (
     <section id="leetcode" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/40 border-y border-border/40">
@@ -246,6 +275,18 @@ export function LeetCodeSection() {
                           {stats.acceptanceRate.toFixed(1)}%
                         </p>
                       </div>
+                      {formattedLastUpdated && (
+                        <div>
+                          <p className="text-xs font-medium text-muted-foreground">
+                            {currentLocale === "en" ? "Last updated" : "Ultima actualizacion"}
+                          </p>
+                          <p className="text-sm text-muted-foreground tabular-nums">
+                            {formattedLastUpdated}
+                            {isFallbackData &&
+                              ` (${currentLocale === "en" ? "fallback" : "respaldo"})`}
+                          </p>
+                        </div>
+                      )}
                       <a
                         href={LEETCODE_PROFILE_URL}
                         target="_blank"

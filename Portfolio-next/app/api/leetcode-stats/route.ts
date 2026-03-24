@@ -24,6 +24,7 @@ export interface LeetCodeStatsResponse {
   contributionPoints: number;
   reputation: number;
   submissionCalendar?: Record<string, number>;
+  lastUpdatedAt?: string;
 }
 
 type CacheEntry = {
@@ -65,26 +66,44 @@ export async function GET() {
 
   // Fast path: return warm cache immediately.
   if (memoryCache && now - memoryCache.cachedAt < CACHE_TTL_MS) {
-    return NextResponse.json(memoryCache.data, {
+    return NextResponse.json(
+      {
+        ...memoryCache.data,
+        lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
+      },
+      {
       headers: { 'X-Cache': 'HIT' },
-    });
+      }
+    );
   }
 
   try {
     const data = await fetchLeetCodeStats();
     memoryCache = { data, cachedAt: now };
 
-    return NextResponse.json(data, {
-      headers: { 'X-Cache': 'MISS' },
-    });
+    return NextResponse.json(
+      {
+        ...data,
+        lastUpdatedAt: new Date(now).toISOString(),
+      },
+      {
+        headers: { 'X-Cache': 'MISS' },
+      }
+    );
   } catch (error) {
     console.error('Error fetching LeetCode stats:', error);
 
     // Fallback: serve stale cache if available instead of failing.
     if (memoryCache) {
-      return NextResponse.json(memoryCache.data, {
-        headers: { 'X-Cache': 'STALE' },
-      });
+      return NextResponse.json(
+        {
+          ...memoryCache.data,
+          lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
+        },
+        {
+          headers: { 'X-Cache': 'STALE' },
+        }
+      );
     }
 
     return NextResponse.json(
