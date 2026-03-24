@@ -50,10 +50,10 @@ export function HeroSection() {
             <Badge
               variant="outline"
               className="gap-2 rounded-full border-border/70 bg-secondary/40 px-3 py-1 text-xs font-medium text-foreground"
-              aria-label={currentLocale === "en" ? "Open to contract work only" : "Disponible solo para trabajo por contrato"}
+              aria-label={currentLocale === "en" ? "Open to contractor work only" : "Disponible solo para trabajo como contractor"}
             >
               <span className="h-1.5 w-1.5 rounded-full bg-foreground/80" aria-hidden="true" />
-              {currentLocale === "en" ? "Open to contract work only" : "Disponible solo para trabajo por contrato"}
+              {currentLocale === "en" ? "Open to contractor work only" : "Disponible solo para trabajo como contractor"}
             </Badge>
           </motion.div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
