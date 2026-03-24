@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
@@ -54,9 +54,16 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b">
-            <h2 className="text-lg font-semibold">
-              {currentLocale === 'en' ? 'Navigation' : 'Navegación'}
-            </h2>
+            <div>
+              <SheetTitle>
+                {currentLocale === 'en' ? 'Navigation' : 'Navegación'}
+              </SheetTitle>
+              <SheetDescription className="sr-only">
+                {currentLocale === 'en'
+                  ? 'Select a section to navigate the portfolio'
+                  : 'Selecciona una sección para navegar el portafolio'}
+              </SheetDescription>
+            </div>
             <Button
               variant="ghost"
               size="sm"
