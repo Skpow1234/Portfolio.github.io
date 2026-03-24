@@ -122,7 +122,9 @@ export function Chatbot({ className }: ChatbotProps) {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.2 }}
             className={`bg-background border rounded-lg shadow-lg ${
-              isMinimized ? 'w-80 h-12' : 'w-96 h-[500px]'
+              isMinimized
+                ? 'h-12 w-[calc(100vw-1rem)] max-w-sm sm:w-80'
+                : 'h-[70vh] max-h-[560px] w-[calc(100vw-1rem)] max-w-sm sm:h-[500px] sm:w-96'
             } flex flex-col`}
           >
             {/* Header */}
