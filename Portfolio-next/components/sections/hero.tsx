@@ -31,7 +31,7 @@ export function HeroSection() {
   };
 
   return (
-    <section id="home" className="relative scroll-mt-24 min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section id="home" className="relative scroll-mt-24 min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
 
       <div className="text-center space-y-6 sm:space-y-8 max-w-5xl w-full relative z-10">
         <motion.div
