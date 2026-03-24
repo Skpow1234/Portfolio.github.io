@@ -118,7 +118,6 @@ export function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1 }}
             onClick={handleScrollToAbout}
-            onTouchStart={(e) => e.preventDefault()}
             role="button"
             tabIndex={0}
             aria-label={t.hero.scrollToExplore}
