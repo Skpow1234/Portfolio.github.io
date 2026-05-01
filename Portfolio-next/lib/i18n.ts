@@ -67,6 +67,8 @@ export const translations = {
       title: 'Work Experience',
       skillsLabel: 'Skills: ',
       methodologiesLabel: 'Methodologies: ',
+      detailsLabel: 'Role details',
+      stackLabel: 'Core stack',
     },
     skills: {
       title: 'Skills',
@@ -174,6 +176,8 @@ export const translations = {
       title: 'Experiencia Laboral',
       skillsLabel: 'Habilidades: ',
       methodologiesLabel: 'Metodologías: ',
+      detailsLabel: 'Detalles del rol',
+      stackLabel: 'Stack principal',
     },
     skills: {
       title: 'Habilidades',
