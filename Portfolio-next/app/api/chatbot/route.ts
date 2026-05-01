@@ -12,7 +12,7 @@ const KNOWLEDGE_BASE = {
     specialties: ["Go", "Node.js", ".NET", "Java", "Cloud Architecture", "AI/ML Infrastructure", "Distributed Systems"]
   },
   experience: {
-    microsoft: "Software Engineer II at Microsoft (September 2024 – Present) - Working on MS365 Copilot platform infrastructure",
+    microsoft: "Software Engineer II at Microsoft (September 2025 – Present) - Working on MS365 Copilot platform infrastructure",
     oortech: "Senior Software Engineer at OORTech LLC (May 2025 – June 2025) - Datahub platform development with Web3 technologies",
     innovatech: "Full Stack .NET Engineer at Innovatech Consulting (March 2025 – May 2025) - Workdynamics after-sale service platform",
     visbl: "Senior Software Engineer at Visbl Inc (February 2025 – June 2025) - Mortgage technology platform",
