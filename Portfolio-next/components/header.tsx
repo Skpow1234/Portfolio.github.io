@@ -88,8 +88,8 @@ export function Header() {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
-      isScrolled && "shadow-lg bg-background/95"
+      "glass-shell sticky top-0 z-50 w-full border-b transition-all duration-300",
+      isScrolled && "shadow-[0_16px_48px_rgb(0_0_0/0.24)]"
     )}>
       <div className="mx-auto flex max-w-6xl items-center justify-between px-3 py-2.5 sm:px-6 sm:py-3">
         <div className="flex items-center gap-3 sm:gap-6">
@@ -131,7 +131,7 @@ export function Header() {
         <div className="flex items-center gap-1.5 sm:gap-2">
           <select
             aria-label="Language selector"
-            className="h-11 w-[64px] rounded-md border bg-background px-1.5 text-xs sm:h-9 sm:w-auto sm:px-2 sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
+            className="glass-control h-11 w-[64px] rounded-md border px-1.5 text-xs sm:h-9 sm:w-auto sm:px-2 sm:text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 hover:bg-accent"
             value={currentLocale}
             onChange={(e) => switchLocale(e.target.value as "en" | "es")}
             title={currentLocale === 'en' ? 'Select language' : 'Seleccionar idioma'}

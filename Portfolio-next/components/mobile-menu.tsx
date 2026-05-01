@@ -81,7 +81,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-[280px] sm:w-[350px] p-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <SheetContent side="right" className="glass-panel w-[280px] p-0 sm:w-[350px]">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="p-6 border-b">

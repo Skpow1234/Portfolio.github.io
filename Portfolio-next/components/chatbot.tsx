@@ -194,7 +194,7 @@ export function Chatbot({ className }: ChatbotProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.2 }}
-            className={`bg-background border rounded-lg shadow-lg ${
+            className={`glass-panel rounded-lg border ${
               isMinimized
                 ? 'h-12 w-[calc(100vw-1rem)] max-w-sm sm:w-80'
                 : 'h-[70vh] max-h-[560px] w-[calc(100vw-1rem)] max-w-sm sm:h-[500px] sm:w-96'
@@ -206,7 +206,7 @@ export function Chatbot({ className }: ChatbotProps) {
             }
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b bg-primary/5">
+            <div className="flex items-center justify-between border-b border-border/60 bg-primary/5 p-4">
               <div className="flex items-center gap-2">
                 <Bot className="h-5 w-5 text-primary" />
                 <span className="font-semibold">AI Assistant</span>

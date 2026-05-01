@@ -48,7 +48,7 @@ export function ContactSection() {
               {currentLocale === 'en' ? 'Get In Touch' : 'Ponte en Contacto'}
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="glass-panel sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>
                 {currentLocale === 'en' ? 'Send me a message' : 'Envíame un mensaje'}
@@ -65,7 +65,7 @@ export function ContactSection() {
               {currentLocale === 'en' ? 'Get In Touch' : 'Ponte en Contacto'}
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="max-h-[88vh]">
+          <DrawerContent className="glass-panel max-h-[88vh]">
             <DrawerHeader>
               <DrawerTitle>
                 {currentLocale === 'en' ? 'Send me a message' : 'Envíame un mensaje'}
