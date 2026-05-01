@@ -21,7 +21,7 @@ type HeroInteractiveProps = {
 export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children }: HeroInteractiveProps) {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-3 pt-2 animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both delay-[400ms]">
+      <div className="flex flex-col items-center justify-center gap-3 pt-2 animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both delay-300">
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
           <Button
             variant="default"
@@ -63,11 +63,11 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 pt-4 animate-in fade-in duration-700 fill-mode-both delay-[600ms]">
+      <div className="flex flex-col items-center justify-center gap-4 pt-4 animate-in fade-in duration-700 fill-mode-both delay-500">
         {children}
 
         <div
-          className="cursor-pointer touch-manipulation animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both delay-1000"
+          className="cursor-pointer touch-manipulation animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both delay-700"
           onClick={() => scrollToId("about")}
           role="button"
           tabIndex={0}
@@ -79,7 +79,7 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
             }
           }}
         >
-          <div className="flex flex-col items-center gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground motion-reduce:animate-none animate-hero-scroll-nudge">
+          <div className="flex flex-col items-center gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground animate-hero-scroll-nudge motion-reduce:animate-none">
             <span className="text-sm font-medium">{scrollLabel}</span>
             <ArrowDown className="h-6 w-6" />
           </div>
