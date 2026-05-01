@@ -35,9 +35,9 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
     () => [
       { id: "education", label: t.nav.education, icon: GraduationCap },
       { id: "leetcode", label: t.nav.leetcode, icon: Code2 },
-      { id: "coding-terminal", label: "Terminal", icon: Terminal },
+      { id: "coding-terminal", label: t.terminal.title, icon: Terminal },
     ],
-    [t.nav]
+    [t.nav, t.terminal.title]
   );
   const secondarySectionIdSet = useMemo(
     () => new Set(SECONDARY_SECTION_IDS.map((section) => section.id)),

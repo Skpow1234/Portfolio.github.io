@@ -28,8 +28,8 @@ export function Header() {
     { id: "contact", label: t.nav.contact },
     { id: "education", label: t.nav.education },
     { id: "leetcode", label: t.nav.leetcode },
-    { id: "coding-terminal", label: "Terminal" },
-  ], [t.nav]);
+    { id: "coding-terminal", label: t.terminal.title },
+  ], [t.nav, t.terminal.title]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -161,4 +161,3 @@ export function Header() {
     </header>
   );
 }
-
