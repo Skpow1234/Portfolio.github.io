@@ -3,6 +3,8 @@ import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 const GITHUB_USERNAME = 'Skpow1234'; // Replace with your username
 const GITHUB_API_BASE = 'https://api.github.com';
+const CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
+const FETCH_TIMEOUT_MS = 7000;
 
 // Optional: Set GITHUB_TOKEN in environment for higher rate limits (5000/hour vs 60/hour)
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -27,6 +29,55 @@ function getGitHubHeaders(): HeadersInit {
   return headers;
 }
 
+type CachedGitHubStats = {
+  username: string;
+  profile: {
+    name: string;
+    bio: string;
+    avatar_url: string;
+    followers: number;
+    following: number;
+    public_repos: number;
+    created_at: string;
+  };
+  stats: {
+    totalStars: number;
+    totalForks: number;
+    totalRepos: number;
+    topLanguages: Array<{ name: string; count: number; percentage: number }>;
+  };
+  repositories: Array<{
+    name: string;
+    description: string | null;
+    url: string;
+    language: string | null;
+    stars: number;
+    forks: number;
+    updated_at: string;
+  }>;
+  lastUpdatedAt?: string;
+  degraded?: boolean;
+};
+
+type CacheEntry = { data: CachedGitHubStats; cachedAt: number };
+let memoryCache: CacheEntry | null = null;
+
+async function fetchJsonWithTimeout(url: string, headers: HeadersInit) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, { headers, next: { revalidate: 3600 }, signal: controller.signal });
+    if (!res.ok) {
+      return { ok: false as const, status: res.status, statusText: res.statusText };
+    }
+    return { ok: true as const, data: await res.json() };
+  } catch (err) {
+    return { ok: false as const, status: 0, statusText: err instanceof Error ? err.message : 'fetch failed' };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function GET(req: NextRequest) {
   // Check rate limit (single call handles both blocking and headers)
   const { response: rateLimitResponse, headers, allowed } = checkRateLimit(req, 'github');
@@ -35,31 +86,33 @@ export async function GET(req: NextRequest) {
   }
 
   const githubHeaders = getGitHubHeaders();
+  const now = Date.now();
+
+  // Fast path: return warm cache immediately.
+  if (memoryCache && now - memoryCache.cachedAt < CACHE_TTL_MS) {
+    return NextResponse.json(
+      {
+        ...memoryCache.data,
+        lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
+      },
+      { headers: { ...headers, 'X-Cache': 'HIT' } }
+    );
+  }
 
   try {
-    // Fetch user data
-    const userResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}`, {
-      headers: githubHeaders,
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    
-    if (!userResponse.ok) {
-      throw new Error(`GitHub API error: ${userResponse.status} ${userResponse.statusText}`);
-    }
-    
-    const userData = await userResponse.json();
+    const [userRes, reposRes] = await Promise.all([
+      fetchJsonWithTimeout(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}`, githubHeaders),
+      fetchJsonWithTimeout(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`, githubHeaders),
+    ]);
 
-    // Fetch repositories
-    const reposResponse = await fetch(`${GITHUB_API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`, {
-      headers: githubHeaders,
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    
-    if (!reposResponse.ok) {
-      throw new Error(`GitHub API error: ${reposResponse.status} ${reposResponse.statusText}`);
+    if (!userRes.ok || !reposRes.ok) {
+      throw new Error(
+        `GitHub API error: user=${userRes.ok ? 'ok' : userRes.status} repos=${reposRes.ok ? 'ok' : reposRes.status}`
+      );
     }
-    
-    const reposData = await reposResponse.json();
+
+    const userData = userRes.data;
+    const reposData = reposRes.data;
 
     // Calculate stats
     const totalStars = reposData.reduce((acc: number, repo: any) => acc + repo.stargazers_count, 0);
@@ -86,7 +139,7 @@ export async function GET(req: NextRequest) {
         percentage: Math.round((count / reposData.length) * 100)
       }));
 
-    const stats = {
+    const stats: CachedGitHubStats = {
       username: GITHUB_USERNAME,
       profile: {
         name: userData.name,
@@ -114,12 +167,51 @@ export async function GET(req: NextRequest) {
       }))
     };
 
-    return NextResponse.json(stats, { headers });
+    memoryCache = { data: stats, cachedAt: now };
+
+    return NextResponse.json(
+      { ...stats, lastUpdatedAt: new Date(now).toISOString() },
+      { headers: { ...headers, 'X-Cache': 'MISS' } }
+    );
   } catch (error) {
     console.error('Error fetching GitHub stats:', error);
+
+    // Fallback: serve stale cache (even if past TTL) instead of failing.
+    if (memoryCache) {
+      return NextResponse.json(
+        {
+          ...memoryCache.data,
+          lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
+        },
+        { headers: { ...headers, 'X-Cache': 'STALE' } }
+      );
+    }
+
+    // Cold start: return a degraded payload instead of 500 to keep UI stable.
+    const degraded: CachedGitHubStats = {
+      username: GITHUB_USERNAME,
+      profile: {
+        name: GITHUB_USERNAME,
+        bio: '',
+        avatar_url: '',
+        followers: 0,
+        following: 0,
+        public_repos: 0,
+        created_at: new Date().toISOString(),
+      },
+      stats: {
+        totalStars: 0,
+        totalForks: 0,
+        totalRepos: 0,
+        topLanguages: [],
+      },
+      repositories: [],
+      degraded: true,
+    };
+
     return NextResponse.json(
-      { error: 'Failed to fetch GitHub statistics' },
-      { status: 500, headers }
+      { ...degraded, lastUpdatedAt: new Date(now).toISOString() },
+      { status: 200, headers: { ...headers, 'X-Cache': 'FALLBACK' } }
     );
   }
 }
