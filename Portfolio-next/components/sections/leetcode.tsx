@@ -131,24 +131,26 @@ export function LeetCodeSection() {
           const updatedAt = typeof data.lastUpdatedAt === "string"
             ? data.lastUpdatedAt
             : new Date().toISOString();
-          applyStats(data, updatedAt);
-          localStorage.setItem(
-            LOCAL_CACHE_KEY,
-            JSON.stringify({
-              cachedAt: new Date(updatedAt).getTime(),
-              data: {
-                totalSolved: data.totalSolved,
-                easySolved: data.easySolved,
-                totalEasy: data.totalEasy,
-                mediumSolved: data.mediumSolved,
-                totalMedium: data.totalMedium,
-                hardSolved: data.hardSolved,
-                totalHard: data.totalHard,
-                acceptanceRate: data.acceptanceRate,
-                ranking: data.ranking,
-              },
-            })
-          );
+          applyStats(data, updatedAt, Boolean(data.degraded));
+          if (!data.degraded) {
+            localStorage.setItem(
+              LOCAL_CACHE_KEY,
+              JSON.stringify({
+                cachedAt: new Date(updatedAt).getTime(),
+                data: {
+                  totalSolved: data.totalSolved,
+                  easySolved: data.easySolved,
+                  totalEasy: data.totalEasy,
+                  mediumSolved: data.mediumSolved,
+                  totalMedium: data.totalMedium,
+                  hardSolved: data.hardSolved,
+                  totalHard: data.totalHard,
+                  acceptanceRate: data.acceptanceRate,
+                  ranking: data.ranking,
+                },
+              })
+            );
+          }
           setError(false);
         } else if (!cancelled) {
           setError(true);

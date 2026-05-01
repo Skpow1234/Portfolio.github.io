@@ -34,7 +34,27 @@ type CacheEntry = {
 
 let memoryCache: CacheEntry | null = null;
 
-async function fetchLeetCodeStats(): Promise<LeetCodeStatsResponse> {
+/** Placeholder stats when upstream is unavailable and there is no stale cache. */
+function buildFallbackPayload(): LeetCodeStatsResponse {
+  return {
+    status: 'success',
+    message: 'fallback',
+    totalSolved: 350,
+    totalQuestions: 3420,
+    easySolved: 170,
+    totalEasy: 850,
+    mediumSolved: 150,
+    totalMedium: 1780,
+    hardSolved: 30,
+    totalHard: 790,
+    acceptanceRate: 58.2,
+    ranking: 0,
+    contributionPoints: 0,
+    reputation: 0,
+  };
+}
+
+async function tryFetchLeetCodeStats(): Promise<LeetCodeStatsResponse | null> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
@@ -46,16 +66,21 @@ async function fetchLeetCodeStats(): Promise<LeetCodeStatsResponse> {
     });
 
     if (!res.ok) {
-      throw new Error(`LeetCode API error: ${res.status}`);
+      console.warn(`LeetCode stats upstream HTTP ${res.status} (${LEETCODE_STATS_API})`);
+      return null;
     }
 
     const data: LeetCodeStatsResponse = await res.json();
 
     if (data.status !== 'success') {
-      throw new Error(data.message || 'Failed to retrieve stats');
+      console.warn('LeetCode stats API non-success:', data.message || 'unknown');
+      return null;
     }
 
     return data;
+  } catch (err) {
+    console.warn('LeetCode stats fetch failed:', err);
+    return null;
   } finally {
     clearTimeout(timeout);
   }
@@ -72,43 +97,50 @@ export async function GET() {
         lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
       },
       {
-      headers: { 'X-Cache': 'HIT' },
+        headers: { 'X-Cache': 'HIT' },
       }
     );
   }
 
-  try {
-    const data = await fetchLeetCodeStats();
-    memoryCache = { data, cachedAt: now };
+  const fresh = await tryFetchLeetCodeStats();
 
+  if (fresh) {
+    memoryCache = { data: fresh, cachedAt: now };
     return NextResponse.json(
       {
-        ...data,
+        ...fresh,
         lastUpdatedAt: new Date(now).toISOString(),
       },
       {
         headers: { 'X-Cache': 'MISS' },
       }
     );
-  } catch (error) {
-    console.error('Error fetching LeetCode stats:', error);
+  }
 
-    // Fallback: serve stale cache if available instead of failing.
-    if (memoryCache) {
-      return NextResponse.json(
-        {
-          ...memoryCache.data,
-          lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
-        },
-        {
-          headers: { 'X-Cache': 'STALE' },
-        }
-      );
-    }
-
+  // Upstream failed: prefer stale in-memory cache (may be past TTL).
+  if (memoryCache) {
     return NextResponse.json(
-      { error: 'Failed to fetch LeetCode statistics' },
-      { status: 500 }
+      {
+        ...memoryCache.data,
+        lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
+      },
+      {
+        headers: { 'X-Cache': 'STALE' },
+      }
     );
   }
+
+  // Cold start with no cache: return static fallback as success so the UI stays useful.
+  const fallback = buildFallbackPayload();
+  return NextResponse.json(
+    {
+      ...fallback,
+      lastUpdatedAt: new Date(now).toISOString(),
+      degraded: true,
+    },
+    {
+      status: 200,
+      headers: { 'X-Cache': 'FALLBACK' },
+    }
+  );
 }
