@@ -20,10 +20,11 @@ interface Message {
 
 interface ChatbotProps {
   className?: string;
+  defaultOpen?: boolean;
 }
 
-export function Chatbot({ className }: ChatbotProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
