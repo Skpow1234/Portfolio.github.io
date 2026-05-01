@@ -9,7 +9,6 @@ import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
 import { MobileMenu } from "@/components/mobile-menu";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
-import { motion } from "framer-motion";
 
 export function Header() {
   const { locale: currentLocale } = useLocaleContext();
@@ -109,20 +108,13 @@ export function Header() {
                 onClick={() => handleNavClick(id)}
                 className={cn(
                   "rounded px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 transition-colors duration-200 relative group",
-                  activeSection === id && "text-foreground",
+                  activeSection === id &&
+                    "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-primary",
                 )}
                 aria-current={activeSection === id ? 'page' : undefined}
                 aria-label={`Navigate to ${label} section`}
               >
                 {label}
-                {activeSection === id && (
-                  <motion.span
-                    layoutId="active-nav-underline"
-                    className="absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-primary"
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    aria-hidden="true"
-                  />
-                )}
                 <span className="absolute inset-0 bg-accent rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200" aria-hidden="true" />
               </button>
             ))}

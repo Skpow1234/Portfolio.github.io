@@ -2,7 +2,6 @@
 
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 
 function scrollToId(id: string) {
@@ -22,12 +21,7 @@ type HeroInteractiveProps = {
 export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children }: HeroInteractiveProps) {
   return (
     <>
-      <motion.div
-        className="flex flex-col items-center justify-center gap-3 pt-2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
+      <div className="flex flex-col items-center justify-center gap-3 pt-2 animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both delay-[400ms]">
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
           <Button
             variant="default"
@@ -67,21 +61,13 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
             </a>
           </Button>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="flex flex-col items-center justify-center gap-4 pt-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-      >
+      <div className="flex flex-col items-center justify-center gap-4 pt-4 animate-in fade-in duration-700 fill-mode-both delay-[600ms]">
         {children}
 
-        <motion.div
-          className="cursor-pointer touch-manipulation"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
+        <div
+          className="cursor-pointer touch-manipulation animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both delay-1000"
           onClick={() => scrollToId("about")}
           role="button"
           tabIndex={0}
@@ -93,16 +79,12 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
             }
           }}
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300"
-          >
+          <div className="flex flex-col items-center gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground motion-reduce:animate-none animate-hero-scroll-nudge">
             <span className="text-sm font-medium">{scrollLabel}</span>
             <ArrowDown className="h-6 w-6" />
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

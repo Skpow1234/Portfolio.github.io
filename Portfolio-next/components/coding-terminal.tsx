@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -318,50 +317,40 @@ export function CodingTerminal({
             ref={terminalRef}
             className="flex-1 p-3 sm:p-4 bg-black text-green-400 font-mono text-xs sm:text-sm overflow-auto min-h-0"
           >
-            <AnimatePresence>
-              {lines.map((line) => (
-                <motion.div
-                  key={line.id}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0 }}
-                  className={`mb-1 whitespace-pre-wrap break-words ${
-                    line.type === 'command' ? 'text-blue-400' :
-                    line.type === 'error' ? 'text-red-400' :
-                    line.type === 'info' ? 'text-yellow-400' :
-                    'text-green-400'
-                  }`}
-                >
-                  {line.type === 'command' && <span className="text-white">$ </span>}
-                  {line.content}
-                </motion.div>
-              ))}
-            </AnimatePresence>
+            {lines.map((line) => (
+              <div
+                key={line.id}
+                className={`mb-1 whitespace-pre-wrap break-words animate-in fade-in slide-in-from-left-2 duration-150 ${
+                  line.type === 'command' ? 'text-blue-400' :
+                  line.type === 'error' ? 'text-red-400' :
+                  line.type === 'info' ? 'text-yellow-400' :
+                  'text-green-400'
+                }`}
+              >
+                {line.type === 'command' && <span className="text-white">$ </span>}
+                {line.content}
+              </div>
+            ))}
             {lines.length === 0 && !isRunning && (
               <div className="text-muted-foreground text-xs sm:text-sm opacity-50">
                 {samplesLoading ? 'Loading code samples...' : 'Click "Run" to execute the code sample...'}
               </div>
             )}
             {isTyping && (
-              <motion.div
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-                className="inline-block w-2 h-3 sm:h-4 bg-green-400 ml-1"
+              <span
+                className="inline-block w-2 h-3 sm:h-4 bg-green-400 ml-1 motion-reduce:animate-none animate-pulse"
+                aria-hidden="true"
               />
             )}
           </div>
           {/* Output Explanation */}
           {sample && lines.length > 0 && !isRunning && !isTyping && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-3 sm:p-4 border-t bg-muted/30 flex-shrink-0"
-            >
+            <div className="p-3 sm:p-4 border-t bg-muted/30 flex-shrink-0 animate-in fade-in slide-in-from-bottom-2 duration-300">
               <div className="flex items-start gap-2 text-xs text-muted-foreground">
                 <Lightbulb className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-yellow-500" />
                 <p className="leading-relaxed"><span className="font-medium text-foreground">What this means: </span>{sample.outputExplanation}</p>
               </div>
-            </motion.div>
+            </div>
           )}
         </div>
       </div>

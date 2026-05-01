@@ -78,10 +78,15 @@ const config: Config = {
             height: '0',
           },
         },
+        'hero-scroll-nudge': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(0.625rem)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'hero-scroll-nudge': 'hero-scroll-nudge 2s ease-in-out infinite',
       },
     },
   },

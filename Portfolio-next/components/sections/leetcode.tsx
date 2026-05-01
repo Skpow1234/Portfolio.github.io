@@ -1,19 +1,11 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { motion } from "framer-motion";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
-
-const sectionMotion = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.25 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-};
 
 const LEETCODE_USERNAME = "Skpow1234";
 const LEETCODE_PROFILE_URL = `https://leetcode.com/u/${LEETCODE_USERNAME}/`;
@@ -189,13 +181,7 @@ export function LeetCodeSection() {
           {t.leetcode.title}
         </h2>
 
-        <motion.div
-          initial={sectionMotion.initial}
-          whileInView={sectionMotion.whileInView}
-          viewport={sectionMotion.viewport}
-          transition={sectionMotion.transition}
-          className="space-y-6"
-        >
+        <div className="space-y-6">
           {/* Brief intro */}
           <p className="text-muted-foreground text-center max-w-2xl mx-auto text-lg leading-relaxed">
             {t.leetcode.intro}
@@ -337,7 +323,7 @@ export function LeetCodeSection() {
               </div>
             </div>
           </Card>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

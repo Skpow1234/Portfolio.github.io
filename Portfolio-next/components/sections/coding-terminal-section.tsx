@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useLocaleContext } from '@/components/locale-provider';
 import { getTranslation } from '@/lib/i18n';
@@ -46,13 +45,7 @@ export function CodingTerminalSection() {
   return (
     <section id="coding-terminal" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4 }}
-          className="mx-auto mb-8 max-w-3xl text-center sm:mb-10"
-        >
+        <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-10 animate-in fade-in slide-in-from-bottom-6 duration-500">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Code2 className="h-7 w-7 text-muted-foreground sm:h-8 sm:w-8" />
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -62,14 +55,9 @@ export function CodingTerminalSection() {
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             {t.terminal.description}
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4, delay: 0.2 }}
-        >
+        <div className="animate-in fade-in slide-in-from-bottom-6 duration-500 delay-200">
           {!isTerminalOpen ? (
             <div className="glass-panel mx-auto max-w-3xl rounded-xl border p-5 text-center sm:p-6">
               <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground">
@@ -113,7 +101,7 @@ export function CodingTerminalSection() {
               />
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -7,7 +7,6 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send, Bot, User, X, Minimize2, Maximize2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import { useLocaleContext } from '@/components/locale-provider';
 import { getTranslation } from '@/lib/i18n';
@@ -187,14 +186,9 @@ export function Chatbot({ className }: ChatbotProps) {
       className={`fixed right-4 z-50 ${className}`}
       style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
     >
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.2 }}
-            className={`glass-panel rounded-lg border ${
+      {isOpen && (
+          <div
+            className={`glass-panel rounded-lg border animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-200 ${
               isMinimized
                 ? 'h-12 w-[calc(100vw-1rem)] max-w-sm sm:w-80'
                 : 'h-[70vh] max-h-[560px] w-[calc(100vw-1rem)] max-w-sm sm:h-[500px] sm:w-96'
@@ -238,11 +232,9 @@ export function Chatbot({ className }: ChatbotProps) {
                 <ScrollArea className="flex-1 p-4">
                   <div className="space-y-4">
                     {messages.map((message) => (
-                      <motion.div
+                      <div
                         key={message.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                        className={`flex animate-in fade-in slide-in-from-bottom-2 duration-200 ${message.isUser ? 'justify-end' : 'justify-start'}`}
                       >
                         <div className={`flex items-start gap-2 max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
                           <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
@@ -263,14 +255,10 @@ export function Chatbot({ className }: ChatbotProps) {
                             </p>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                     {isLoading && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex justify-start"
-                      >
+                      <div className="flex justify-start animate-in fade-in duration-200">
                         <div className="flex items-start gap-2">
                           <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
                             <Bot className="h-4 w-4" />
@@ -283,7 +271,7 @@ export function Chatbot({ className }: ChatbotProps) {
                             </div>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     )}
                     <div ref={messagesEndRef} />
                   </div>
@@ -350,19 +338,12 @@ export function Chatbot({ className }: ChatbotProps) {
                 </div>
               </>
             )}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
 
       {/* Chat Button */}
       {!isOpen && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="group relative"
-        >
+        <div className="group relative transition-transform duration-200 hover:scale-110 active:scale-95 motion-reduce:hover:scale-100 motion-reduce:active:scale-100">
           <span
             className="pointer-events-none absolute right-16 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2.5 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100 sm:block"
             aria-hidden="true"
@@ -386,7 +367,7 @@ export function Chatbot({ className }: ChatbotProps) {
               🤖
             </span>
           </Button>
-        </motion.div>
+        </div>
       )}
     </div>
   );

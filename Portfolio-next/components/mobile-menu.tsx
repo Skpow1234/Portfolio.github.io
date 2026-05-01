@@ -7,7 +7,6 @@ import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, 
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
-import { motion } from "framer-motion";
 
 interface MobileMenuProps {
   activeId: string;
@@ -101,11 +100,10 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
           <nav className="flex-1 p-6" role="navigation" aria-label="Mobile navigation">
             <ul className="space-y-2">
               {PRIMARY_SECTION_IDS.map(({ id, label, icon: Icon }, index) => (
-                <motion.li
+                <li
                   key={id}
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.24, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
+                  className="animate-in fade-in slide-in-from-right-3 duration-200 fill-mode-both"
+                  style={{ animationDelay: `${index * 40}ms` }}
                 >
                   <button
                     onClick={() => handleNavClick(id)}
@@ -126,7 +124,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                       )}
                     </div>
                   </button>
-                </motion.li>
+                </li>
               ))}
             </ul>
 
