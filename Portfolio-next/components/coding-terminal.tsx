@@ -711,9 +711,11 @@ export function CodingTerminal({
   const terminalRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
+  const createLineId = () => `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
   const addLine = (type: TerminalLine['type'], content: string) => {
     const newLine: TerminalLine = {
-      id: Date.now().toString(),
+      id: createLineId(),
       type,
       content,
       timestamp: new Date(),
@@ -723,18 +725,25 @@ export function CodingTerminal({
 
   const typeText = async (text: string, type: TerminalLine['type'] = 'output') => {
     setIsTyping(true);
-    let currentText = '';
+    const lineId = createLineId();
+    const timestamp = new Date();
+    const chunkSize = 4;
+
+    setLines(prev => [...prev, { id: lineId, type, content: '', timestamp }]);
     
-    for (let i = 0; i < text.length; i++) {
-      currentText += text[i];
-      addLine(type, currentText);
+    for (let i = chunkSize; i <= text.length + chunkSize; i += chunkSize) {
+      const currentText = text.slice(0, Math.min(i, text.length));
+      setLines(prev => prev.map(line => (
+        line.id === lineId ? { ...line, content: currentText } : line
+      )));
       
       // Scroll to bottom
       if (terminalRef.current) {
         terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
       }
       
-      await new Promise(resolve => setTimeout(resolve, 20));
+      if (currentText.length === text.length) break;
+      await new Promise(resolve => setTimeout(resolve, 12));
     }
     
     setIsTyping(false);

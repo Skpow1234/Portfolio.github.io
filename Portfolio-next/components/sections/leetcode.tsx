@@ -6,7 +6,7 @@ import { useLocaleContext } from "@/components/locale-provider";
 import { getTranslation } from "@/lib/i18n";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const sectionMotion = {
   initial: { opacity: 0, y: 16 },
@@ -47,13 +47,43 @@ const FALLBACK_STATS: LeetCodeStats = {
 export function LeetCodeSection() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
+  const sectionRef = useRef<HTMLElement | null>(null);
   const [stats, setStats] = useState<LeetCodeStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
   const [isFallbackData, setIsFallbackData] = useState(false);
+  const [shouldLoadStats, setShouldLoadStats] = useState(false);
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) {
+      setShouldLoadStats(true);
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoadStats(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadStats(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "320px 0px" }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldLoadStats) return;
+
     let cancelled = false;
     let hasLocalCache = false;
 
@@ -141,7 +171,7 @@ export function LeetCodeSection() {
       clearTimeout(timeout);
       controller.abort();
     };
-  }, []);
+  }, [shouldLoadStats]);
 
   const formattedLastUpdated =
     lastUpdatedAt &&
@@ -151,7 +181,7 @@ export function LeetCodeSection() {
     }).format(new Date(lastUpdatedAt));
 
   return (
-    <section id="leetcode" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/40 border-y border-border/40">
+    <section ref={sectionRef} id="leetcode" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/40 border-y border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
           {t.leetcode.title}

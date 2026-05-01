@@ -1,12 +1,22 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CodingTerminal } from '@/components/coding-terminal';
 import { Button } from '@/components/ui/button';
 import { useLocaleContext } from '@/components/locale-provider';
 import { getTranslation } from '@/lib/i18n';
 import { Code2, Terminal, Play, X } from 'lucide-react';
+
+const CodingTerminal = dynamic(
+  () => import('@/components/coding-terminal').then((module) => ({ default: module.CodingTerminal })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[500px] animate-pulse rounded-xl border border-border/60 bg-secondary/30 sm:h-[600px] lg:h-96" />
+    ),
+  }
+);
 
 export function CodingTerminalSection() {
   const [isFullscreen, setIsFullscreen] = useState(false);
