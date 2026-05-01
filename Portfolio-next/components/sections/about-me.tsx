@@ -1,23 +1,11 @@
-"use client";
-
 import React from "react";
-import { useLocaleContext } from "@/components/locale-provider";
-import { getTranslation } from "@/lib/i18n";
-import { motion } from "framer-motion";
+import { getTranslation, type Locale } from "@/lib/i18n";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { User, Code, Rocket, Target } from "lucide-react";
 
-const sectionMotion = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.25 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-};
-
-export function AboutMeSection() {
-  const { locale: currentLocale } = useLocaleContext();
-  const t = getTranslation(currentLocale);
+export function AboutMeSection({ locale }: { locale: Locale }) {
+  const t = getTranslation(locale);
 
   const highlights = [
     {
@@ -43,28 +31,16 @@ export function AboutMeSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-secondary/20 to-transparent" />
       
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.div
-          initial={sectionMotion.initial}
-          whileInView={sectionMotion.whileInView}
-          viewport={sectionMotion.viewport}
-          transition={sectionMotion.transition}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             {t.about.title}
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Main content */}
-          <motion.div
-            initial={sectionMotion.initial}
-            whileInView={sectionMotion.whileInView}
-            viewport={sectionMotion.viewport}
-            transition={{ ...sectionMotion.transition, delay: 0.08 }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className="text-lg leading-relaxed text-muted-foreground">
                 {t.about.paragraph1}
@@ -77,31 +53,19 @@ export function AboutMeSection() {
             {/* Key highlights */}
             <div className="grid sm:grid-cols-3 gap-4 pt-6">
               {highlights.map((highlight, index) => (
-                <motion.div
-                  key={highlight.title}
-                  initial={sectionMotion.initial}
-                  whileInView={sectionMotion.whileInView}
-                  viewport={sectionMotion.viewport}
-                  transition={{ ...sectionMotion.transition, delay: 0.16 + index * 0.08 }}
-                >
+                <div key={highlight.title}>
                   <Card className="p-4 text-center hover:shadow-lg transition-all duration-300 group">
                     <highlight.icon className="h-8 w-8 mx-auto mb-3 text-primary group-hover:scale-110 transition-transform duration-300" />
                     <h3 className="font-semibold text-sm mb-1">{highlight.title}</h3>
                     <p className="text-xs text-muted-foreground">{highlight.description}</p>
                   </Card>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
           {/* Visual element */}
-          <motion.div
-            initial={sectionMotion.initial}
-            whileInView={sectionMotion.whileInView}
-            viewport={sectionMotion.viewport}
-            transition={{ ...sectionMotion.transition, delay: 0.16 }}
-            className="relative"
-          >
+          <div className="relative">
             <Card className="p-8 bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/10">
               <div className="space-y-6">
                 <div className="flex items-center gap-3">
@@ -153,7 +117,7 @@ export function AboutMeSection() {
                 </div>
               </div>
             </Card>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

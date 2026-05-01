@@ -1,24 +1,12 @@
-"use client";
-
 import { Building2, CalendarDays, ChevronDown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { workExperience } from "@/lib/data/work-experience";
-import { motion } from "framer-motion";
-import { useLocaleContext } from "@/components/locale-provider";
-import { getTranslation } from "@/lib/i18n";
-
-const sectionMotion = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.25 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-};
+import { getTranslation, type Locale } from "@/lib/i18n";
 
 const VISIBLE_SKILLS = 7;
 
-export function WorkExperienceSection() {
-  const { locale: currentLocale } = useLocaleContext();
-  const t = getTranslation(currentLocale);
+export function WorkExperienceSection({ locale }: { locale: Locale }) {
+  const t = getTranslation(locale);
 
   return (
     <section id="experience" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-y border-border/40">
@@ -32,15 +20,8 @@ export function WorkExperienceSection() {
             const hiddenSkillCount = Math.max((experience.skills?.length ?? 0) - VISIBLE_SKILLS, 0);
 
             return (
-              <motion.div
+              <div
                 key={`${experience.company}-${experience.title}-${experience.period}`}
-                initial={sectionMotion.initial}
-                whileInView={sectionMotion.whileInView}
-                viewport={sectionMotion.viewport}
-                transition={{
-                  ...sectionMotion.transition,
-                  delay: Math.min(index * 0.04, 0.24),
-                }}
               >
                 <Card className="p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md sm:p-6">
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -109,7 +90,7 @@ export function WorkExperienceSection() {
                     </details>
                   )}
                 </Card>
-              </motion.div>
+              </div>
             );
           })}
         </div>

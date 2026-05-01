@@ -7,22 +7,26 @@ import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
 import { LeetCodeSection } from "@/components/sections/leetcode";
+import { type Locale } from "@/lib/i18n";
 
 const CodingTerminalSection = dynamic(
   () => import("@/components/sections/coding-terminal-section").then((m) => ({ default: m.CodingTerminalSection })),
   { loading: () => <div id="coding-terminal" className="scroll-mt-24 min-h-[320px] animate-pulse rounded-xl bg-muted/50 mx-4 sm:mx-6 lg:mx-8 my-4" /> }
 );
 
-export default function LocaleHome() {
+export default async function LocaleHome({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const validLocale = (locale === "en" || locale === "es") ? (locale as Locale) : ("en" as Locale);
+
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection />
-      <AboutMeSection />
-      <WorkExperienceSection />
-      <RepositoriesSection />
+      <AboutMeSection locale={validLocale} />
+      <WorkExperienceSection locale={validLocale} />
+      <RepositoriesSection locale={validLocale} />
       <SkillsSection />
       <ContactSection />
-      <EducationSection />
+      <EducationSection locale={validLocale} />
       <LeetCodeSection />
       <CodingTerminalSection />
     </main>

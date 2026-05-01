@@ -1,23 +1,11 @@
-"use client";
-
 import { Card } from "@/components/ui/card";
 import { repositories } from "@/lib/data/repositories";
-import { motion } from "framer-motion";
-import { useLocaleContext } from "@/components/locale-provider";
-import { getTranslation } from "@/lib/i18n";
+import { getTranslation, type Locale } from "@/lib/i18n";
 import { ExternalLink, Github, Star, GitFork } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-const sectionMotion = {
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.25 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const },
-};
-
-export function RepositoriesSection() {
-  const { locale: currentLocale } = useLocaleContext();
-  const t = getTranslation(currentLocale);
+export function RepositoriesSection({ locale }: { locale: Locale }) {
+  const t = getTranslation(locale);
 
   const getLanguageColor = (language: string): string => {
     const colors: Record<string, string> = {
@@ -40,20 +28,11 @@ export function RepositoriesSection() {
     <section id="repositories" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20 border-y border-border/40">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
-          {currentLocale === 'en' ? 'Highlighted Repositories' : 'Repositorios Destacados'}
+          {t.repositories.title}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {repositories.map((repo, index) => (
-            <motion.div
-              key={repo.name}
-              initial={sectionMotion.initial}
-              whileInView={sectionMotion.whileInView}
-              viewport={sectionMotion.viewport}
-              transition={{
-                ...sectionMotion.transition,
-                delay: index * 0.08,
-              }}
-            >
+          {repositories.map((repo) => (
+            <div key={repo.name}>
               <Card className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md h-full flex flex-col">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-2">
@@ -111,7 +90,7 @@ export function RepositoriesSection() {
                   </div>
                 </div>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
