@@ -61,7 +61,7 @@ export function RevealOnScroll({
     <div
       ref={ref}
       className={cn(
-        "motion-safe:transition-[opacity,transform] motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "motion-safe:transition-[opacity,transform] motion-safe:duration-500 motion-safe:ease-out",
         visible
           ? "translate-y-0 opacity-100"
           : "translate-y-4 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100",
