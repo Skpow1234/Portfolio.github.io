@@ -89,7 +89,12 @@ export const translations = {
     contact: {
       title: 'Contact',
       description: "Let's work together on your next project.",
+      heading: "Let's Connect",
+      intro:
+        "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.",
+      openForm: 'Get In Touch',
       sendMessage: 'Send me a message',
+      emailDirect: 'Email directly',
     },
     footer: {
       copyright: '© Juan Hurtado',
@@ -207,7 +212,12 @@ export const translations = {
     contact: {
       title: 'Contacto',
       description: 'Trabajemos juntos en tu próximo proyecto.',
+      heading: 'Conectemos',
+      intro:
+        'Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tus visiones.',
+      openForm: 'Ponte en Contacto',
       sendMessage: 'Envíame un mensaje',
+      emailDirect: 'Enviar email directamente',
     },
     footer: {
       copyright: '© Juan Hurtado',

@@ -20,12 +20,12 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
 
   return (
     <main id="main-content" className="min-h-screen bg-background">
-      <HeroSection />
+      <HeroSection locale={validLocale} />
       <AboutMeSection locale={validLocale} />
       <WorkExperienceSection locale={validLocale} />
       <RepositoriesSection locale={validLocale} />
-      <SkillsSection />
-      <ContactSection />
+      <SkillsSection locale={validLocale} />
+      <ContactSection locale={validLocale} />
       <EducationSection locale={validLocale} />
       <LeetCodeSection />
       <CodingTerminalSection />
