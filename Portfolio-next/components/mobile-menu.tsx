@@ -33,9 +33,9 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   );
   const SECONDARY_SECTION_IDS = useMemo(
     () => [
+      { id: "education", label: t.nav.education, icon: GraduationCap },
       { id: "leetcode", label: t.nav.leetcode, icon: Code2 },
       { id: "coding-terminal", label: "Terminal", icon: Terminal },
-      { id: "education", label: t.nav.education, icon: GraduationCap },
     ],
     [t.nav]
   );

@@ -63,6 +63,15 @@ export const translations = {
       previewLoading: 'Loading stats...',
       previewError: 'Preview unavailable',
     },
+    terminal: {
+      title: 'Code Samples',
+      description: 'A compact engineering playground with examples across Go, C++, Java, Python, SQL, TypeScript, and C#.',
+      open: 'Open samples',
+      close: 'Hide samples',
+      simulatedOutput: 'Simulated run output',
+      languageCount: '7 languages',
+      copyDownload: 'Copy and download',
+    },
     experience: {
       title: 'Work Experience',
       skillsLabel: 'Skills: ',
@@ -171,6 +180,15 @@ export const translations = {
       acceptanceRate: 'Tasa de aceptación',
       previewLoading: 'Cargando estadísticas...',
       previewError: 'Vista previa no disponible',
+    },
+    terminal: {
+      title: 'Muestras de Código',
+      description: 'Un playground de ingeniería compacto con ejemplos en Go, C++, Java, Python, SQL, TypeScript y C#.',
+      open: 'Abrir muestras',
+      close: 'Ocultar muestras',
+      simulatedOutput: 'Salida simulada',
+      languageCount: '7 lenguajes',
+      copyDownload: 'Copiar y descargar',
     },
     experience: {
       title: 'Experiencia Laboral',

@@ -3,18 +3,35 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CodingTerminal } from '@/components/coding-terminal';
+import { Button } from '@/components/ui/button';
 import { useLocaleContext } from '@/components/locale-provider';
 import { getTranslation } from '@/lib/i18n';
-import { Code2, Terminal, Play } from 'lucide-react';
+import { Code2, Terminal, Play, X } from 'lucide-react';
 
 export function CodingTerminalSection() {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
   };
+
+  const featureItems = [
+    {
+      icon: Terminal,
+      label: t.terminal.simulatedOutput,
+    },
+    {
+      icon: Play,
+      label: t.terminal.languageCount,
+    },
+    {
+      icon: Code2,
+      label: t.terminal.copyDownload,
+    },
+  ];
 
   return (
     <section id="coding-terminal" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
@@ -24,19 +41,16 @@ export function CodingTerminalSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.4 }}
-          className="text-center mb-12"
+          className="mx-auto mb-8 max-w-3xl text-center sm:mb-10"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Code2 className="h-8 w-8 text-muted-foreground" />
+            <Code2 className="h-7 w-7 text-muted-foreground sm:h-8 sm:w-8" />
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-              {currentLocale === 'en' ? 'Interactive Code Terminal' : 'Terminal de Código Interactivo'}
+              {t.terminal.title}
             </h2>
           </div>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {currentLocale === 'en' 
-              ? 'Explore my code samples across multiple languages (Go, C++, Java, Python, SQL, TypeScript, C#) and see them run in real-time. Switch between different languages and frameworks.'
-              : 'Explora mis muestras de código en múltiples lenguajes (Go, C++, Java, Python, SQL, TypeScript, C#) y ve cómo se ejecutan en tiempo real. Cambia entre diferentes lenguajes y frameworks.'
-            }
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            {t.terminal.description}
           </p>
         </motion.div>
 
@@ -46,34 +60,49 @@ export function CodingTerminalSection() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <CodingTerminal 
-            isFullscreen={isFullscreen}
-            onToggleFullscreen={toggleFullscreen}
-            className="shadow-2xl"
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4, delay: 0.4 }}
-          className="mt-8 text-center"
-        >
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Terminal className="h-4 w-4" />
-              <span>Real-time execution</span>
+          {!isTerminalOpen ? (
+            <div className="glass-panel mx-auto max-w-3xl rounded-xl border p-5 text-center sm:p-6">
+              <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground">
+                {featureItems.map(({ icon: Icon, label }) => (
+                  <div key={label} className="glass-control flex items-center gap-2 rounded-full border px-3 py-1.5">
+                    <Icon className="h-4 w-4" aria-hidden="true" />
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
+              <Button
+                type="button"
+                className="mt-5 min-w-40"
+                onClick={() => setIsTerminalOpen(true)}
+              >
+                <Code2 className="mr-2 h-4 w-4" />
+                {t.terminal.open}
+              </Button>
             </div>
-            <div className="flex items-center gap-2">
-              <Play className="h-4 w-4" />
-              <span>7 Programming Languages</span>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex justify-center sm:justify-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="glass-control"
+                  onClick={() => {
+                    setIsFullscreen(false);
+                    setIsTerminalOpen(false);
+                  }}
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  {t.terminal.close}
+                </Button>
+              </div>
+              <CodingTerminal
+                isFullscreen={isFullscreen}
+                onToggleFullscreen={toggleFullscreen}
+                className="shadow-2xl"
+              />
             </div>
-            <div className="flex items-center gap-2">
-              <Code2 className="h-4 w-4" />
-              <span>Copy & download code</span>
-            </div>
-          </div>
+          )}
         </motion.div>
       </div>
     </section>

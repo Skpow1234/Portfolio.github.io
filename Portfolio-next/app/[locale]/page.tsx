@@ -22,9 +22,9 @@ export default function LocaleHome() {
       <RepositoriesSection />
       <SkillsSection />
       <ContactSection />
+      <EducationSection />
       <LeetCodeSection />
       <CodingTerminalSection />
-      <EducationSection />
     </main>
   );
 }
@@ -32,5 +32,4 @@ export default function LocaleHome() {
 export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'es' }];
 }
-
 

@@ -26,9 +26,9 @@ export function Header() {
     { id: "repositories", label: t.nav.repositories },
     { id: "skills", label: t.nav.skills },
     { id: "contact", label: t.nav.contact },
+    { id: "education", label: t.nav.education },
     { id: "leetcode", label: t.nav.leetcode },
     { id: "coding-terminal", label: "Terminal" },
-    { id: "education", label: t.nav.education },
   ], [t.nav]);
 
   useEffect(() => {
@@ -161,5 +161,4 @@ export function Header() {
     </header>
   );
 }
-
 
