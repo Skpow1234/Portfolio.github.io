@@ -308,7 +308,7 @@ export function LeetCodeSection() {
                       {formattedLastUpdated && (
                         <div>
                           <p className="text-xs font-medium text-muted-foreground">
-                            {currentLocale === "en" ? "Last updated" : "Ultima actualizacion"}
+                            {currentLocale === "en" ? "Last updated" : "Última actualización"}
                           </p>
                           <p className="text-sm text-muted-foreground tabular-nums">
                             {formattedLastUpdated}

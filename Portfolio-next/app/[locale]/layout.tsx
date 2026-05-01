@@ -42,7 +42,7 @@ export default async function LocaleLayout({
           <div className="flex flex-col items-center gap-1 sm:items-start">
             <p>© {new Date().getFullYear()} Juan Hurtado</p>
             <p className="text-xs">
-              {validLocale === "es" ? "Ultima actualizacion" : "Last updated"}: {formattedLastUpdated}
+              {validLocale === "es" ? "Última actualización" : "Last updated"}: {formattedLastUpdated}
             </p>
           </div>
           <div className="flex items-center gap-4">
@@ -54,5 +54,4 @@ export default async function LocaleLayout({
     </LocaleProvider>
   );
 }
-
 

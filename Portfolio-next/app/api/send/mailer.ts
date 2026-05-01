@@ -26,8 +26,12 @@ export async function sendContactMail(data: ContactFormData, fromEmail: string) 
   const safeSubject = escapeHtml(subject);
   const safeMessage = escapeHtml(message);
   
-  // If no API key is available, simulate success for development/production builds
+  // In development, keep the form testable without sending real email.
   if (!resend) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('RESEND_API_KEY is not configured');
+    }
+
     console.log('Email would be sent (RESEND_API_KEY not configured):', {
       from: `Portfolio Contact <${fromEmail}>`,
       to: [fromEmail],
@@ -73,4 +77,4 @@ export async function sendContactMail(data: ContactFormData, fromEmail: string) 
   });
   if (error) throw new Error(error.message || 'Failed to send email');
   return result;
-} 
+}

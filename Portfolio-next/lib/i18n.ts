@@ -32,7 +32,7 @@ export const translations = {
     about: {
       title: 'About Me',
       description: 'I am a Senior Software Engineer with extensive experience in full-stack development, cloud architecture, and team leadership.',
-      yearsExperience: '8+ years Experience',
+      yearsExperience: '8 Years Experience',
       softwareDevelopment: 'Software development',
       highPerformance: 'High Performance',
       scalableSolutions: 'Scalable solutions',
@@ -150,7 +150,7 @@ export const translations = {
     about: {
       title: 'Acerca de Mí',
       description: 'Soy un Ingeniero de Software Senior con amplia experiencia en desarrollo full-stack, arquitectura en la nube y liderazgo de equipos.',
-      yearsExperience: '7+ Años de Experiencia',
+      yearsExperience: '8 Años de Experiencia',
       softwareDevelopment: 'Desarrollo de software',
       highPerformance: 'Alto Rendimiento',
       scalableSolutions: 'Soluciones escalables',

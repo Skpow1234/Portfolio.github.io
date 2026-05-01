@@ -20,7 +20,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **Type Safety**: Full TypeScript support
 - **Modular Architecture**: Component-based structure for easy maintenance
 - **Internationalization**: English and Spanish language support
-- **GitHub Integration**: Real-time GitHub stats and repository showcase
+- **GitHub Integration**: Cached GitHub stats and repository showcase
 
 ## Tech Stack
 
@@ -29,7 +29,7 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **Deployment**: Static Export
+- **Deployment**: Vercel / Next.js runtime
 
 ## Project Structure
 
