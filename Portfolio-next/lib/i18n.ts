@@ -32,7 +32,7 @@ export const translations = {
     about: {
       title: 'About Me',
       description: 'I am a Senior Software Engineer with extensive experience in full-stack development, cloud architecture, and team leadership.',
-      yearsExperience: '7+ Years Experience',
+      yearsExperience: '8+ years Experience',
       softwareDevelopment: 'Software development',
       highPerformance: 'High Performance',
       scalableSolutions: 'Scalable solutions',

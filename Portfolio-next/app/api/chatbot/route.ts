@@ -6,7 +6,7 @@ const KNOWLEDGE_BASE = {
   about: {
     name: "Juan Hurtado",
     title: "Senior Software Engineer",
-    experience: "7+ years of experience in full-stack development, cloud architecture, and team leadership",
+    experience: "8+ years of experience in full-stack development, cloud architecture, and team leadership",
     location: "Cali, Colombia",
     currentRole: "Software Engineer II at Microsoft, working on the Copilot platform within the infrastructure team",
     specialties: ["Go", "Node.js", ".NET", "Java", "Cloud Architecture", "AI/ML Infrastructure", "Distributed Systems"]
@@ -40,7 +40,7 @@ const KNOWLEDGE_BASE = {
 
 // Common questions and their responses
 const COMMON_QUESTIONS = {
-  "who are you": "I'm Juan Hurtado, a Senior Software Engineer with 7+ years of experience. I currently work at Microsoft as a Software Engineer II on the Copilot platform infrastructure team.",
+  "who are you": "I'm Juan Hurtado, a Senior Software Engineer with 8+ years of experience. I currently work at Microsoft as a Software Engineer II on the Copilot platform infrastructure team.",
   "what do you do": "I'm a Senior Software Engineer specializing in full-stack development, cloud architecture, and team leadership. I work with technologies like Go, Node.js, .NET, and Java to build scalable, reliable systems.",
   "where are you located": "I'm based in Cali, Colombia, but I work with teams globally.",
   "what is your current role": "I'm currently a Software Engineer II at Microsoft, working on the MS365 Copilot platform within the infrastructure team. I focus on developing reliable, scalable, and secure code that powers Microsoft's AI-driven productivity solutions.",
