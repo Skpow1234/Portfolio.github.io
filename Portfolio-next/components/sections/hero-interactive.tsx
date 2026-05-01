@@ -21,7 +21,7 @@ type HeroInteractiveProps = {
 export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children }: HeroInteractiveProps) {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-3 pt-2 animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both delay-300">
+      <div className="flex flex-col items-center justify-center gap-3 pt-2">
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
           <Button
             variant="default"
@@ -63,11 +63,11 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 pt-4 animate-in fade-in duration-700 fill-mode-both delay-500">
+      <div className="flex flex-col items-center justify-center gap-4 pt-4">
         {children}
 
         <div
-          className="cursor-pointer touch-manipulation animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both delay-700"
+          className="cursor-pointer touch-manipulation"
           onClick={() => scrollToId("about")}
           role="button"
           tabIndex={0}

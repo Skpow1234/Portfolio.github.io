@@ -7,6 +7,7 @@ import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
 import { LeetCodeSection } from "@/components/sections/leetcode";
+import { RevealOnScroll } from "@/components/reveal-on-scroll";
 import { type Locale } from "@/lib/i18n";
 
 const CodingTerminalSection = dynamic(
@@ -21,13 +22,27 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection locale={validLocale} />
-      <AboutMeSection locale={validLocale} />
-      <WorkExperienceSection locale={validLocale} />
-      <RepositoriesSection locale={validLocale} />
-      <SkillsSection locale={validLocale} />
-      <ContactSection locale={validLocale} />
-      <EducationSection locale={validLocale} />
-      <LeetCodeSection />
+      <RevealOnScroll>
+        <AboutMeSection locale={validLocale} />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <WorkExperienceSection locale={validLocale} />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <RepositoriesSection locale={validLocale} />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <SkillsSection locale={validLocale} />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <ContactSection locale={validLocale} />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <EducationSection locale={validLocale} />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <LeetCodeSection />
+      </RevealOnScroll>
       <CodingTerminalSection />
     </main>
   );

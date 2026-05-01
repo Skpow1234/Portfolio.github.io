@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useLocaleContext } from '@/components/locale-provider';
 import { getTranslation } from '@/lib/i18n';
 import { Code2, Terminal, Play, X } from 'lucide-react';
+import { RevealOnScroll } from '@/components/reveal-on-scroll';
 
 const CodingTerminal = dynamic(
   () => import('@/components/coding-terminal').then((module) => ({ default: module.CodingTerminal })),
@@ -45,7 +46,7 @@ export function CodingTerminalSection() {
   return (
     <section id="coding-terminal" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-10 animate-in fade-in slide-in-from-bottom-6 duration-500">
+        <RevealOnScroll className="mx-auto mb-8 max-w-3xl text-center sm:mb-10">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Code2 className="h-7 w-7 text-muted-foreground sm:h-8 sm:w-8" />
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
@@ -55,9 +56,9 @@ export function CodingTerminalSection() {
           <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             {t.terminal.description}
           </p>
-        </div>
+        </RevealOnScroll>
 
-        <div className="animate-in fade-in slide-in-from-bottom-6 duration-500 delay-200">
+        <RevealOnScroll rootMargin="0px 0px -10% 0px" threshold={0.04}>
           {!isTerminalOpen ? (
             <div className="glass-panel mx-auto max-w-3xl rounded-xl border p-5 text-center sm:p-6">
               <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground">
@@ -101,7 +102,7 @@ export function CodingTerminalSection() {
               />
             </div>
           )}
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   );

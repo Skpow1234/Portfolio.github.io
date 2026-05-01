@@ -2,6 +2,7 @@ import { BriefcaseBusiness, Code2, MapPin, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getTranslation, type Locale } from "@/lib/i18n";
 import { HeroInteractive } from "@/components/sections/hero-interactive";
+import { RevealOnScroll } from "@/components/reveal-on-scroll";
 
 export function HeroSection({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
@@ -67,12 +68,14 @@ export function HeroSection({ locale }: { locale: Locale }) {
           ))}
         </div>
 
-        <HeroInteractive ctaLabel={t.hero.cta} viewWorkLabel={t.hero.viewWork} scrollLabel={t.hero.scrollToExplore}>
-          <div className="flex items-center justify-center gap-2 text-muted-foreground">
-            <MapPin className="h-5 w-5" />
-            <span className="text-sm sm:text-base">Cali, Colombia</span>
-          </div>
-        </HeroInteractive>
+        <RevealOnScroll rootMargin="120px 0px 0px 0px" threshold={0}>
+          <HeroInteractive ctaLabel={t.hero.cta} viewWorkLabel={t.hero.viewWork} scrollLabel={t.hero.scrollToExplore}>
+            <div className="flex items-center justify-center gap-2 text-muted-foreground">
+              <MapPin className="h-5 w-5" />
+              <span className="text-sm sm:text-base">Cali, Colombia</span>
+            </div>
+          </HeroInteractive>
+        </RevealOnScroll>
       </div>
     </section>
   );
