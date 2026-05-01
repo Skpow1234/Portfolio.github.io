@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Mail, MapPin, ArrowDown } from "lucide-react";
+import { ArrowDown, BriefcaseBusiness, Code2, Github, Linkedin, Mail, MapPin, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocaleContext } from "@/components/locale-provider";
@@ -10,6 +10,24 @@ import { motion } from "framer-motion";
 export function HeroSection() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
+
+  const proofPoints = [
+    {
+      icon: BriefcaseBusiness,
+      label: t.hero.proofRole,
+      detail: t.hero.proofRoleDetail,
+    },
+    {
+      icon: Sparkles,
+      label: t.hero.proofExperience,
+      detail: t.hero.proofExperienceDetail,
+    },
+    {
+      icon: Code2,
+      label: t.hero.proofFocus,
+      detail: t.hero.proofFocusDetail,
+    },
+  ];
 
   const handleScrollToAbout = () => {
     const element = document.getElementById('about');
@@ -31,10 +49,20 @@ export function HeroSection() {
     }
   };
 
+  const handleScrollToWork = () => {
+    const element = document.getElementById("repositories");
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <section id="home" className="relative scroll-mt-24 min-h-[80vh] sm:min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 overflow-hidden">
 
-      <div className="text-center space-y-6 sm:space-y-8 max-w-5xl w-full relative z-10">
+      <div className="relative z-10 w-full max-w-5xl space-y-6 text-center sm:space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -59,11 +87,11 @@ export function HeroSection() {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter leading-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
             Juan Hurtado
           </h1>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+          <h2 className="mx-auto max-w-4xl text-2xl font-semibold leading-tight tracking-tight text-foreground [text-wrap:balance] sm:text-3xl md:text-4xl lg:text-5xl">
             {t.hero.subtitle}
           </h2>
           <motion.p 
-            className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -72,44 +100,75 @@ export function HeroSection() {
           </motion.p>
         </motion.div>
 
+        <motion.div
+          className="mx-auto grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.3 }}
+        >
+          {proofPoints.map(({ icon: Icon, label, detail }) => (
+            <div
+              key={label}
+              className="glass-control flex items-center gap-3 rounded-xl border px-4 py-3 text-left"
+            >
+              <Icon className="h-4 w-4 shrink-0 text-foreground/80" aria-hidden="true" />
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-foreground">{label}</p>
+                <p className="truncate text-xs text-muted-foreground">{detail}</p>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
         <motion.div 
-          className="flex flex-col items-center justify-center gap-3 pt-4"
+          className="flex flex-col items-center justify-center gap-3 pt-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button
-            variant="default"
-            size="lg"
-            className="w-full sm:w-auto min-w-44 group transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 touch-manipulation"
-            onClick={handleScrollToContact}
-          >
-            <Mail className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-            {t.nav.contact}
-          </Button>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation" 
-            asChild
-          >
-            <a href="https://github.com/Skpow1234" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">
-              <Github className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-              GitHub
-            </a>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="w-full sm:w-auto group transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0 touch-manipulation" 
-            asChild
-          >
-            <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" target="_blank" rel="noopener noreferrer" aria-label="Visit LinkedIn profile">
-              <Linkedin className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
-              LinkedIn
-            </a>
-          </Button>
+            <Button
+              variant="default"
+              size="lg"
+              className="min-w-44 touch-manipulation transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+              onClick={handleScrollToContact}
+            >
+              <Mail className="mr-2 h-5 w-5" />
+              {t.hero.cta}
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="glass-control min-w-44 touch-manipulation transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0"
+              onClick={handleScrollToWork}
+            >
+              {t.hero.viewWork}
+              <ArrowDown className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
+          <div className="flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground"
+              asChild
+            >
+              <a href="https://github.com/Skpow1234" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">
+                <Github className="mr-2 h-4 w-4" />
+                GitHub
+              </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-foreground"
+              asChild
+            >
+              <a href="https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/" target="_blank" rel="noopener noreferrer" aria-label="Visit LinkedIn profile">
+                <Linkedin className="mr-2 h-4 w-4" />
+                LinkedIn
+              </a>
+            </Button>
           </div>
         </motion.div>
 
