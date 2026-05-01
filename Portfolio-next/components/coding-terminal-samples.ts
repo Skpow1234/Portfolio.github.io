@@ -531,6 +531,8 @@ ORDER BY view_count DESC;`,
  2024-01-15 |          45  |                 12 |                3 |           25.00
  2024-01-14 |          38  |                 15 |                4 |           26.67
  2024-01-13 |          52  |                 18 |                5 |           27.78`
+    ,
+    outputExplanation: "The SQL script runs several analytics queries and prints tabular results. You can see user-level engagement metrics (active days, average visits, total time, and average hours between visits), section performance (unique visitors, total views, average time, interaction rate), and a contact funnel view with daily conversion rates—demonstrating CTEs, window functions, and practical reporting output."
   },
   {
     title: "React Component",
