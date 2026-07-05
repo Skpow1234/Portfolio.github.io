@@ -29,8 +29,11 @@ export function WorkExperienceDescription({
   };
 
   return (
-    <details className="group mt-4 border-t border-border/60 pt-4" onToggle={handleToggle}>
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+    <details
+      className="group mt-4 border-t border-border/60 pt-4"
+      onToggle={handleToggle}
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden">
         <span>{label}</span>
         <ChevronDown
           className="h-4 w-4 transition-transform group-open:rotate-180"

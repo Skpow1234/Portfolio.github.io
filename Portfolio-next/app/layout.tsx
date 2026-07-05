@@ -64,8 +64,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const headersList = await headers();
-  const nonce = headersList.get('x-nonce') || undefined;
-  const lang = headersList.get('x-locale') || 'en';
+  const lang = headersList.get("x-locale") || "en";
 
   return (
     <html lang={lang} suppressHydrationWarning className="dark">
@@ -77,12 +76,9 @@ export default async function RootLayout({
           data-domain="juan-hurtado-senior-sde.vercel.app"
           src="https://plausible.io/js/script.js"
           strategy="afterInteractive"
-          nonce={nonce}
         />
-        {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
-          nonce={nonce}
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
