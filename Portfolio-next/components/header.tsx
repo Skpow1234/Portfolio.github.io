@@ -23,7 +23,6 @@ export function Header() {
     { id: "about", label: t.nav.about },
     { id: "experience", label: t.nav.experience },
     { id: "repositories", label: t.nav.repositories },
-    { id: "skills", label: t.nav.skills },
     { id: "contact", label: t.nav.contact },
     { id: "education", label: t.nav.education },
     { id: "leetcode", label: t.nav.leetcode },

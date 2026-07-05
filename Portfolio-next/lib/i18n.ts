@@ -11,7 +11,6 @@ export const translations = {
       repositories: 'Repositories',
       leetcode: 'LeetCode',
       experience: 'Experience',
-      skills: 'Skills',
       education: 'Education',
       contact: 'Contact',
     },
@@ -79,10 +78,6 @@ export const translations = {
       detailsLabel: 'Role details',
       stackLabel: 'Core stack',
     },
-    skills: {
-      title: 'Skills',
-      all: 'All',
-    },
     education: {
       title: 'Education',
     },
@@ -134,7 +129,6 @@ export const translations = {
       repositories: 'Repositorios',
       leetcode: 'LeetCode',
       experience: 'Experiencia',
-      skills: 'Habilidades',
       education: 'Educación',
       contact: 'Contacto',
     },
@@ -201,10 +195,6 @@ export const translations = {
       methodologiesLabel: 'Metodologías: ',
       detailsLabel: 'Detalles del rol',
       stackLabel: 'Stack principal',
-    },
-    skills: {
-      title: 'Habilidades',
-      all: 'Todas',
     },
     education: {
       title: 'Educación',

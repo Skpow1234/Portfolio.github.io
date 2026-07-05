@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, Menu, Terminal, User, Wrench } from "lucide-react";
+import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, Menu, Terminal, User } from "lucide-react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
@@ -25,7 +25,6 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
       { id: "about", label: t.nav.about, icon: User },
       { id: "experience", label: t.nav.experience, icon: Briefcase },
       { id: "repositories", label: t.nav.repositories, icon: FolderGit2 },
-      { id: "skills", label: t.nav.skills, icon: Wrench },
       { id: "contact", label: t.nav.contact, icon: Mail },
     ],
     [t.nav]

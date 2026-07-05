@@ -19,8 +19,3 @@ export interface Education {
   degree: string;
   period: string;
 }
-
-export interface Skill {
-  name: string;
-  category: 'Backend' | 'Frontend' | 'Databases' | 'Cloud & DevOps' | 'APIs' | 'Automation' | 'Methodologies'| 'AI/ML' | 'Tools' | 'CMS/CRM' | 'Operating Systems';
-}

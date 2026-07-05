@@ -456,7 +456,7 @@ WITH technology_interest AS (
         user_id,
         CASE
             WHEN section_name IN ('coding-terminal', 'repositories') THEN 'Development'
-            WHEN section_name IN ('experience', 'skills') THEN 'Professional'
+            WHEN section_name IN ('experience') THEN 'Professional'
             WHEN section_name IN ('github-stats', 'about') THEN 'Personal'
             ELSE 'Other'
         END as interest_category,

@@ -10,6 +10,22 @@ export interface Repository {
 
 export const repositories: Repository[] = [
   {
+    name: "TheWindowsTunning",
+    description: "WinTune — a native Windows performance doctor in C. Measures bottlenecks via official APIs, explains impact in plain language, and applies safe, reversible fixes from the CLI or TUI.",
+    url: "https://github.com/Skpow1234/TheWindowsTunning",
+    language: "C",
+    stars: 0,
+    topics: ["windows", "performance", "cli", "diagnostics", "cmake"],
+  },
+  {
+    name: "Vaultpack",
+    description: "Cross-platform CLI that encrypts, hashes, and signs data into portable .vpack bundles — symmetric, password, hybrid, KMS, and post-quantum modes with audit trails and Sigstore signing.",
+    url: "https://github.com/Skpow1234/Vaultpack",
+    language: "Go",
+    stars: 2,
+    topics: ["encryption", "cryptography", "security", "cli", "golang"],
+  },
+  {
     name: "ChainForge",
     description: "Production-grade crypto/blockchain client skeleton in modern C++ (C++20/23). Features RocksDB, PostgreSQL, Redis, Prometheus, and Kubernetes deployment.",
     url: "https://github.com/Skpow1234/ChainForge",

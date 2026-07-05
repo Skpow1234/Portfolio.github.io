@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 import { AboutMeSection } from "@/components/sections/about-me";
 import { HeroSection } from "@/components/sections/hero";
 import { WorkExperienceSection } from "@/components/sections/work-experience";
-import { SkillsSection } from "@/components/sections/skills";
 import { EducationSection } from "@/components/sections/education";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
@@ -30,9 +29,6 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
       </RevealOnScroll>
       <RevealOnScroll>
         <RepositoriesSection locale={validLocale} />
-      </RevealOnScroll>
-      <RevealOnScroll>
-        <SkillsSection locale={validLocale} />
       </RevealOnScroll>
       <RevealOnScroll>
         <ContactSection locale={validLocale} />

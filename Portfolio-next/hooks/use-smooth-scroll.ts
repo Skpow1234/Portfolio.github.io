@@ -18,7 +18,7 @@ export function useSmoothScroll() {
   }, []);
 
   useEffect(() => {
-    const sections = ['home', 'about', 'repositories', 'experience', 'skills', 'education', 'contact'];
+    const sections = ['home', 'about', 'repositories', 'experience', 'education', 'contact'];
     
     const observer = new IntersectionObserver(
       (entries) => {

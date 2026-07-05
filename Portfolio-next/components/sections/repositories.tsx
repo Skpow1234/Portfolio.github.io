@@ -19,6 +19,7 @@ export function RepositoriesSection({ locale }: { locale: Locale }) {
       PHP: "bg-indigo-500",
       Ruby: "bg-red-500",
       Rust: "bg-orange-600",
+      C: "bg-slate-500",
       Swift: "bg-orange-400",
     };
     return colors[language] || "bg-gray-500";
