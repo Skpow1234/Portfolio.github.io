@@ -5,20 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, Menu, Terminal, User } from "lucide-react";
 import { useLocaleContext } from "@/components/locale-provider";
-import { useLocale } from "@/hooks/use-locale";
-import { getTranslation } from "@/lib/i18n";
 import { getPrimaryNavSections, getSecondaryNavSections } from "@/lib/navigation-sections";
-import { scrollToSection } from "@/lib/scroll-to-section";
+import { getTranslation } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 interface MobileMenuProps {
   activeId: string;
+  onNavClick: (sectionId: string) => void;
 }
 
-export function MobileMenu({ activeId }: MobileMenuProps) {
+export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const { locale: currentLocale } = useLocaleContext();
-  const { switchLocale } = useLocale();
   const t = getTranslation(currentLocale);
 
   const PRIMARY_SECTION_IDS = useMemo(
@@ -63,7 +62,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   }, [activeId, open, secondarySectionIdSet]);
 
   const handleNavClick = (sectionId: string) => {
-    scrollToSection(sectionId);
+    onNavClick(sectionId);
     setOpen(false);
   };
 
@@ -87,7 +86,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="glass-panel w-[280px] p-0 sm:w-[350px]">
+      <SheetContent side="right" className="glass-panel z-[100] w-[280px] p-0 sm:w-[350px]">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="p-6 border-b">
@@ -187,32 +186,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
             <div className="text-sm font-medium text-muted-foreground">
               {currentLocale === 'en' ? 'Language' : 'Idioma'}
             </div>
-            <div className="flex gap-2">
-              <Button
-                variant={currentLocale === 'en' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => {
-                  switchLocale('en');
-                  setOpen(false);
-                }}
-                className="h-11 flex-1"
-                aria-label="Switch to English"
-              >
-                EN
-              </Button>
-              <Button
-                variant={currentLocale === 'es' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => {
-                  switchLocale('es');
-                  setOpen(false);
-                }}
-                className="h-11 flex-1"
-                aria-label="Cambiar a Español"
-              >
-                ES
-              </Button>
-            </div>
+            <LanguageSwitcher locale={currentLocale} className="w-full justify-center" />
             
             {/* Quick Actions */}
             <div className="pt-4 space-y-2">

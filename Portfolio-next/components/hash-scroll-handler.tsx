@@ -5,14 +5,15 @@ import { scrollToSection } from "@/lib/scroll-to-section";
 
 export function HashScrollHandler() {
   useEffect(() => {
-    const hash = window.location.hash.slice(1);
-    if (!hash) return;
-
-    const frame = window.requestAnimationFrame(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return;
       scrollToSection(hash, { updateHash: false });
-    });
+    };
 
-    return () => window.cancelAnimationFrame(frame);
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+    return () => window.removeEventListener("hashchange", scrollToHash);
   }, []);
 
   return null;

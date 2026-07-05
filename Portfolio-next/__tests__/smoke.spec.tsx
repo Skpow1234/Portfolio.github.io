@@ -7,14 +7,10 @@ import { Header } from "@/components/header";
 import { getTranslation } from "@/lib/i18n";
 import { scrollToSection } from "@/lib/scroll-to-section";
 
-const switchLocaleMock = jest.fn();
 const toastMock = jest.fn();
 
-jest.mock("@/hooks/use-locale", () => ({
-  useLocale: () => ({
-    currentLocale: "en",
-    switchLocale: switchLocaleMock,
-  }),
+jest.mock("next/navigation", () => ({
+  usePathname: () => "/en",
 }));
 
 jest.mock("@/hooks/use-toast", () => ({
@@ -38,7 +34,7 @@ describe("Portfolio smoke tests", () => {
   test("mobile menu opens and closes", async () => {
     render(
       <LocaleProvider locale="en">
-        <MobileMenu activeId="home" />
+        <MobileMenu activeId="home" onNavClick={jest.fn()} />
       </LocaleProvider>,
     );
 
@@ -51,29 +47,27 @@ describe("Portfolio smoke tests", () => {
     });
   });
 
-  test("mobile nav uses hash links", () => {
+  test("mobile nav click delegates to onNavClick", () => {
+    const onNavClick = jest.fn();
     render(
       <LocaleProvider locale="en">
-        <MobileMenu activeId="home" />
+        <MobileMenu activeId="home" onNavClick={onNavClick} />
       </LocaleProvider>,
     );
 
     fireEvent.click(screen.getByRole("button", { name: /toggle menu/i }));
-    expect(screen.getByRole("link", { name: /about/i })).toHaveAttribute("href", "#about");
+    fireEvent.click(screen.getByRole("link", { name: /about/i }));
+    expect(onNavClick).toHaveBeenCalledWith("about");
   });
 
-  test("language switch triggers locale change", () => {
+  test("language switch links to the other locale", () => {
     render(
       <LocaleProvider locale="en">
         <Header />
       </LocaleProvider>,
     );
 
-    fireEvent.change(screen.getByLabelText("Language selector"), {
-      target: { value: "es" },
-    });
-
-    expect(switchLocaleMock).toHaveBeenCalledWith("es");
+    expect(screen.getByRole("link", { name: "ES" })).toHaveAttribute("href", "/es");
   });
 
   test("contact form submits successfully", async () => {

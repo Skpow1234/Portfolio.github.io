@@ -59,7 +59,7 @@ export default async function LocaleLayout({
   ).format(new Date(SITE_LAST_UPDATED));
 
   return (
-    <LocaleProvider locale={validLocale}>
+    <LocaleProvider key={validLocale} locale={validLocale}>
       <DocumentLang />
       <HashScrollHandler />
       <Header />
