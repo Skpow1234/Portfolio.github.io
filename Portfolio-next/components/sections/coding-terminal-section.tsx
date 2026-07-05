@@ -46,19 +46,19 @@ export function CodingTerminalSection() {
   return (
     <section id="coding-terminal" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        <RevealOnScroll className="mx-auto mb-8 max-w-3xl text-center sm:mb-10">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Code2 className="h-7 w-7 text-muted-foreground sm:h-8 sm:w-8" />
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
-              {t.terminal.title}
-            </h2>
+        <RevealOnScroll rootMargin="0px 0px -8% 0px" threshold={0.04}>
+          <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-10">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Code2 className="h-7 w-7 text-muted-foreground sm:h-8 sm:w-8" />
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+                {t.terminal.title}
+              </h2>
+            </div>
+            <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              {t.terminal.description}
+            </p>
           </div>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            {t.terminal.description}
-          </p>
-        </RevealOnScroll>
 
-        <RevealOnScroll rootMargin="0px 0px -10% 0px" threshold={0.04}>
           {!isTerminalOpen ? (
             <div className="glass-panel mx-auto max-w-3xl rounded-xl border p-5 text-center sm:p-6">
               <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground">

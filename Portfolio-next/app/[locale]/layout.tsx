@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { ChatbotLazy } from "@/components/chatbot-lazy";
 import { BackToTopButton } from "@/components/back-to-top";
 import { DocumentLang } from "@/components/document-lang";
+import { Toaster } from "@/components/ui/toaster";
 import { Locale } from "@/lib/i18n";
 
 const SITE_LAST_UPDATED = "2026-03-24";
@@ -37,6 +38,7 @@ export default async function LocaleLayout({
       {children}
       <ChatbotLazy />
       <BackToTopButton />
+      <Toaster />
       <footer className="border-t">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
           <div className="flex flex-col items-center gap-1 sm:items-start">
