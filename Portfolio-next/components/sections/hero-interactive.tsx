@@ -2,14 +2,8 @@
 
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { scrollToSection } from "@/lib/scroll-to-section";
 import type { ReactNode } from "react";
-
-function scrollToId(id: string) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-}
 
 type HeroInteractiveProps = {
   ctaLabel: string;
@@ -27,7 +21,7 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
             variant="default"
             size="lg"
             className="min-w-44 touch-manipulation transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
-            onClick={() => scrollToId("contact")}
+            onClick={() => scrollToSection("contact")}
           >
             <Mail className="mr-2 h-5 w-5" />
             {ctaLabel}
@@ -36,7 +30,7 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
             variant="outline"
             size="lg"
             className="glass-control min-w-44 touch-manipulation transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0"
-            onClick={() => scrollToId("repositories")}
+            onClick={() => scrollToSection("repositories")}
           >
             {viewWorkLabel}
             <ArrowDown className="ml-2 h-5 w-5" />
@@ -68,14 +62,14 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
 
         <div
           className="cursor-pointer touch-manipulation"
-          onClick={() => scrollToId("about")}
+          onClick={() => scrollToSection("about")}
           role="button"
           tabIndex={0}
           aria-label={scrollLabel}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              scrollToId("about");
+              scrollToSection("about");
             }
           }}
         >

@@ -7,6 +7,8 @@ import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, 
 import { useLocaleContext } from "@/components/locale-provider";
 import { useLocale } from "@/hooks/use-locale";
 import { getTranslation } from "@/lib/i18n";
+import { getPrimaryNavSections, getSecondaryNavSections } from "@/lib/navigation-sections";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 interface MobileMenuProps {
   activeId: string;
@@ -20,22 +22,34 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   const t = getTranslation(currentLocale);
 
   const PRIMARY_SECTION_IDS = useMemo(
-    () => [
-      { id: "home", label: t.nav.home, icon: House },
-      { id: "about", label: t.nav.about, icon: User },
-      { id: "experience", label: t.nav.experience, icon: Briefcase },
-      { id: "repositories", label: t.nav.repositories, icon: FolderGit2 },
-      { id: "contact", label: t.nav.contact, icon: Mail },
-    ],
-    [t.nav]
+    () =>
+      getPrimaryNavSections(currentLocale).map((section) => ({
+        ...section,
+        icon:
+          section.id === "home"
+            ? House
+            : section.id === "about"
+              ? User
+              : section.id === "experience"
+                ? Briefcase
+                : section.id === "repositories"
+                  ? FolderGit2
+                  : Mail,
+      })),
+    [currentLocale],
   );
   const SECONDARY_SECTION_IDS = useMemo(
-    () => [
-      { id: "education", label: t.nav.education, icon: GraduationCap },
-      { id: "leetcode", label: t.nav.leetcode, icon: Code2 },
-      { id: "coding-terminal", label: t.terminal.title, icon: Terminal },
-    ],
-    [t.nav, t.terminal.title]
+    () =>
+      getSecondaryNavSections(currentLocale).map((section) => ({
+        ...section,
+        icon:
+          section.id === "education"
+            ? GraduationCap
+            : section.id === "leetcode"
+              ? Code2
+              : Terminal,
+      })),
+    [currentLocale],
   );
   const secondarySectionIdSet = useMemo(
     () => new Set(SECONDARY_SECTION_IDS.map((section) => section.id)),
@@ -49,13 +63,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
   }, [activeId, open, secondarySectionIdSet]);
 
   const handleNavClick = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
+    scrollToSection(sectionId);
     setOpen(false);
   };
 
