@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { headers } from 'next/headers';
-import { ThemeProvider } from '@/components/theme-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -118,15 +117,7 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <ThemeProvider 
-          attribute="class" 
-          defaultTheme="dark" 
-          forcedTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange={false}
-        >
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );

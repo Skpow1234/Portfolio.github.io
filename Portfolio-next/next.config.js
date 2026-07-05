@@ -6,6 +6,7 @@ const nextConfig = {
   // Tree-shake barrel exports for faster dev/build (lucide-react, recharts are already optimized by Next)
   experimental: {
     optimizePackageImports: [
+      'lucide-react',
       '@radix-ui/react-accordion',
       '@radix-ui/react-alert-dialog',
       '@radix-ui/react-avatar',

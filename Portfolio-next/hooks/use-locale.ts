@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { Locale, locales, defaultLocale } from "@/lib/i18n";
 
 export function useLocale() {
@@ -15,11 +15,7 @@ export function useLocale() {
 
   const switchLocale = (locale: Locale) => {
     if (locale === currentLocale) return;
-    
-    // Preserve the current theme before navigation
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 
-                        document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-    
+
     const segments = pathname?.split("/").filter(Boolean) ?? [];
     if (!segments.length) {
       router.push(`/${locale}`);
@@ -34,19 +30,6 @@ export function useLocale() {
     
     router.push("/" + segments.join("/"));
   };
-
-  // Restore theme after locale change
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  }, [currentLocale]);
 
   return {
     currentLocale,
