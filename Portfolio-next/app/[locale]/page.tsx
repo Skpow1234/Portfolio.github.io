@@ -4,7 +4,7 @@ import { HeroSection } from "@/components/sections/hero";
 import { WorkExperienceSection } from "@/components/sections/work-experience";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
-import { RevealOnScroll } from "@/components/reveal-on-scroll";
+import { RevealOnScrollGroup } from "@/components/reveal-on-scroll";
 import { type Locale } from "@/lib/i18n";
 
 const EducationSection = dynamic(
@@ -43,24 +43,14 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection locale={validLocale} />
-      <RevealOnScroll>
+      <RevealOnScrollGroup>
         <AboutMeSection locale={validLocale} />
-      </RevealOnScroll>
-      <RevealOnScroll>
         <WorkExperienceSection locale={validLocale} />
-      </RevealOnScroll>
-      <RevealOnScroll>
         <RepositoriesSection locale={validLocale} />
-      </RevealOnScroll>
-      <RevealOnScroll>
         <ContactSection locale={validLocale} />
-      </RevealOnScroll>
-      <RevealOnScroll>
         <EducationSection locale={validLocale} />
-      </RevealOnScroll>
-      <RevealOnScroll>
-        <LeetCodeSection />
-      </RevealOnScroll>
+        <LeetCodeSection locale={validLocale} />
+      </RevealOnScrollGroup>
       <CodingTerminalSection />
     </main>
   );
