@@ -1,32 +1,30 @@
-function getHeaderOffset(): number {
-  const header = document.querySelector("header");
-  return header instanceof HTMLElement ? header.offsetHeight + 8 : 88;
-}
-
-function scrollToElement(sectionId: string, options?: { updateHash?: boolean }): boolean {
+function performScroll(sectionId: string, options?: { updateHash?: boolean }): boolean {
   const element = document.getElementById(sectionId);
   if (!element) return false;
 
-  const headerOffset = getHeaderOffset();
-  const top = element.getBoundingClientRect().top + window.scrollY - headerOffset;
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
 
-  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  element.scrollIntoView({ behavior: "smooth", block: "start" });
 
   if (options?.updateHash !== false) {
-    const nextUrl = `${window.location.pathname}${window.location.search}#${sectionId}`;
-    window.history.pushState(null, "", nextUrl);
+    const hash = `#${sectionId}`;
+    const nextUrl = `${window.location.pathname}${window.location.search}${hash}`;
+    if (`${window.location.pathname}${window.location.search}${window.location.hash}` !== nextUrl) {
+      window.history.replaceState(window.history.state, "", nextUrl);
+    }
   }
 
   return true;
 }
 
 export function scrollToSection(sectionId: string, options?: { updateHash?: boolean }) {
-  if (scrollToElement(sectionId, options)) return;
+  if (performScroll(sectionId, options)) return;
 
-  // Retry for lazily mounted sections (dynamic imports).
   window.requestAnimationFrame(() => {
-    if (scrollToElement(sectionId, options)) return;
-    window.setTimeout(() => scrollToElement(sectionId, options), 150);
-    window.setTimeout(() => scrollToElement(sectionId, options), 400);
+    if (performScroll(sectionId, options)) return;
+    window.setTimeout(() => performScroll(sectionId, options), 150);
+    window.setTimeout(() => performScroll(sectionId, options), 400);
   });
 }

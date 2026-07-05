@@ -7,14 +7,10 @@ function getHeaderOffset(): number {
   return header instanceof HTMLElement ? header.offsetHeight + 8 : 88;
 }
 
-function isInteractiveFocus(): boolean {
+function isScrollSpyPaused(): boolean {
   const active = document.activeElement;
-  return (
-    active instanceof HTMLSelectElement ||
-    active instanceof HTMLInputElement ||
-    active instanceof HTMLTextAreaElement ||
-    active instanceof HTMLButtonElement
-  );
+  if (!(active instanceof HTMLElement)) return false;
+  return Boolean(active.closest("select, input, textarea, [contenteditable='true']"));
 }
 
 export function useActiveSection(sectionIds: string[]) {
@@ -30,12 +26,12 @@ export function useActiveSection(sectionIds: string[]) {
       if (pendingClickRef.current === sectionId) {
         pendingClickRef.current = null;
       }
-    }, 1500);
+    }, 800);
   }, []);
 
   useEffect(() => {
     const updateFromScroll = () => {
-      if (pendingClickRef.current || isInteractiveFocus()) return;
+      if (pendingClickRef.current || isScrollSpyPaused()) return;
 
       const offset = getHeaderOffset();
       const ids = sectionIdsRef.current;
@@ -55,7 +51,7 @@ export function useActiveSection(sectionIds: string[]) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (pendingClickRef.current || isInteractiveFocus()) return;
+        if (pendingClickRef.current || isScrollSpyPaused()) return;
 
         const visible = entries
           .filter((entry) => entry.isIntersecting && entry.intersectionRatio > 0)

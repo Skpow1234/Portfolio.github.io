@@ -47,7 +47,7 @@ describe("Portfolio smoke tests", () => {
     });
   });
 
-  test("mobile nav click delegates to onNavClick", () => {
+  test("mobile nav click delegates to onNavClick", async () => {
     const onNavClick = jest.fn();
     render(
       <LocaleProvider locale="en">
@@ -57,7 +57,9 @@ describe("Portfolio smoke tests", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /toggle menu/i }));
     fireEvent.click(screen.getByRole("link", { name: /about/i }));
-    expect(onNavClick).toHaveBeenCalledWith("about");
+    await waitFor(() => {
+      expect(onNavClick).toHaveBeenCalledWith("about");
+    });
   });
 
   test("language switch links to the other locale", () => {
@@ -98,24 +100,22 @@ describe("Portfolio smoke tests", () => {
   });
 
   test("scrollToSection updates the URL hash", () => {
+    const scrollIntoView = jest.fn();
     window.scrollTo = jest.fn();
 
     const section = document.createElement("section");
     section.id = "contact";
+    section.scrollIntoView = scrollIntoView;
     document.body.appendChild(section);
 
-    const header = document.createElement("header");
-    Object.defineProperty(header, "offsetHeight", { value: 64 });
-    document.body.appendChild(header);
-
-    window.history.pushState(null, "", "/en");
+    window.history.replaceState(null, "", "/en");
 
     scrollToSection("contact");
 
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
     expect(window.location.hash).toBe("#contact");
 
     document.body.removeChild(section);
-    document.body.removeChild(header);
   });
 
   test("chatbot opens and sends a message", async () => {

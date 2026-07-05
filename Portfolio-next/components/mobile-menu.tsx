@@ -62,8 +62,8 @@ export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
   }, [activeId, open, secondarySectionIdSet]);
 
   const handleNavClick = (sectionId: string) => {
-    onNavClick(sectionId);
     setOpen(false);
+    window.setTimeout(() => onNavClick(sectionId), 200);
   };
 
   return (

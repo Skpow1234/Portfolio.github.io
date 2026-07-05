@@ -83,9 +83,11 @@ export function Header() {
   };
 
   const handleNavClick = (sectionId: string) => {
-    selectSection(sectionId);
-    scrollToSection(sectionId);
     closeMoreMenu();
+    selectSection(sectionId);
+    window.requestAnimationFrame(() => {
+      scrollToSection(sectionId);
+    });
     onCta(`nav-${sectionId}`);
   };
 
