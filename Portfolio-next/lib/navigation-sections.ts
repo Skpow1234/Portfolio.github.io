@@ -8,7 +8,7 @@ export function getPrimaryNavSections(locale: Locale): NavSection[] {
     { id: "home", label: t.nav.home },
     { id: "about", label: t.nav.about },
     { id: "experience", label: t.nav.experience },
-    { id: "repositories", label: t.nav.repositories },
+    { id: "repositories", label: t.nav.work },
     { id: "contact", label: t.nav.contact },
   ];
 }

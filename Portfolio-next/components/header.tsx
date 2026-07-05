@@ -28,19 +28,22 @@ function NavLink({
   onSelect: (sectionId: string) => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(id)}
+    <a
+      href={`#${id}`}
+      onClick={(event) => {
+        event.preventDefault();
+        onSelect(id);
+      }}
       className={cn(
         "relative rounded px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         active &&
-          "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-primary",
+          "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-brand",
       )}
       aria-current={active ? "page" : undefined}
       aria-label={`Navigate to ${label} section`}
     >
       <span className="relative z-10">{label}</span>
-    </button>
+    </a>
   );
 }
 
@@ -180,7 +183,7 @@ export function Header() {
                 className={cn(
                   "relative flex items-center gap-1 rounded px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                   (moreOpen || moreIsActive) &&
-                    "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-primary",
+                    "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-brand",
                 )}
                 aria-expanded={moreOpen}
                 aria-haspopup="menu"
@@ -203,18 +206,21 @@ export function Header() {
                   className="glass-panel absolute right-0 top-full z-50 mt-2 min-w-[12rem] rounded-xl border p-1 shadow-lg"
                 >
                   {secondarySections.map(({ id, label }) => (
-                    <button
+                    <a
                       key={id}
-                      type="button"
+                      href={`#${id}`}
                       role="menuitem"
-                      onClick={() => handleNavClick(id)}
+                      onClick={(event) => {
+                        event.preventDefault();
+                        handleNavClick(id);
+                      }}
                       className={cn(
                         "flex w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                         activeSection === id && "bg-accent text-foreground",
                       )}
                     >
                       {label}
-                    </button>
+                    </a>
                   ))}
                 </div>
               )}
@@ -246,7 +252,7 @@ export function Header() {
 
       <div className="absolute bottom-0 left-0 h-1 w-full bg-muted" aria-hidden="true">
         <div
-          className="h-full bg-primary transition-all duration-300 ease-out"
+          className="h-full bg-brand transition-all duration-300 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>

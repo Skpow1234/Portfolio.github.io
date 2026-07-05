@@ -3,31 +3,18 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  // Tree-shake barrel exports for faster dev/build (lucide-react, recharts are already optimized by Next)
   experimental: {
     optimizePackageImports: [
       'lucide-react',
-      '@radix-ui/react-accordion',
-      '@radix-ui/react-alert-dialog',
-      '@radix-ui/react-avatar',
-      '@radix-ui/react-checkbox',
       '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu',
       '@radix-ui/react-label',
-      '@radix-ui/react-popover',
-      '@radix-ui/react-progress',
       '@radix-ui/react-scroll-area',
-      '@radix-ui/react-select',
-      '@radix-ui/react-separator',
-      '@radix-ui/react-slider',
       '@radix-ui/react-slot',
-      '@radix-ui/react-switch',
-      '@radix-ui/react-tabs',
       '@radix-ui/react-toast',
-      '@radix-ui/react-tooltip',
+      '@radix-ui/react-toggle',
     ],
   },
-  images: { 
+  images: {
     unoptimized: false,
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -37,24 +24,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.simpleicons.org',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'github-readme-stats.vercel.app',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'github-readme-activity-graph.vercel.app',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'github-profile-summary-cards.vercel.app',
         port: '',
         pathname: '/**',
       },

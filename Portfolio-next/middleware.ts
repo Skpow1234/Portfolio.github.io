@@ -8,7 +8,7 @@ function buildCspHeader(nonce: string) {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https:",
     "font-src 'self' data:",
-    "connect-src 'self' https://api.github.com https://plausible.io",
+    "connect-src 'self' https://plausible.io",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",

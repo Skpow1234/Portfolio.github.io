@@ -457,7 +457,7 @@ WITH technology_interest AS (
         CASE
             WHEN section_name IN ('coding-terminal', 'repositories') THEN 'Development'
             WHEN section_name IN ('experience') THEN 'Professional'
-            WHEN section_name IN ('github-stats', 'about') THEN 'Personal'
+            WHEN section_name IN ('about') THEN 'Personal'
             ELSE 'Other'
         END as interest_category,
         SUM(time_spent) as category_time,

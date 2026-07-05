@@ -3,7 +3,7 @@
 import { Mail } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ContactForm } from "@/components/contact-form";
+import { ContactForm, type ContactFormLabels } from "@/components/contact-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 
@@ -11,9 +11,15 @@ type ContactSectionClientProps = {
   openFormLabel: string;
   dialogTitle: string;
   emailDirectLabel: string;
+  formLabels: ContactFormLabels;
 };
 
-export function ContactSectionClient({ openFormLabel, dialogTitle, emailDirectLabel }: ContactSectionClientProps) {
+export function ContactSectionClient({
+  openFormLabel,
+  dialogTitle,
+  emailDirectLabel,
+  formLabels,
+}: ContactSectionClientProps) {
   const [openDesktop, setOpenDesktop] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
@@ -30,7 +36,7 @@ export function ContactSectionClient({ openFormLabel, dialogTitle, emailDirectLa
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
           </DialogHeader>
-          <ContactForm onSuccess={() => setOpenDesktop(false)} />
+          <ContactForm labels={formLabels} onSuccess={() => setOpenDesktop(false)} />
         </DialogContent>
       </Dialog>
 
@@ -46,7 +52,7 @@ export function ContactSectionClient({ openFormLabel, dialogTitle, emailDirectLa
             <DrawerTitle>{dialogTitle}</DrawerTitle>
           </DrawerHeader>
           <div className="overflow-y-auto px-4 pb-4">
-            <ContactForm onSuccess={() => setOpenMobile(false)} />
+            <ContactForm labels={formLabels} onSuccess={() => setOpenMobile(false)} />
           </div>
         </DrawerContent>
       </Drawer>

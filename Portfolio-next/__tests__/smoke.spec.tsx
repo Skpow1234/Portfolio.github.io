@@ -4,6 +4,8 @@ import { MobileMenu } from "@/components/mobile-menu";
 import { ContactForm } from "@/components/contact-form";
 import { Chatbot } from "@/components/chatbot";
 import { Header } from "@/components/header";
+import { getTranslation } from "@/lib/i18n";
+import { scrollToSection } from "@/lib/scroll-to-section";
 
 const switchLocaleMock = jest.fn();
 const toastMock = jest.fn();
@@ -25,6 +27,9 @@ jest.mock("@/hooks/use-scroll-progress", () => ({
   useScrollProgress: () => 0,
 }));
 
+const englishLabels = getTranslation("en").contact.form;
+const spanishLabels = getTranslation("es").contact.form;
+
 describe("Portfolio smoke tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -34,7 +39,7 @@ describe("Portfolio smoke tests", () => {
     render(
       <LocaleProvider locale="en">
         <MobileMenu activeId="home" />
-      </LocaleProvider>
+      </LocaleProvider>,
     );
 
     fireEvent.click(screen.getByRole("button", { name: /toggle menu/i }));
@@ -46,11 +51,22 @@ describe("Portfolio smoke tests", () => {
     });
   });
 
+  test("mobile nav uses hash links", () => {
+    render(
+      <LocaleProvider locale="en">
+        <MobileMenu activeId="home" />
+      </LocaleProvider>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /toggle menu/i }));
+    expect(screen.getByRole("link", { name: /about/i })).toHaveAttribute("href", "#about");
+  });
+
   test("language switch triggers locale change", () => {
     render(
       <LocaleProvider locale="en">
         <Header />
-      </LocaleProvider>
+      </LocaleProvider>,
     );
 
     fireEvent.change(screen.getByLabelText("Language selector"), {
@@ -66,7 +82,7 @@ describe("Portfolio smoke tests", () => {
       json: async () => ({}),
     } as Response);
 
-    render(<ContactForm />);
+    render(<ContactForm labels={englishLabels} />);
 
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Juan" } });
     fireEvent.change(screen.getByLabelText("Email"), { target: { value: "juan@test.com" } });
@@ -76,11 +92,36 @@ describe("Portfolio smoke tests", () => {
     fireEvent.click(screen.getByRole("button", { name: "Send Message" }));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        "/api/send",
-        expect.objectContaining({ method: "POST" })
-      );
+      expect(global.fetch).toHaveBeenCalledWith("/api/send", expect.objectContaining({ method: "POST" }));
     });
+  });
+
+  test("contact form renders Spanish labels", () => {
+    render(<ContactForm labels={spanishLabels} />);
+
+    expect(screen.getByLabelText("Nombre")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Enviar mensaje" })).toBeInTheDocument();
+  });
+
+  test("scrollToSection updates the URL hash", () => {
+    window.scrollTo = jest.fn();
+
+    const section = document.createElement("section");
+    section.id = "contact";
+    document.body.appendChild(section);
+
+    const header = document.createElement("header");
+    Object.defineProperty(header, "offsetHeight", { value: 64 });
+    document.body.appendChild(header);
+
+    window.history.pushState(null, "", "/en");
+
+    scrollToSection("contact");
+
+    expect(window.location.hash).toBe("#contact");
+
+    document.body.removeChild(section);
+    document.body.removeChild(header);
   });
 
   test("chatbot opens and sends a message", async () => {
@@ -92,7 +133,7 @@ describe("Portfolio smoke tests", () => {
     render(
       <LocaleProvider locale="en">
         <Chatbot />
-      </LocaleProvider>
+      </LocaleProvider>,
     );
 
     fireEvent.click(screen.getByRole("button", { name: /open juan ai chatbot/i }));
@@ -110,4 +151,3 @@ describe("Portfolio smoke tests", () => {
     expect(await screen.findByText("Sure, I can help with that.")).toBeInTheDocument();
   });
 });
-

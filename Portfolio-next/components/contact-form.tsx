@@ -10,13 +10,32 @@ import { ContactSchema, ContactFormData } from "@/lib/validation/contact";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { z } from "zod";
 
+export type ContactFormLabels = {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  namePlaceholder: string;
+  emailPlaceholder: string;
+  subjectPlaceholder: string;
+  messagePlaceholder: string;
+  send: string;
+  sending: string;
+  successTitle: string;
+  successDescription: string;
+  errorTitle: string;
+  errorDescription: string;
+  loadingDescription: string;
+};
+
 interface ContactFormProps {
+  labels: ContactFormLabels;
   onSuccess?: () => void;
 }
 
 type FormState = ContactFormData & { website?: string };
 
-export function ContactForm({ onSuccess }: ContactFormProps) {
+export function ContactForm({ labels, onSuccess }: ContactFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -25,7 +44,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     email: "",
     subject: "",
     message: "",
-    website: "", // honeypot
+    website: "",
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
 
@@ -35,7 +54,6 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     setErrors({});
     setSubmitError(null);
 
-    // Client-side validation
     const extendedSchema = ContactSchema.extend({ website: z.string().max(0, "Spam detected") });
     const parseResult = extendedSchema.safeParse(formData);
     if (!parseResult.success) {
@@ -51,29 +69,29 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     }
 
     try {
-      const response = await fetch('/api/send', {
-        method: 'POST',
+      const response = await fetch("/api/send", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error("Failed to send message");
       }
 
       toast({
-        title: "Message sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
+        title: labels.successTitle,
+        description: labels.successDescription,
       });
       setFormData({ name: "", email: "", subject: "", message: "", website: "" });
       onSuccess?.();
-    } catch (error) {
-      setSubmitError("Failed to send message. Please try again later.");
+    } catch {
+      setSubmitError(labels.errorDescription);
       toast({
-        title: "Error",
-        description: "Failed to send message. Please try again later.",
+        title: labels.errorTitle,
+        description: labels.errorDescription,
         variant: "destructive",
       });
     } finally {
@@ -83,13 +101,12 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mt-4" autoComplete="off" aria-live="polite" noValidate>
-      {/* Honeypot field (hidden from users) */}
-      <div style={{ display: 'none' }} aria-hidden="true">
+    <form onSubmit={handleSubmit} className="mt-4 space-y-4" autoComplete="off" aria-live="polite" noValidate>
+      <div style={{ display: "none" }} aria-hidden="true">
         <label htmlFor="website">Website</label>
         <input
           id="website"
@@ -102,11 +119,11 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">{labels.name}</Label>
         <Input
           id="name"
           name="name"
-          placeholder="Your name"
+          placeholder={labels.namePlaceholder}
           value={formData.name}
           onChange={handleChange}
           required
@@ -115,15 +132,15 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           autoComplete="name"
           enterKeyHint="next"
         />
-        {errors.name && <p id="name-error" className="text-red-500 text-sm">{errors.name}</p>}
+        {errors.name && <p id="name-error" className="text-sm text-red-500">{errors.name}</p>}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email">{labels.email}</Label>
         <Input
           id="email"
           name="email"
           type="email"
-          placeholder="your@email.com"
+          placeholder={labels.emailPlaceholder}
           value={formData.email}
           onChange={handleChange}
           required
@@ -133,14 +150,14 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           inputMode="email"
           enterKeyHint="next"
         />
-        {errors.email && <p id="email-error" className="text-red-500 text-sm">{errors.email}</p>}
+        {errors.email && <p id="email-error" className="text-sm text-red-500">{errors.email}</p>}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="subject">Subject</Label>
+        <Label htmlFor="subject">{labels.subject}</Label>
         <Input
           id="subject"
           name="subject"
-          placeholder="What's this about?"
+          placeholder={labels.subjectPlaceholder}
           value={formData.subject}
           onChange={handleChange}
           required
@@ -149,14 +166,14 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           autoComplete="off"
           enterKeyHint="next"
         />
-        {errors.subject && <p id="subject-error" className="text-red-500 text-sm">{errors.subject}</p>}
+        {errors.subject && <p id="subject-error" className="text-sm text-red-500">{errors.subject}</p>}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
+        <Label htmlFor="message">{labels.message}</Label>
         <Textarea
           id="message"
           name="message"
-          placeholder="Your message..."
+          placeholder={labels.messagePlaceholder}
           value={formData.message}
           onChange={handleChange}
           className="min-h-[100px]"
@@ -167,27 +184,27 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           enterKeyHint="send"
           autoCapitalize="sentences"
         />
-        {errors.message && <p id="message-error" className="text-red-500 text-sm">{errors.message}</p>}
+        {errors.message && <p id="message-error" className="text-sm text-red-500">{errors.message}</p>}
       </div>
-      {errors.website && <p className="text-red-500 text-sm">{errors.website}</p>}
-      <Button 
-        type="submit" 
-        className="w-full" 
+      {errors.website && <p className="text-sm text-red-500">{errors.website}</p>}
+      <Button
+        type="submit"
+        className="w-full bg-brand text-brand-foreground hover:bg-brand/90"
         disabled={isLoading}
         aria-describedby={isLoading ? "loading-description" : undefined}
       >
         {isLoading ? (
           <>
             <LoadingSpinner size="sm" className="mr-2" />
-            Sending...
+            {labels.sending}
           </>
         ) : (
-          "Send Message"
+          labels.send
         )}
       </Button>
       {isLoading && (
         <p id="loading-description" className="sr-only">
-          Form is being submitted, please wait
+          {labels.loadingDescription}
         </p>
       )}
       {submitError && (

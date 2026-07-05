@@ -112,14 +112,18 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                   className="animate-in fade-in slide-in-from-right-3 duration-200 fill-mode-both"
                   style={{ animationDelay: `${index * 40}ms` }}
                 >
-                  <button
-                    onClick={() => handleNavClick(id)}
-                    className={`w-full rounded-2xl px-4 py-3 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                  <a
+                    href={`#${id}`}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      handleNavClick(id);
+                    }}
+                    className={`block w-full rounded-2xl px-4 py-3 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 ${
                       activeId === id
-                        ? "bg-primary text-primary-foreground shadow-md"
+                        ? "bg-brand text-brand-foreground shadow-md"
                         : "text-muted-foreground hover:bg-accent hover:text-foreground"
                     }`}
-                    aria-current={activeId === id ? 'page' : undefined}
+                    aria-current={activeId === id ? "page" : undefined}
                   >
                     <div className="flex items-center justify-between">
                       <span className="flex items-center gap-2.5">
@@ -127,10 +131,10 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                         <span className="font-medium text-base">{label}</span>
                       </span>
                       {activeId === id && (
-                        <span className="h-2 w-2 rounded-full bg-primary-foreground" aria-hidden="true" />
+                        <span className="h-2 w-2 rounded-full bg-brand-foreground" aria-hidden="true" />
                       )}
                     </div>
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -153,11 +157,15 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                 <ul className="mt-2 space-y-1">
                   {SECONDARY_SECTION_IDS.map(({ id, label, icon: Icon }) => (
                     <li key={id}>
-                      <button
-                        onClick={() => handleNavClick(id)}
-                        className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 ${
+                      <a
+                        href={`#${id}`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          handleNavClick(id);
+                        }}
+                        className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 ${
                           activeId === id
-                            ? "bg-primary/20 text-foreground"
+                            ? "bg-brand/20 text-foreground"
                             : "text-muted-foreground hover:bg-accent hover:text-foreground"
                         }`}
                         aria-current={activeId === id ? "page" : undefined}
@@ -166,7 +174,7 @@ export function MobileMenu({ activeId }: MobileMenuProps) {
                           <Icon className="h-4 w-4" aria-hidden="true" />
                           <span>{label}</span>
                         </span>
-                      </button>
+                      </a>
                     </li>
                   ))}
                 </ul>

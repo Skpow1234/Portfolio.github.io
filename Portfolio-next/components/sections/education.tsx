@@ -1,28 +1,25 @@
 import { Card } from "@/components/ui/card";
 import { education } from "@/lib/data/education";
 import { getTranslation, type Locale } from "@/lib/i18n";
+import { SectionShell } from "@/components/section-shell";
 
 export function EducationSection({ locale }: { locale: Locale }) {
   const t = getTranslation(locale);
 
   return (
-    <section id="education" className="scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20 border-y border-border/40">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-12 text-center">
-          {t.education.title}
-        </h2>
-        <div className="space-y-6">
-          {education.map((edu, index) => (
-            <div key={`${edu.institution}-${edu.degree}-${edu.period}-${index}`}>
-              <Card className="p-6 transform transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md">
-                <h3 className="text-xl font-semibold">{edu.institution}</h3>
-                <p className="text-muted-foreground">{edu.degree}</p>
-                <p className="text-sm text-muted-foreground">{edu.period}</p>
-              </Card>
-            </div>
-          ))}
-        </div>
+    <SectionShell id="education" variant="muted" priority="secondary" heading={t.education.title}>
+      <div className="space-y-6">
+        {education.map((edu, index) => (
+          <Card
+            key={`${edu.institution}-${edu.degree}-${edu.period}-${index}`}
+            className="p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md"
+          >
+            <h3 className="text-xl font-semibold">{edu.institution}</h3>
+            <p className="text-muted-foreground">{edu.degree}</p>
+            <p className="text-sm text-muted-foreground">{edu.period}</p>
+          </Card>
+        ))}
       </div>
-    </section>
+    </SectionShell>
   );
 }
