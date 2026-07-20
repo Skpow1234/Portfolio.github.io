@@ -11,6 +11,39 @@ export interface Repository {
 
 export const repositories: Repository[] = [
   {
+    name: "Squad-Finder",
+    description:
+      "Matchmaking platform for gamers who find teammates by game, rank, region, language, schedule, role, and playstyle.",
+    impact:
+      "Next.js + FastAPI stack with PostgreSQL, Redis, Socket.IO realtime, JWT auth, and Dockerized local API.",
+    url: "https://github.com/Skpow1234/Squad-Finder",
+    language: "Python",
+    stars: 0,
+    topics: ["matchmaking", "fastapi", "nextjs", "realtime", "gaming"],
+  },
+  {
+    name: "Kurae",
+    description:
+      "Social commerce platform for limited product drops, waitlists, checkout, inventory limits, referrals, and campaign analytics.",
+    impact:
+      "Next.js storefront with Go API, Redis workers, multi-provider payments, and OpenAPI-backed BFF architecture.",
+    url: "https://github.com/Skpow1234/Kurae",
+    language: "TypeScript",
+    stars: 0,
+    topics: ["ecommerce", "drops", "go", "nextjs", "payments"],
+  },
+  {
+    name: "LP-climb",
+    description:
+      "League-inspired Ranked Climb visualizations from GitHub contribution data — tier cards and animated ladders as SVG/PNG/WebP/GIF.",
+    impact:
+      "Hosted render API, GitHub Action for profile READMEs, themes, 1v1/team ladders, and OpenAPI docs.",
+    url: "https://github.com/Skpow1234/LP-climb",
+    language: "TypeScript",
+    stars: 1,
+    topics: ["github", "svg", "visualization", "api", "readme"],
+  },
+  {
     name: "TheWindowsTunning",
     description: "WinTune — native Windows performance doctor with CLI, TUI, and safe reversible fixes.",
     impact: "89+ commits, phased CLI/TUI delivery, GitHub Actions CI and portable releases.",
