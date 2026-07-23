@@ -11,6 +11,17 @@ export interface Repository {
 
 export const repositories: Repository[] = [
   {
+    name: "Sip-Happens",
+    description:
+      "Terminal-first beer shop for Colombia — SSH into a Bubble Tea TUI, browse catalog, build a cart, and check out off-terminal.",
+    impact:
+      "Go core API with PostgreSQL, Stripe-hosted payments (no card data in SSH), inventory reservations, and Docker-only ops.",
+    url: "https://github.com/Skpow1234/Sip-Happens",
+    language: "Go",
+    stars: 1,
+    topics: ["ssh", "tui", "ecommerce", "stripe", "golang"],
+  },
+  {
     name: "Squad-Finder",
     description:
       "Matchmaking platform for gamers who find teammates by game, rank, region, language, schedule, role, and playstyle.",
