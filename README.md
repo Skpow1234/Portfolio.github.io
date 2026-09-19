@@ -1,6 +1,6 @@
 # Juan Hurtado - Portfolio
 
-A modern, responsive portfolio website built with Next.js, TypeScript, and Tailwind CSS, showcasing my professional experience, skills, and contact information.
+A modern, responsive portfolio built with Next.js, TypeScript, and Tailwind CSS — featuring work experience, selected projects, bilingual content (EN/ES), and a contact form.
 
 ## Table of Contents
 
@@ -8,35 +8,43 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
+- [Scripts](#scripts)
 - [Customization](#customization)
 - [Contact](#contact)
 
 ## Features
 
-- **Responsive Design**: Fully responsive layout that works on all devices
-- **Dark/Light Mode**: Theme toggle with system preference support
-- **Interactive Timeline**: Animated work experience timeline
-- **Modern UI**: Built with Tailwind CSS and shadcn/ui components
-- **Type Safety**: Full TypeScript support
-- **Modular Architecture**: Component-based structure for easy maintenance
-- **Internationalization**: English and Spanish language support
-- **GitHub Integration**: Cached GitHub stats and repository showcase
+- **Responsive layout** for mobile and desktop
+- **Rootprint-inspired UI** — light canvas, Geist Mono, hairline borders, flat panels
+- **Featured work** case-study cards for selected GitHub projects
+- **Work experience** with expandable role details
+- **Bilingual** English / Spanish (`/en`, `/es`)
+- **Contact form** with validation and email delivery
+- **Lazy-loaded** chatbot and coding terminal for a lighter first paint
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.5.2
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Icons**: Lucide React
+- **Framework**: Next.js 16.3.5
+- **Language**: TypeScript 5.9
+- **Runtime UI**: React 19
+- **Styling**: Tailwind CSS 4
+- **Package manager**: pnpm
+- **UI primitives**: Radix UI / shadcn-style components
+- **Icons**: Lucide React (+ local brand SVGs)
+- **Validation**: Zod 4
 - **Deployment**: Vercel / Next.js runtime
 
 ## Project Structure
 
+App code lives in `Portfolio-next/`:
+
 ```bash
+Portfolio-next/
 ├── app/
 │   ├── api/
-│   │   └── github-stats/
+│   │   ├── chatbot/
+│   │   ├── leetcode-stats/
+│   │   └── send/
 │   ├── [locale]/
 │   │   ├── layout.tsx
 │   │   └── page.tsx
@@ -45,94 +53,82 @@ A modern, responsive portfolio website built with Next.js, TypeScript, and Tailw
 │   └── page.tsx
 ├── components/
 │   ├── sections/
-│   │   ├── about-me.tsx
-│   │   ├── contact.tsx
-│   │   ├── education.tsx
-│   │   ├── github-stats.tsx
-│   │   ├── hero.tsx
-│   │   ├── repositories.tsx
-│   │   ├── skills.tsx
-│   │   └── work-experience.tsx
 │   ├── ui/
-│   ├── contact-form.tsx
 │   ├── header.tsx
 │   ├── mobile-menu.tsx
-│   ├── mode-toggle.tsx
-│   └── theme-provider.tsx
+│   └── ...
 ├── hooks/
-│   ├── use-github-stats.ts
-│   ├── use-locale.ts
-│   ├── use-scroll-progress.ts
-│   ├── use-smooth-scroll.ts
-│   └── use-toast.ts
 ├── lib/
-│   ├── config/
 │   ├── data/
-│   │   ├── education.ts
-│   │   ├── github-stats.ts
-│   │   ├── repositories.ts
-│   │   ├── skills.ts
-│   │   └── work-experience.ts
-│   ├── i18n.ts
-│   ├── rate-limit.ts
-│   ├── types/
-│   │   └── index.ts
-│   ├── utils.ts
+│   ├── i18n/
 │   └── validation/
-│       └── contact.ts
-└── public/
+├── proxy.ts
+├── package.json
+└── pnpm-lock.yaml
 ```
 
 ## Getting Started
 
-1.**Clone the repository**
+### Prerequisites
+
+- Node.js 20+
+- [pnpm](https://pnpm.io/installation) 10+
+
+```bash
+npm install -g pnpm@latest
+# or: corepack enable && corepack prepare pnpm@latest --activate
+```
+
+### Setup
+
+1. **Clone the repository**
 
 ```bash
 git clone https://github.com/Skpow1234/Portfolio.github.io
+cd Portfolio.github.io/Portfolio-next
 ```
 
-2.**Install dependencies**
+2. **Install dependencies**
 
 ```bash
-npm install
+pnpm install
 ```
 
-3.**Run the development server**
+3. **Run the development server**
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-4.**Build for production**
+Open [http://localhost:3000](http://localhost:3000) (redirects to `/en`).
+
+4. **Build for production**
 
 ```bash
-npm run build
+pnpm build
+pnpm start
 ```
 
-For a faster (experimental) production build using Turbopack:
+## Scripts
 
-```bash
-npm run build:turbo
-```
-
-## Performance
-
-- **Dev**: `npm run dev` uses Turbopack for faster startup and HMR.
-- **Build**: `npm run build:turbo` uses Turbopack (experimental) for faster compilation.
-- **Bundle**: Radix UI and other barrel exports are tree-shaken via `optimizePackageImports`.
-- **Lazy loading**: Chatbot and Coding Terminal load after the initial page so the first paint stays light.
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start Next.js dev server |
+| `pnpm dev:clean` | Delete `.next` then start dev |
+| `pnpm build` | Production build |
+| `pnpm start` | Serve the production build |
+| `pnpm test` | Run Jest smoke tests |
+| `pnpm lint` | Run ESLint |
 
 ## Customization
 
-1. **Personal Information**: Update the content in `lib/data/` directory
-2. **Styling**: Modify `tailwind.config.ts` and `app/globals.css`
-3. **Components**: Customize components in the `components/` directory
-4. **Translations**: Modify `lib/i18n.ts` for language content
-5. **GitHub Integration**: Update GitHub username in `lib/data/github-stats.ts`
+1. **Personal / project data**: `lib/data/` (repositories, experience, education)
+2. **Styling**: `app/globals.css` (Tailwind v4 theme tokens)
+3. **Components**: `components/`
+4. **Translations**: `lib/i18n/en.ts` and `lib/i18n/es.ts`
+5. **Locale routing**: `app/[locale]/` and `proxy.ts`
 
 ## Contact
-
-Feel free to reach out if you have any questions or just want to connect:
 
 - GitHub: [@Skpow1234](https://github.com/Skpow1234)
 - LinkedIn: [Juan Felipe H](https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/)
