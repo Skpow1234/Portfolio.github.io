@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 const LEETCODE_USERNAME = 'Skpow1234';
 const LEETCODE_STATS_API = `https://leetcode-stats-api.herokuapp.com/${LEETCODE_USERNAME}`;
 const CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
 const FETCH_TIMEOUT_MS = 6000;
 
-// Cache for 1 hour (stats don't change every second)
 export const revalidate = 3600;
 
 export interface LeetCodeStatsResponse {
@@ -86,10 +86,15 @@ async function tryFetchLeetCodeStats(): Promise<LeetCodeStatsResponse | null> {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { response: rateLimitResponse, headers: rateLimitHeaders, allowed } =
+    await checkRateLimit(req, 'leetcode');
+  if (!allowed && rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   const now = Date.now();
 
-  // Fast path: return warm cache immediately.
   if (memoryCache && now - memoryCache.cachedAt < CACHE_TTL_MS) {
     return NextResponse.json(
       {
@@ -97,8 +102,8 @@ export async function GET() {
         lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
       },
       {
-        headers: { 'X-Cache': 'HIT' },
-      }
+        headers: { ...rateLimitHeaders, 'X-Cache': 'HIT' },
+      },
     );
   }
 
@@ -112,12 +117,11 @@ export async function GET() {
         lastUpdatedAt: new Date(now).toISOString(),
       },
       {
-        headers: { 'X-Cache': 'MISS' },
-      }
+        headers: { ...rateLimitHeaders, 'X-Cache': 'MISS' },
+      },
     );
   }
 
-  // Upstream failed: prefer stale in-memory cache (may be past TTL).
   if (memoryCache) {
     return NextResponse.json(
       {
@@ -125,12 +129,11 @@ export async function GET() {
         lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
       },
       {
-        headers: { 'X-Cache': 'STALE' },
-      }
+        headers: { ...rateLimitHeaders, 'X-Cache': 'STALE' },
+      },
     );
   }
 
-  // Cold start with no cache: return static fallback as success so the UI stays useful.
   const fallback = buildFallbackPayload();
   return NextResponse.json(
     {
@@ -140,7 +143,7 @@ export async function GET() {
     },
     {
       status: 200,
-      headers: { 'X-Cache': 'FALLBACK' },
-    }
+      headers: { ...rateLimitHeaders, 'X-Cache': 'FALLBACK' },
+    },
   );
 }

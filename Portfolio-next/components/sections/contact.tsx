@@ -16,10 +16,8 @@ export function ContactSection({ locale }: { locale: Locale }) {
     >
       <div className="mx-auto max-w-2xl text-center">
         <ContactSectionClient
-          openFormLabel={t.contact.openForm}
-          dialogTitle={t.contact.sendMessage}
-          emailDirectLabel={t.contact.emailDirect}
-          formLabels={t.contact.form}
+          linkedinLabel={t.contact.linkedin}
+          githubLabel={t.contact.github}
         />
       </div>
     </SectionShell>

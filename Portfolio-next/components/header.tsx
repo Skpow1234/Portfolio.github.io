@@ -15,6 +15,7 @@ import {
 import { scrollToSection } from "@/lib/scroll-to-section";
 import { MobileMenu } from "@/components/mobile-menu";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { CommandPaletteTrigger } from "@/components/command-palette";
 import { useScrollProgress } from "@/hooks/use-scroll-progress";
 
 function NavLink({
@@ -162,6 +163,7 @@ export function Header() {
           </nav>
         </div>
         <div className="flex shrink-0 items-center gap-2">
+          <CommandPaletteTrigger />
           <LanguageSwitcher locale={currentLocale} />
           <Button
             size="sm"

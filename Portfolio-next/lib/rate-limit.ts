@@ -1,56 +1,52 @@
-interface RateLimitConfig {
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
+
+export interface RateLimitConfig {
   interval: number; // Time window in milliseconds
   limit: number; // Maximum requests per interval
 }
 
-interface RateLimitEntry {
-  count: number;
-  resetTime: number;
-}
-
-interface RateLimitResult {
+export interface RateLimitResult {
   success: boolean;
   remaining: number;
   resetTime: number;
 }
 
+interface MemoryEntry {
+  count: number;
+  resetTime: number;
+}
+
 /**
- * Rate limiter with automatic cleanup using LRU-style eviction.
- * 
- * Note: This is an in-memory implementation suitable for single-instance deployments.
- * For production with multiple instances, consider using:
- * - Upstash Rate Limit (@upstash/ratelimit)
- * - Redis-based rate limiting
- * - Vercel KV
+ * In-memory fallback used when Upstash Redis env vars are not configured
+ * (local dev / single-instance). Not durable across Vercel instances.
  */
-class RateLimiter {
-  private store: Map<string, RateLimitEntry> = new Map();
-  private readonly maxEntries = 10000; // Prevent unbounded growth
+class MemoryRateLimiter {
+  private store = new Map<string, MemoryEntry>();
+  private readonly maxEntries = 10000;
   private lastCleanup = Date.now();
-  private readonly cleanupInterval = 60000; // 1 minute
+  private readonly cleanupInterval = 60000;
 
   check(identifier: string, config: RateLimitConfig): RateLimitResult {
     const now = Date.now();
-    
-    // Perform cleanup if needed (lazy cleanup instead of setInterval)
+
     if (now - this.lastCleanup > this.cleanupInterval) {
       this.cleanup(now);
     }
 
     const entry = this.store.get(identifier);
-    
-    // New entry or expired entry
+
     if (!entry || now > entry.resetTime) {
-      const newEntry: RateLimitEntry = {
+      const newEntry: MemoryEntry = {
         count: 1,
         resetTime: now + config.interval,
       };
-      
-      // Check if we need to evict old entries before adding
+
       if (this.store.size >= this.maxEntries) {
-        this.evictOldest();
+        const firstKey = this.store.keys().next().value;
+        if (firstKey !== undefined) this.store.delete(firstKey);
       }
-      
+
       this.store.set(identifier, newEntry);
       return {
         success: true,
@@ -58,8 +54,7 @@ class RateLimiter {
         resetTime: newEntry.resetTime,
       };
     }
-    
-    // Rate limit exceeded
+
     if (entry.count >= config.limit) {
       return {
         success: false,
@@ -67,8 +62,7 @@ class RateLimiter {
         resetTime: entry.resetTime,
       };
     }
-    
-    // Increment count
+
     entry.count++;
     return {
       success: true,
@@ -79,52 +73,67 @@ class RateLimiter {
 
   private cleanup(now: number): void {
     this.lastCleanup = now;
-    const keysToDelete: string[] = [];
-    
-    this.store.forEach((entry, key) => {
-      if (now > entry.resetTime) {
-        keysToDelete.push(key);
-      }
-    });
-    
-    keysToDelete.forEach(key => this.store.delete(key));
-  }
-
-  private evictOldest(): void {
-    // Map maintains insertion order, so first entry is oldest
-    let firstKey: string | undefined;
-    this.store.forEach((_, key) => {
-      if (firstKey === undefined) {
-        firstKey = key;
-      }
-    });
-    if (firstKey) {
-      this.store.delete(firstKey);
+    for (const [key, entry] of this.store) {
+      if (now > entry.resetTime) this.store.delete(key);
     }
   }
 
-  // For testing purposes
   clear(): void {
     this.store.clear();
   }
-
-  get size(): number {
-    return this.store.size;
-  }
 }
 
-// Singleton instance
-const rateLimiter = new RateLimiter();
+const memoryLimiter = new MemoryRateLimiter();
+
+const upstashLimiters = new Map<string, Ratelimit>();
+
+function hasUpstashEnv(): boolean {
+  return Boolean(
+    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN,
+  );
+}
+
+function getUpstashLimiter(config: RateLimitConfig): Ratelimit {
+  const key = `${config.interval}:${config.limit}`;
+  let limiter = upstashLimiters.get(key);
+  if (!limiter) {
+    const windowSeconds = Math.max(1, Math.ceil(config.interval / 1000));
+    limiter = new Ratelimit({
+      redis: Redis.fromEnv(),
+      limiter: Ratelimit.slidingWindow(config.limit, `${windowSeconds} s`),
+      analytics: false,
+      prefix: 'portfolio-rl',
+    });
+    upstashLimiters.set(key, limiter);
+  }
+  return limiter;
+}
 
 /**
- * Creates a rate limiter function for the given configuration.
- * Uses a shared in-memory store with automatic cleanup.
+ * Rate-limit an identifier. Uses Upstash Redis when configured, otherwise
+ * falls back to process-local memory.
  */
+export async function checkIdentifierRateLimit(
+  identifier: string,
+  config: RateLimitConfig,
+): Promise<RateLimitResult> {
+  if (hasUpstashEnv()) {
+    const result = await getUpstashLimiter(config).limit(identifier);
+    return {
+      success: result.success,
+      remaining: result.remaining,
+      resetTime: result.reset,
+    };
+  }
+
+  return memoryLimiter.check(identifier, config);
+}
+
+/** @deprecated Prefer checkIdentifierRateLimit for async Upstash support */
 export function rateLimit(config: RateLimitConfig) {
   return function (identifier: string): RateLimitResult {
-    return rateLimiter.check(identifier, config);
+    return memoryLimiter.check(identifier, config);
   };
 }
 
-// Export for testing
-export { RateLimiter };
+export { MemoryRateLimiter as RateLimiter };
