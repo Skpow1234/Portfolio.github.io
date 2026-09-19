@@ -32,7 +32,7 @@ export function ContactSectionClient({
             {openFormLabel}
           </Button>
         </DialogTrigger>
-        <DialogContent className="glass-panel sm:max-w-[425px]">
+        <DialogContent className="border border-border bg-background sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>{dialogTitle}</DialogTitle>
           </DialogHeader>
@@ -47,7 +47,7 @@ export function ContactSectionClient({
             {openFormLabel}
           </Button>
         </DrawerTrigger>
-        <DrawerContent className="glass-panel max-h-[88vh]">
+        <DrawerContent className="border border-border bg-background max-h-[88vh]">
           <DrawerHeader>
             <DrawerTitle>{dialogTitle}</DrawerTitle>
           </DrawerHeader>

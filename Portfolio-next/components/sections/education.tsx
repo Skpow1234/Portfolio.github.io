@@ -12,7 +12,7 @@ export function EducationSection({ locale }: { locale: Locale }) {
         {education.map((edu, index) => (
           <Card
             key={`${edu.institution}-${edu.degree}-${edu.period}-${index}`}
-            className="p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md"
+            className="border border-border p-6"
           >
             <h3 className="text-xl font-semibold">{edu.institution}</h3>
             <p className="text-muted-foreground">{edu.degree}</p>

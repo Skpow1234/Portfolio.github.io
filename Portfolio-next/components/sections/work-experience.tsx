@@ -22,7 +22,7 @@ export function WorkExperienceSection({ locale }: { locale: Locale }) {
           return (
             <Card
               key={detailsId}
-              className="p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md sm:p-6"
+            className="p-5 border border-border sm:p-6"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0 space-y-1">
@@ -46,7 +46,7 @@ export function WorkExperienceSection({ locale }: { locale: Locale }) {
                     {experience.methodologies.map((methodology) => (
                       <span
                         key={methodology}
-                        className="rounded-full border border-border/60 bg-secondary/35 px-2.5 py-1 text-xs text-muted-foreground"
+                        className="border border-border/60 bg-secondary/35 px-2.5 py-1 text-xs text-muted-foreground"
                       >
                         {methodology}
                       </span>
@@ -64,13 +64,13 @@ export function WorkExperienceSection({ locale }: { locale: Locale }) {
                     {visibleSkills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full border border-border/60 bg-secondary/40 px-2.5 py-1 text-xs text-foreground"
+                        className="border border-border/60 bg-secondary/40 px-2.5 py-1 text-xs text-foreground"
                       >
                         {skill}
                       </span>
                     ))}
                     {hiddenSkillCount > 0 && (
-                      <span className="rounded-full border border-border/60 px-2.5 py-1 text-xs text-muted-foreground">
+                      <span className="border border-border/60 px-2.5 py-1 text-xs text-muted-foreground">
                         +{hiddenSkillCount}
                       </span>
                     )}

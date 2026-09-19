@@ -189,7 +189,7 @@ export function ContactForm({ labels, onSuccess }: ContactFormProps) {
       {errors.website && <p className="text-sm text-red-500">{errors.website}</p>}
       <Button
         type="submit"
-        className="w-full bg-brand text-brand-foreground hover:bg-brand/90"
+        className="w-full"
         disabled={isLoading}
         aria-describedby={isLoading ? "loading-description" : undefined}
       >

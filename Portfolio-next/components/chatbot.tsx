@@ -189,7 +189,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
     >
       {isOpen && (
           <div
-            className={`glass-panel rounded-lg border animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-200 ${
+            className={`border border-border bg-card animate-in fade-in zoom-in-95 slide-in-from-bottom-4 duration-200 ${
               isMinimized
                 ? 'h-12 w-[calc(100vw-1rem)] max-w-sm sm:w-80'
                 : 'h-[70vh] max-h-[560px] w-[calc(100vw-1rem)] max-w-sm sm:h-[500px] sm:w-96'
@@ -359,7 +359,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
           </span>
           <Button
             onClick={() => setIsOpen(true)}
-            className="w-14 h-14 rounded-full border border-black/30 shadow-lg bg-primary text-black hover:bg-primary/90"
+            className="h-12 w-12 border border-border bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg"
             aria-label="Open Juan AI chatbot"
             title="Juan AI"

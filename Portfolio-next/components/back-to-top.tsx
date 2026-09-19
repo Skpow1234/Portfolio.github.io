@@ -47,7 +47,7 @@ export function BackToTopButton() {
         size="icon"
         onClick={handleClick}
         aria-label="Back to top"
-        className="h-11 w-11 rounded-full border-border/70 bg-background/90 shadow-sm backdrop-blur hover:-translate-y-0.5 hover:shadow-md"
+        className="h-11 w-11 border border-border bg-background hover:bg-secondary"
       >
         <ChevronUp className="h-5 w-5" />
       </Button>

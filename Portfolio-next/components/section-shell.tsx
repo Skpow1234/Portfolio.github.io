@@ -5,14 +5,14 @@ type SectionVariant = "plain" | "muted" | "accent";
 type SectionPriority = "primary" | "secondary";
 
 const variantClasses: Record<SectionVariant, string> = {
-  plain: "border-y border-border/40",
-  muted: "bg-secondary/15 border-y border-border/40",
-  accent: "bg-secondary/30 border-y border-border/40",
+  plain: "border-y border-border",
+  muted: "border-y border-border bg-secondary/50",
+  accent: "border-y border-border bg-card",
 };
 
 const headingClasses: Record<SectionPriority, string> = {
-  primary: "text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight",
-  secondary: "text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight",
+  primary: "text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight",
+  secondary: "text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight",
 };
 
 type SectionShellProps = {
@@ -38,17 +38,17 @@ export function SectionShell({
     <section
       id={id}
       className={cn(
-        "scroll-mt-24 py-16 sm:py-20 px-4 sm:px-6 lg:px-8",
+        "scroll-mt-24 px-4 py-14 sm:px-6 sm:py-16 lg:px-8",
         variantClasses[variant],
         className,
       )}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         {heading && (
-          <div className="mb-8 sm:mb-12 text-center">
+          <div className="mb-8 text-left sm:mb-10">
             <h2 className={headingClasses[priority]}>{heading}</h2>
             {subheading && (
-              <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
                 {subheading}
               </p>
             )}

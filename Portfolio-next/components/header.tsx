@@ -2,7 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Github } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useLocaleContext } from "@/components/locale-provider";
 import { useActiveSection } from "@/hooks/use-active-section";
@@ -33,14 +33,13 @@ function NavLink({
       type="button"
       onClick={() => onSelect(id)}
       className={cn(
-        "relative rounded px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        active &&
-          "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-brand",
+        "relative px-2.5 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
+        active && "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:bg-foreground",
       )}
       aria-current={active ? "page" : undefined}
       aria-label={`Navigate to ${label} section`}
     >
-      <span className="relative z-10">{label}</span>
+      {label}
     </button>
   );
 }
@@ -94,22 +93,22 @@ export function Header() {
   const moreIsActive = secondarySectionIds.has(activeSection);
 
   return (
-    <header
-      className={cn(
-        "glass-shell relative sticky top-0 z-50 w-full overflow-visible border-b transition-all duration-300",
-        scrollProgress > 2 && "shadow-[0_16px_48px_rgb(0_0_0/0.24)]",
-      )}
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-2.5 sm:px-6 sm:py-3">
-        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+    <header className="sticky top-0 z-50 w-full overflow-visible border-b border-border bg-background">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-5">
           <a
-            href="https://github.com/Skpow1234"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded transition-colors duration-200 hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 sm:h-auto sm:w-auto sm:p-1"
-            aria-label="Visit GitHub profile"
+            href="#home"
+            onClick={(event) => {
+              event.preventDefault();
+              handleNavClick("home");
+            }}
+            className="flex shrink-0 items-center gap-2 text-foreground"
+            aria-label="Juan Hurtado — Home"
           >
-            <Github className="h-6 w-6" />
+            <span className="inline-flex h-7 w-7 items-center justify-center bg-primary text-[11px] font-bold text-primary-foreground">
+              JH
+            </span>
+            <span className="hidden text-sm font-medium sm:inline">Juan Hurtado</span>
           </a>
           <nav
             className="hidden min-w-0 items-center gap-0.5 overflow-visible md:flex"
@@ -128,24 +127,21 @@ export function Header() {
             <details ref={moreDetailsRef} className="group relative">
               <summary
                 className={cn(
-                  "relative flex cursor-pointer list-none items-center gap-1 rounded px-3 py-2 text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&::-webkit-details-marker]:hidden",
-                  moreIsActive &&
-                    "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-brand",
+                  "flex cursor-pointer list-none items-center gap-1 border border-border px-2.5 py-1.5 text-sm text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden",
+                  moreIsActive && "text-foreground",
                   "group-open:text-foreground",
                 )}
                 aria-label={currentLocale === "en" ? "More sections" : "Más secciones"}
               >
-                <span className="relative z-10">
-                  {currentLocale === "en" ? "More" : "Más"}
-                </span>
+                <span>[ {currentLocale === "en" ? "more" : "más"} ]</span>
                 <ChevronDown
-                  className="relative z-10 h-4 w-4 transition-transform duration-200 group-open:rotate-180"
+                  className="h-3.5 w-3.5 transition-transform group-open:rotate-180"
                   aria-hidden="true"
                 />
               </summary>
               <div
                 role="menu"
-                className="glass-panel absolute right-0 top-full z-[100] mt-2 min-w-[12rem] rounded-xl border p-1 shadow-lg"
+                className="absolute right-0 top-full z-[100] mt-1 min-w-[12rem] border border-border bg-card p-1"
               >
                 {secondarySections.map(({ id, label }) => (
                   <button
@@ -154,8 +150,8 @@ export function Header() {
                     role="menuitem"
                     onClick={() => handleNavClick(id)}
                     className={cn(
-                      "flex w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      activeSection === id && "bg-accent text-foreground",
+                      "flex w-full px-3 py-2 text-left text-sm text-muted-foreground hover:bg-secondary hover:text-foreground",
+                      activeSection === id && "bg-secondary text-foreground",
                     )}
                   >
                     {label}
@@ -165,14 +161,13 @@ export function Header() {
             </details>
           </nav>
         </div>
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <LanguageSwitcher locale={currentLocale} />
-
           <Button
             size="sm"
             type="button"
             onClick={() => handleNavClick("contact")}
-            className="hidden sm:inline-flex transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm"
+            className="hidden sm:inline-flex"
           >
             {t.nav.contact}
           </Button>
@@ -180,9 +175,9 @@ export function Header() {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-0 left-0 h-1 w-full bg-muted" aria-hidden="true">
+      <div className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-border" aria-hidden="true">
         <div
-          className="h-full bg-brand transition-all duration-300 ease-out"
+          className="h-full bg-brand transition-[width] duration-300 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
       </div>

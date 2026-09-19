@@ -24,7 +24,7 @@ export function ChatbotLazy() {
             setOpenOnMount(true);
             setShouldMount(true);
           }}
-          className="w-14 h-14 rounded-full border border-black/30 shadow-lg bg-primary text-black hover:bg-primary/90"
+          className="h-12 w-12 border border-border bg-primary text-primary-foreground hover:bg-primary/90"
           size="lg"
           aria-label="Open Juan AI chatbot"
           title="Juan AI"

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, Menu, Terminal, User } from "lucide-react";
+import { Briefcase, ChevronDown, Code2, FolderGit2, GraduationCap, House, Mail, Terminal, User } from "lucide-react";
 import { useLocaleContext } from "@/components/locale-provider";
 import { getPrimaryNavSections, getSecondaryNavSections } from "@/lib/navigation-sections";
 import { getTranslation } from "@/lib/i18n";
@@ -78,15 +78,15 @@ export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
     >
       <SheetTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="sm"
-          className="h-11 w-11 md:hidden p-0 hover:bg-accent hover:-translate-y-0.5 hover:shadow-sm transition-all duration-200"
+          className="h-9 px-2.5 text-xs md:hidden"
         >
-          <Menu className="h-5 w-5" />
+          [ menu ]
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="glass-panel z-[100] w-[280px] p-0 sm:w-[350px]">
+      <SheetContent side="right" className="z-[100] w-[280px] border-l border-border bg-background p-0 sm:w-[350px]">
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="p-6 border-b">
@@ -117,10 +117,10 @@ export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
                       event.preventDefault();
                       handleNavClick(id);
                     }}
-                    className={`block w-full rounded-2xl px-4 py-3 text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 ${
+                    className={`block w-full px-4 py-3 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-ring ${
                       activeId === id
-                        ? "bg-brand text-brand-foreground shadow-md"
-                        : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                     aria-current={activeId === id ? "page" : undefined}
                   >
@@ -130,7 +130,7 @@ export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
                         <span className="font-medium text-base">{label}</span>
                       </span>
                       {activeId === id && (
-                        <span className="h-2 w-2 rounded-full bg-brand-foreground" aria-hidden="true" />
+                        <span className="h-1.5 w-1.5 bg-primary-foreground" aria-hidden="true" />
                       )}
                     </div>
                   </a>
@@ -142,7 +142,7 @@ export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
               <button
                 type="button"
                 onClick={() => setShowMore((prev) => !prev)}
-                className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-accent hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="flex w-full items-center justify-between border border-border px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                 aria-expanded={showMore}
               >
                 <span>{currentLocale === "en" ? "More sections" : "Más secciones"}</span>
@@ -162,10 +162,10 @@ export function MobileMenu({ activeId, onNavClick }: MobileMenuProps) {
                           event.preventDefault();
                           handleNavClick(id);
                         }}
-                        className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 ${
+                        className={`block w-full px-3 py-2 text-left text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring ${
                           activeId === id
-                            ? "bg-brand/20 text-foreground"
-                            : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                            ? "bg-secondary text-foreground"
+                            : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                         }`}
                         aria-current={activeId === id ? "page" : undefined}
                       >

@@ -60,10 +60,10 @@ export function CodingTerminalSection() {
           </div>
 
           {!isTerminalOpen ? (
-            <div className="glass-panel mx-auto max-w-3xl rounded-xl border p-5 text-center sm:p-6">
-              <div className="flex flex-wrap justify-center gap-3 text-sm text-muted-foreground">
+            <div className="mx-auto max-w-3xl border border-border bg-card p-5 text-center sm:p-6">
+              <div className="flex flex-wrap justify-center gap-2 text-sm text-muted-foreground">
                 {featureItems.map(({ icon: Icon, label }) => (
-                  <div key={label} className="glass-control flex items-center gap-2 rounded-full border px-3 py-1.5">
+                  <div key={label} className="flex items-center gap-2 border border-border px-3 py-1.5">
                     <Icon className="h-4 w-4" aria-hidden="true" />
                     <span>{label}</span>
                   </div>
@@ -85,7 +85,6 @@ export function CodingTerminalSection() {
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="glass-control"
                   onClick={() => {
                     setIsFullscreen(false);
                     setIsTerminalOpen(false);

@@ -28,7 +28,7 @@ export function LanguageSwitcher({ locale, className }: LanguageSwitcherProps) {
     <div
       role="group"
       aria-label={locale === "en" ? "Language selector" : "Selector de idioma"}
-      className={cn("glass-control flex rounded-md border p-0.5", className)}
+      className={cn("flex border border-border", className)}
     >
       {(["en", "es"] as const).map((code) => (
         <Link
@@ -38,10 +38,10 @@ export function LanguageSwitcher({ locale, className }: LanguageSwitcherProps) {
           replace
           aria-current={locale === code ? "true" : undefined}
           className={cn(
-            "inline-flex h-8 min-w-[2.25rem] items-center justify-center rounded px-2 text-xs font-medium transition-colors sm:text-sm",
+            "inline-flex h-8 min-w-[2.25rem] items-center justify-center px-2 text-xs font-medium sm:text-sm",
             locale === code
-              ? "bg-background text-foreground shadow-sm"
-              : "text-muted-foreground hover:text-foreground",
+              ? "bg-primary text-primary-foreground"
+              : "bg-background text-muted-foreground hover:text-foreground",
           )}
         >
           {code.toUpperCase()}

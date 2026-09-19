@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { scrollToSection } from "@/lib/scroll-to-section";
+import { GithubIcon, LinkedinIcon } from "@/components/icons/brands";
 import type { ReactNode } from "react";
 
 type HeroInteractiveProps = {
@@ -15,31 +16,31 @@ type HeroInteractiveProps = {
 export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children }: HeroInteractiveProps) {
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-3 pt-2">
-        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center sm:justify-center">
+      <div className="flex flex-col items-start justify-start gap-3 pt-1">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <Button
             variant="default"
             size="lg"
-            className="min-w-44 touch-manipulation transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+            className="min-w-44 touch-manipulation"
             onClick={() => scrollToSection("contact")}
           >
-            <Mail className="mr-2 h-5 w-5" />
+            <Mail className="mr-2 h-4 w-4" />
             {ctaLabel}
           </Button>
           <Button
             variant="outline"
             size="lg"
-            className="glass-control min-w-44 touch-manipulation transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md active:translate-y-0"
+            className="min-w-44 touch-manipulation"
             onClick={() => scrollToSection("repositories")}
           >
             {viewWorkLabel}
-            <ArrowDown className="ml-2 h-5 w-5" />
+            <ArrowDown className="ml-2 h-4 w-4" />
           </Button>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center gap-1">
           <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" asChild>
             <a href="https://github.com/Skpow1234" target="_blank" rel="noopener noreferrer" aria-label="Visit GitHub profile">
-              <Github className="mr-2 h-4 w-4" />
+              <GithubIcon className="mr-2 h-4 w-4" />
               GitHub
             </a>
           </Button>
@@ -50,34 +51,27 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
               rel="noopener noreferrer"
               aria-label="Visit LinkedIn profile"
             >
-              <Linkedin className="mr-2 h-4 w-4" />
+              <LinkedinIcon className="mr-2 h-4 w-4" />
               LinkedIn
             </a>
           </Button>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 pt-4">
+      <div className="flex flex-col items-start gap-4 pt-2">
         {children}
 
-        <div
-          className="cursor-pointer touch-manipulation"
+        <button
+          type="button"
+          className="cursor-pointer touch-manipulation text-left"
           onClick={() => scrollToSection("about")}
-          role="button"
-          tabIndex={0}
           aria-label={scrollLabel}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              scrollToSection("about");
-            }
-          }}
         >
-          <div className="flex flex-col items-center gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground animate-hero-scroll-nudge motion-reduce:animate-none">
+          <div className="flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground motion-safe:animate-hero-scroll-nudge motion-reduce:animate-none">
             <span className="text-sm font-medium">{scrollLabel}</span>
-            <ArrowDown className="h-6 w-6" />
+            <ArrowDown className="h-4 w-4" />
           </div>
-        </div>
+        </button>
       </div>
     </>
   );
