@@ -1,30 +1,26 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { LocaleProvider } from "@/components/locale-provider";
 import { MobileMenu } from "@/components/mobile-menu";
-import { ContactForm } from "@/components/contact-form";
 import { Chatbot } from "@/components/chatbot";
 import { Header } from "@/components/header";
-import { getTranslation } from "@/lib/i18n";
+import { CommandPalette, openCommandPalette } from "@/components/command-palette";
+import { ContactSectionClient } from "@/components/sections/contact-section-client";
 import { scrollToSection } from "@/lib/scroll-to-section";
-
-const toastMock = jest.fn();
 
 jest.mock("next/navigation", () => ({
   usePathname: () => "/en",
+  useRouter: () => ({ replace: jest.fn() }),
 }));
 
 jest.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
-    toast: toastMock,
+    toast: jest.fn(),
   }),
 }));
 
 jest.mock("@/hooks/use-scroll-progress", () => ({
   useScrollProgress: () => 0,
 }));
-
-const englishLabels = getTranslation("en").contact.form;
-const spanishLabels = getTranslation("es").contact.form;
 
 describe("Portfolio smoke tests", () => {
   beforeEach(() => {
@@ -72,31 +68,19 @@ describe("Portfolio smoke tests", () => {
     expect(screen.getByRole("link", { name: "ES" })).toHaveAttribute("href", "/es");
   });
 
-  test("contact form submits successfully", async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({}),
-    } as Response);
+  test("contact section links to LinkedIn and GitHub", () => {
+    render(
+      <ContactSectionClient linkedinLabel="Connect on LinkedIn" githubLabel="View GitHub" />,
+    );
 
-    render(<ContactForm labels={englishLabels} />);
-
-    fireEvent.change(screen.getByLabelText("Name"), { target: { value: "Juan" } });
-    fireEvent.change(screen.getByLabelText("Email"), { target: { value: "juan@test.com" } });
-    fireEvent.change(screen.getByLabelText("Subject"), { target: { value: "Hello" } });
-    fireEvent.change(screen.getByLabelText("Message"), { target: { value: "Test message" } });
-
-    fireEvent.click(screen.getByRole("button", { name: "Send Message" }));
-
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith("/api/send", expect.objectContaining({ method: "POST" }));
-    });
-  });
-
-  test("contact form renders Spanish labels", () => {
-    render(<ContactForm labels={spanishLabels} />);
-
-    expect(screen.getByLabelText("Nombre")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Enviar mensaje" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /connect on linkedin/i })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/",
+    );
+    expect(screen.getByRole("link", { name: /view github/i })).toHaveAttribute(
+      "href",
+      "https://github.com/Skpow1234",
+    );
   });
 
   test("scrollToSection updates the URL hash", () => {
@@ -116,6 +100,20 @@ describe("Portfolio smoke tests", () => {
     expect(window.location.hash).toBe("#contact");
 
     document.body.removeChild(section);
+  });
+
+  test("command palette opens with Ctrl+K", async () => {
+    render(
+      <LocaleProvider locale="en">
+        <CommandPalette />
+      </LocaleProvider>,
+    );
+
+    fireEvent.keyDown(window, { key: "k", ctrlKey: true });
+    expect(await screen.findByPlaceholderText(/jump to a section/i)).toBeInTheDocument();
+
+    openCommandPalette();
+    expect(screen.getByPlaceholderText(/jump to a section/i)).toBeInTheDocument();
   });
 
   test("chatbot opens and sends a message", async () => {

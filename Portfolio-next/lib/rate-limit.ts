@@ -73,9 +73,11 @@ class MemoryRateLimiter {
 
   private cleanup(now: number): void {
     this.lastCleanup = now;
-    for (const [key, entry] of this.store) {
-      if (now > entry.resetTime) this.store.delete(key);
-    }
+    const keysToDelete: string[] = [];
+    this.store.forEach((entry, key) => {
+      if (now > entry.resetTime) keysToDelete.push(key);
+    });
+    keysToDelete.forEach((key) => this.store.delete(key));
   }
 
   clear(): void {

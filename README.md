@@ -19,8 +19,10 @@ A modern, responsive portfolio built with Next.js, TypeScript, and Tailwind CSS 
 - **Featured work** case-study cards for selected GitHub projects
 - **Work experience** with expandable role details
 - **Bilingual** English / Spanish (`/en`, `/es`)
-- **Contact form** with validation and email delivery
+- **Contact** via LinkedIn / GitHub (no email form)
+- **Command palette** (`⌘K` / `Ctrl+K`) for section jump and quick actions
 - **Lazy-loaded** chatbot and coding terminal for a lighter first paint
+- **Security headers** (CSP, HSTS) and Upstash-backed API rate limits when configured
 
 ## Tech Stack
 
@@ -43,8 +45,7 @@ Portfolio-next/
 ├── app/
 │   ├── api/
 │   │   ├── chatbot/
-│   │   ├── leetcode-stats/
-│   │   └── send/
+│   │   └── leetcode-stats/
 │   ├── [locale]/
 │   │   ├── layout.tsx
 │   │   └── page.tsx

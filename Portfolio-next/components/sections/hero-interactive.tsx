@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, Mail } from "lucide-react";
+import { ArrowDown, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { scrollToSection } from "@/lib/scroll-to-section";
 import { GithubIcon, LinkedinIcon } from "@/components/icons/brands";
@@ -24,7 +24,7 @@ export function HeroInteractive({ ctaLabel, viewWorkLabel, scrollLabel, children
             className="min-w-44 touch-manipulation"
             onClick={() => scrollToSection("contact")}
           >
-            <Mail className="mr-2 h-4 w-4" />
+            <MessageCircle className="mr-2 h-4 w-4" />
             {ctaLabel}
           </Button>
           <Button
