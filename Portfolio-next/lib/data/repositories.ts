@@ -55,9 +55,22 @@ export const repositories: Repository[] = [
     topics: ["github", "svg", "visualization", "api", "readme"],
   },
   {
+    name: "Shinrai-Trade",
+    description:
+      "Rust trading platform workspace — domain correctness first, then market-data and authenticated paper orders (not an exchange; no customer funds).",
+    impact:
+      "Tokio/Axum gateways, integer money (no floats), double-entry ledger, pre-trade risk, Postgres store, and cross-platform CI.",
+    url: "https://github.com/Skpow1234/Shinrai-Trade",
+    language: "Rust",
+    stars: 0,
+    topics: ["rust", "trading", "axum", "market-data", "ledger"],
+  },
+  {
     name: "TheWindowsTunning",
-    description: "WinTune — native Windows performance doctor with CLI, TUI, and safe reversible fixes.",
-    impact: "89+ commits, phased CLI/TUI delivery, GitHub Actions CI and portable releases.",
+    description:
+      "WinTune — native Windows performance doctor: measure bottlenecks, explain impact, apply safe reversible fixes via CLI/TUI.",
+    impact:
+      "C17 + CMake/MSVC, official Windows APIs, rollback journal, tray launcher, OpenSSH-friendly JSON, and portable releases.",
     url: "https://github.com/Skpow1234/TheWindowsTunning",
     language: "C",
     stars: 0,
