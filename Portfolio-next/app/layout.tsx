@@ -42,13 +42,6 @@ export const metadata: Metadata = {
       'Senior Software Engineer with 8 years of experience in full-stack development, cloud architecture, and team leadership.',
     siteName: 'Juan Hurtado Portfolio',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Juan Hurtado - Senior Software Engineer',
-    description:
-      'Senior Software Engineer with 8 years of experience in full-stack development, cloud architecture, and team leadership.',
-    creator: '@juanhurtado',
-  },
   robots: {
     index: true,
     follow: true,

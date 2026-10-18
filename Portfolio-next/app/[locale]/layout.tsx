@@ -58,10 +58,11 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params;
   const validLocale = requireLocale(locale);
-  const formattedLastUpdated = new Intl.DateTimeFormat(
-    validLocale === "es" ? "es-ES" : "en-US",
-    { dateStyle: "medium" },
-  ).format(new Date(SITE_LAST_UPDATED));
+  const [updatedYear, updatedMonth, updatedDay] = SITE_LAST_UPDATED.split("-").map(Number);
+  const formattedLastUpdated = new Intl.DateTimeFormat(validLocale === "es" ? "es-ES" : "en-US", {
+    dateStyle: "medium",
+    timeZone: "UTC",
+  }).format(new Date(Date.UTC(updatedYear, updatedMonth - 1, updatedDay)));
 
   return (
     <LocaleProvider key={validLocale} locale={validLocale}>
