@@ -18,10 +18,6 @@ jest.mock("@/hooks/use-toast", () => ({
   }),
 }));
 
-jest.mock("@/hooks/use-scroll-progress", () => ({
-  useScrollProgress: () => 0,
-}));
-
 describe("Portfolio smoke tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();

@@ -41,6 +41,26 @@
   --animate-hero-scroll-nudge: hero-scroll-nudge 2s ease-in-out infinite;
 }
 
+.scroll-progress {
+  transform: scaleX(0);
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: scroll-progress linear;
+    animation-timeline: scroll(root);
+  }
+}
+
+@keyframes scroll-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @keyframes hero-scroll-nudge {
   0%,
   100% {

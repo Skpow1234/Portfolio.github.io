@@ -6,7 +6,7 @@ import { BackToTopButton } from "@/components/back-to-top";
 import { DocumentLang } from "@/components/document-lang";
 import { Toaster } from "@/components/ui/toaster";
 import { HashScrollHandler } from "@/components/hash-scroll-handler";
-import { CommandPalette } from "@/components/command-palette";
+import { CommandPaletteHost } from "@/components/command-palette-host";
 import { Locale, getTranslation } from "@/lib/i18n";
 
 const SITE_URL = "https://juan-hurtado-senior-sde.vercel.app";
@@ -65,7 +65,7 @@ export default async function LocaleLayout({
       <HashScrollHandler />
       <Header />
       {children}
-      <CommandPalette />
+      <CommandPaletteHost />
       <ChatbotLazy />
       <BackToTopButton />
       <Toaster />

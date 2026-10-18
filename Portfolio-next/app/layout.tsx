@@ -2,7 +2,6 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { GeistMono } from 'geist/font/mono';
 import Script from 'next/script';
-import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: {
@@ -69,24 +68,19 @@ export const metadata: Metadata = {
   manifest: '/site.webmanifest',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const headersList = await headers();
-  const lang = headersList.get('x-locale') || 'en';
-
   return (
-    <html lang={lang} suppressHydrationWarning className={GeistMono.variable}>
+    <html lang="en" suppressHydrationWarning className={GeistMono.variable}>
       <head>
-        <link rel="preconnect" href="https://plausible.io" crossOrigin="" />
-        <link rel="dns-prefetch" href="//plausible.io" />
         <Script
           defer
           data-domain="juan-hurtado-senior-sde.vercel.app"
           src="https://plausible.io/js/script.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <script
           type="application/ld+json"
@@ -128,6 +122,12 @@ export default async function RootLayout({
         />
       </head>
       <body className="font-mono antialiased">
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.lang=location.pathname==='/es'||location.pathname.indexOf('/es/')===0?'es':'en'",
+          }}
+        />
         <a
           href="#main-content"
           className="skip-link fixed left-2 top-2 z-[200] -translate-y-20 border border-border bg-primary px-3 py-2 text-primary-foreground focus:translate-y-0"

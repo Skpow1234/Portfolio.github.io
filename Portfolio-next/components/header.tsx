@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -15,8 +15,43 @@ import {
 import { scrollToSection } from "@/lib/scroll-to-section";
 import { MobileMenu } from "@/components/mobile-menu";
 import { LanguageSwitcher } from "@/components/language-switcher";
-import { CommandPaletteTrigger } from "@/components/command-palette";
-import { useScrollProgress } from "@/hooks/use-scroll-progress";
+import { CommandPaletteTrigger } from "@/components/command-palette-trigger";
+
+function ScrollProgressBar() {
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof CSS !== "undefined" && typeof CSS.supports === "function" && CSS.supports("animation-timeline: scroll()")) return;
+
+    const bar = barRef.current;
+    if (!bar) return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      bar.style.transform = `scaleX(${progress})`;
+    };
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return (
+    <div className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-border" aria-hidden="true">
+      <div ref={barRef} className="scroll-progress h-full w-full origin-left bg-brand" />
+    </div>
+  );
+}
 
 function NavLink({
   id,
@@ -49,7 +84,6 @@ export function Header() {
   const { locale: currentLocale } = useLocaleContext();
   const t = getTranslation(currentLocale);
   const moreDetailsRef = useRef<HTMLDetailsElement>(null);
-  const scrollProgress = useScrollProgress();
 
   const primarySections = useMemo(
     () => getPrimaryNavSections(currentLocale),
@@ -177,12 +211,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="pointer-events-none absolute bottom-0 left-0 h-px w-full bg-border" aria-hidden="true">
-        <div
-          className="h-full bg-brand transition-[width] duration-300 ease-out"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
+      <ScrollProgressBar />
     </header>
   );
 }

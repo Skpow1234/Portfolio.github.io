@@ -12,12 +12,9 @@ import {
 } from "@/lib/navigation-sections";
 import { scrollToSection } from "@/lib/scroll-to-section";
 import { cn } from "@/lib/utils";
+import { OPEN_COMMAND_PALETTE_EVENT, openCommandPalette } from "@/components/command-palette-events";
 
-export const OPEN_COMMAND_PALETTE_EVENT = "portfolio:open-command-palette";
-
-export function openCommandPalette() {
-  window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT));
-}
+export { OPEN_COMMAND_PALETTE_EVENT, openCommandPalette };
 
 const PROFILE_LINKS = {
   github: "https://github.com/Skpow1234",
@@ -45,8 +42,8 @@ function buildLocaleHref(pathname: string | null, target: Locale): string {
   return `/${segments.join("/")}`;
 }
 
-export function CommandPalette() {
-  const [open, setOpen] = useState(false);
+export function CommandPalette({ initialOpen = false }: { initialOpen?: boolean }) {
+  const [open, setOpen] = useState(initialOpen);
   const { locale } = useLocaleContext();
   const t = getTranslation(locale);
   const pathname = usePathname();
@@ -188,31 +185,5 @@ export function CommandPalette() {
         </Command>
       </div>
     </div>
-  );
-}
-
-export function CommandPaletteTrigger({ className }: { className?: string }) {
-  const { locale } = useLocaleContext();
-  const t = getTranslation(locale);
-  const [shortcut, setShortcut] = useState("Ctrl K");
-
-  useEffect(() => {
-    const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
-    setShortcut(isMac ? "⌘K" : "Ctrl K");
-  }, []);
-
-  return (
-    <button
-      type="button"
-      onClick={() => openCommandPalette()}
-      className={cn(
-        "hidden items-center gap-2 border border-border px-2 py-1.5 text-xs text-muted-foreground hover:text-foreground md:inline-flex",
-        className,
-      )}
-      aria-label={t.commandPalette.openHint}
-    >
-      <span className="sr-only sm:not-sr-only sm:inline">{t.commandPalette.openHint}</span>
-      <kbd className="border border-border px-1.5 py-0.5 font-mono text-[10px]">{shortcut}</kbd>
-    </button>
   );
 }

@@ -4,32 +4,9 @@ import { HeroSection } from "@/components/sections/hero";
 import { WorkExperienceSection } from "@/components/sections/work-experience";
 import { ContactSection } from "@/components/sections/contact";
 import { RepositoriesSection } from "@/components/sections/repositories";
-import { RevealOnScrollGroup } from "@/components/reveal-on-scroll";
+import { EducationSection } from "@/components/sections/education";
+import { LeetCodeSection } from "@/components/sections/leetcode";
 import { type Locale } from "@/lib/i18n";
-
-const EducationSection = dynamic(
-  () => import("@/components/sections/education").then((m) => ({ default: m.EducationSection })),
-  {
-    loading: () => (
-      <div
-        id="education"
-        className="scroll-mt-24 min-h-[240px] animate-pulse rounded-none bg-secondary/20 border-y border-border/40 py-16 sm:py-20"
-      />
-    ),
-  },
-);
-
-const LeetCodeSection = dynamic(
-  () => import("@/components/sections/leetcode").then((m) => ({ default: m.LeetCodeSection })),
-  {
-    loading: () => (
-      <div
-        id="leetcode"
-        className="scroll-mt-24 min-h-[320px] animate-pulse rounded-none bg-secondary/40 border-y border-border/40 py-16 sm:py-20"
-      />
-    ),
-  },
-);
 
 const CodingTerminalSection = dynamic(
   () => import("@/components/sections/coding-terminal-section").then((m) => ({ default: m.CodingTerminalSection })),
@@ -43,14 +20,12 @@ export default async function LocaleHome({ params }: { params: Promise<{ locale:
   return (
     <main id="main-content" className="min-h-screen bg-background">
       <HeroSection locale={validLocale} />
-      <RevealOnScrollGroup>
-        <AboutMeSection locale={validLocale} />
-        <WorkExperienceSection locale={validLocale} />
-        <RepositoriesSection locale={validLocale} />
-        <ContactSection locale={validLocale} />
-        <EducationSection locale={validLocale} />
-        <LeetCodeSection locale={validLocale} />
-      </RevealOnScrollGroup>
+      <AboutMeSection locale={validLocale} />
+      <WorkExperienceSection locale={validLocale} />
+      <RepositoriesSection locale={validLocale} />
+      <ContactSection locale={validLocale} />
+      <EducationSection locale={validLocale} />
+      <LeetCodeSection locale={validLocale} />
       <CodingTerminalSection />
     </main>
   );
