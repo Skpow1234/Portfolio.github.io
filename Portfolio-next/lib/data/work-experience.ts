@@ -95,7 +95,7 @@ export const workExperience: WorkExperience[] = [
   {
     title: 'Software Engineer (Freelance)',
     company: 'Private Companies',
-    period: 'January 2020 – Present',
+    period: 'January 2019 – Present',
     skills: ['Java (Spring Boot)', 'Go', 'PHP (Laravel)', 'Node.js', 'C# (.NET 5, 6, 7, 8, ASP.NET Core, ASP.NET MVC)', 'Scala', 'Angular (9, 12, 15)', 'React.js', 'React Native', 'Vue.js', 'PostgreSQL', 'MySQL', 'SQL Server', 'MongoDB', 'Redis', 'Elasticsearch', 'Docker', 'Swagger', 'AWS', 'Kubernetes', 'Git', 'GitLab', 'Quarkus', 'Power Automate', 'Jira', 'Terraform', 'Supabase', 'Next.js', 'Nest.js', 'Python', 'Bash', 'Shell', 'Linux', 'Azure'],
     methodologies: ['Scrum', 'ApiFirst'],
   },

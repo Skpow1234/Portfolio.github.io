@@ -19,6 +19,21 @@ export function openCommandPalette() {
   window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT));
 }
 
+const PROFILE_LINKS = {
+  github: "https://github.com/Skpow1234",
+  linkedin: "https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/",
+} as const;
+
+function openInNewTab(url: string) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
 function buildLocaleHref(pathname: string | null, target: Locale): string {
   const segments = pathname?.split("/").filter(Boolean) ?? [];
   if (segments.length === 0) return `/${target}`;
@@ -148,11 +163,10 @@ export function CommandPalette() {
               </Command.Item>
               <Command.Item
                 value={t.commandPalette.openGithub}
-                onSelect={() =>
-                  runCommand(() =>
-                    window.open("https://github.com/Skpow1234", "_blank", "noopener,noreferrer"),
-                  )
-                }
+                onSelect={() => {
+                  openInNewTab(PROFILE_LINKS.github);
+                  setOpen(false);
+                }}
                 className="flex cursor-pointer items-center gap-2 px-2 py-2 text-sm text-muted-foreground data-[selected=true]:bg-secondary data-[selected=true]:text-foreground"
               >
                 <GithubIcon className="h-4 w-4" />
@@ -160,15 +174,10 @@ export function CommandPalette() {
               </Command.Item>
               <Command.Item
                 value={t.commandPalette.openLinkedin}
-                onSelect={() =>
-                  runCommand(() =>
-                    window.open(
-                      "https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/",
-                      "_blank",
-                      "noopener,noreferrer",
-                    ),
-                  )
-                }
+                onSelect={() => {
+                  openInNewTab(PROFILE_LINKS.linkedin);
+                  setOpen(false);
+                }}
                 className="flex cursor-pointer items-center gap-2 px-2 py-2 text-sm text-muted-foreground data-[selected=true]:bg-secondary data-[selected=true]:text-foreground"
               >
                 <LinkedinIcon className="h-4 w-4" />

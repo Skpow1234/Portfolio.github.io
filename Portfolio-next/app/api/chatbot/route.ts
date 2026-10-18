@@ -27,7 +27,7 @@ const COMMON_QUESTIONS: Record<string, string> = {
   'what projects have you worked on':
     "I've worked on various projects including PeerVault (secure P2P file sharing), Streamlens (real-time streaming analytics), and Router_Microservices (testing framework for distributed apps). You can see more details in the repositories section.",
   'do you do freelance work':
-    "Yes, I've been doing freelance development work since 2020, designing and implementing tailored technological solutions for various companies.",
+    "Yes, I've been doing freelance development work since January 2019, designing and implementing tailored technological solutions for various companies.",
   'what is your experience with ai':
     'I have extensive experience with AI/ML technologies including prompt engineering, generative AI, machine learning, natural language processing, and LLM integration. I currently work on AI infrastructure at Microsoft\'s Copilot platform.',
 };

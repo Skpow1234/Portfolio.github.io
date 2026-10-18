@@ -44,6 +44,8 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  // next dev writes AGENTS.md and CLAUDE.md when it detects an AI agent.
+  agentRules: false,
   images: {
     unoptimized: false,
     formats: ['image/webp', 'image/avif'],

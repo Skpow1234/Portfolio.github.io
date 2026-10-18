@@ -102,6 +102,42 @@ describe("Portfolio smoke tests", () => {
     document.body.removeChild(section);
   });
 
+  test("command palette profile actions open a new tab", async () => {
+    const opened: Array<{ href: string; target: string; rel: string }> = [];
+    const originalClick = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function click() {
+      opened.push({ href: this.href, target: this.target, rel: this.rel });
+    };
+
+    try {
+      render(
+        <LocaleProvider locale="en">
+          <CommandPalette />
+        </LocaleProvider>,
+      );
+
+      fireEvent.keyDown(window, { key: "k", ctrlKey: true });
+      fireEvent.click(await screen.findByText("Open GitHub profile"));
+      fireEvent.keyDown(window, { key: "k", ctrlKey: true });
+      fireEvent.click(await screen.findByText("Open LinkedIn profile"));
+
+      expect(opened).toEqual([
+        {
+          href: "https://github.com/Skpow1234",
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
+        {
+          href: "https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/",
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
+      ]);
+    } finally {
+      HTMLAnchorElement.prototype.click = originalClick;
+    }
+  });
+
   test("command palette opens with Ctrl+K", async () => {
     render(
       <LocaleProvider locale="en">
