@@ -18,7 +18,6 @@ export const repositories: Repository[] = [
       "Go core API with PostgreSQL, Stripe-hosted payments (no card data in SSH), inventory reservations, and Docker-only ops.",
     url: "https://github.com/Skpow1234/Sip-Happens",
     language: "Go",
-    stars: 1,
     topics: ["ssh", "tui", "ecommerce", "stripe", "golang"],
   },
   {
@@ -29,7 +28,6 @@ export const repositories: Repository[] = [
       "Next.js + FastAPI stack with PostgreSQL, Redis, Socket.IO realtime, JWT auth, and Dockerized local API.",
     url: "https://github.com/Skpow1234/Squad-Finder",
     language: "Python",
-    stars: 0,
     topics: ["matchmaking", "fastapi", "nextjs", "realtime", "gaming"],
   },
   {
@@ -40,7 +38,6 @@ export const repositories: Repository[] = [
       "Next.js storefront with Go API, Redis workers, multi-provider payments, and OpenAPI-backed BFF architecture.",
     url: "https://github.com/Skpow1234/Kurae",
     language: "TypeScript",
-    stars: 0,
     topics: ["ecommerce", "drops", "go", "nextjs", "payments"],
   },
   {
@@ -51,7 +48,6 @@ export const repositories: Repository[] = [
       "Hosted render API, GitHub Action for profile READMEs, themes, 1v1/team ladders, and OpenAPI docs.",
     url: "https://github.com/Skpow1234/LP-climb",
     language: "TypeScript",
-    stars: 1,
     topics: ["github", "svg", "visualization", "api", "readme"],
   },
   {
@@ -62,7 +58,6 @@ export const repositories: Repository[] = [
       "Tokio/Axum gateways, integer money (no floats), double-entry ledger, pre-trade risk, Postgres store, and cross-platform CI.",
     url: "https://github.com/Skpow1234/Shinrai-Trade",
     language: "Rust",
-    stars: 0,
     topics: ["rust", "trading", "axum", "market-data", "ledger"],
   },
   {
@@ -73,7 +68,6 @@ export const repositories: Repository[] = [
       "C17 + CMake/MSVC, official Windows APIs, rollback journal, tray launcher, OpenSSH-friendly JSON, and portable releases.",
     url: "https://github.com/Skpow1234/TheWindowsTunning",
     language: "C",
-    stars: 0,
     topics: ["windows", "performance", "cli", "diagnostics", "cmake"],
   },
   {
@@ -82,16 +76,14 @@ export const repositories: Repository[] = [
     impact: "Post-quantum modes, KMS integration, Sigstore signing, and multi-platform releases.",
     url: "https://github.com/Skpow1234/Vaultpack",
     language: "Go",
-    stars: 2,
     topics: ["encryption", "cryptography", "security", "cli", "golang"],
   },
   {
     name: "ChainForge",
-    description: "Production-grade blockchain client skeleton in modern C++20/23.",
+    description: "Blockchain client skeleton in modern C++20/23.",
     impact: "RocksDB, PostgreSQL, Redis, Prometheus, and Kubernetes-ready architecture.",
     url: "https://github.com/Skpow1234/ChainForge",
     language: "C++",
-    stars: 1,
     topics: ["blockchain", "c++20", "cryptocurrency", "distributed-systems"],
   },
   {

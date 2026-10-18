@@ -18,8 +18,8 @@ interface MemoryEntry {
 }
 
 /**
- * In-memory fallback used when Upstash Redis env vars are not configured
- * (local dev / single-instance). Not durable across Vercel instances.
+ * In-memory fallback used when Upstash Redis or Vercel KV is not configured.
+ * Each server instance keeps its own counters.
  */
 class MemoryRateLimiter {
   private store = new Map<string, MemoryEntry>();
@@ -89,19 +89,30 @@ const memoryLimiter = new MemoryRateLimiter();
 
 const upstashLimiters = new Map<string, Ratelimit>();
 
-function hasUpstashEnv(): boolean {
-  return Boolean(
-    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN,
+function sharedRedisEnv(): { url: string; token: string } | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+  if (!url || !token) return null;
+  return { url, token };
+}
+
+let warnedAboutLocalLimiter = false;
+
+function warnIfLimiterIsLocal(): void {
+  if (process.env.NODE_ENV !== 'production' || warnedAboutLocalLimiter) return;
+  warnedAboutLocalLimiter = true;
+  console.warn(
+    'Rate limiting is process-local. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL and KV_REST_API_TOKEN) so limits hold across Vercel instances.',
   );
 }
 
-function getUpstashLimiter(config: RateLimitConfig): Ratelimit {
+function getUpstashLimiter(config: RateLimitConfig, redisEnv: { url: string; token: string }): Ratelimit {
   const key = `${config.interval}:${config.limit}`;
   let limiter = upstashLimiters.get(key);
   if (!limiter) {
     const windowSeconds = Math.max(1, Math.ceil(config.interval / 1000));
     limiter = new Ratelimit({
-      redis: Redis.fromEnv(),
+      redis: new Redis({ url: redisEnv.url, token: redisEnv.token }),
       limiter: Ratelimit.slidingWindow(config.limit, `${windowSeconds} s`),
       analytics: false,
       prefix: 'portfolio-rl',
@@ -112,15 +123,16 @@ function getUpstashLimiter(config: RateLimitConfig): Ratelimit {
 }
 
 /**
- * Rate-limit an identifier. Uses Upstash Redis when configured, otherwise
- * falls back to process-local memory.
+ * Rate-limit an identifier. Uses Upstash Redis (including Vercel KV) when
+ * configured. Without those env vars the limit is per server instance.
  */
 export async function checkIdentifierRateLimit(
   identifier: string,
   config: RateLimitConfig,
 ): Promise<RateLimitResult> {
-  if (hasUpstashEnv()) {
-    const result = await getUpstashLimiter(config).limit(identifier);
+  const redisEnv = sharedRedisEnv();
+  if (redisEnv) {
+    const result = await getUpstashLimiter(config, redisEnv).limit(identifier);
     return {
       success: result.success,
       remaining: result.remaining,
@@ -128,6 +140,7 @@ export async function checkIdentifierRateLimit(
     };
   }
 
+  warnIfLimiterIsLocal();
   return memoryLimiter.check(identifier, config);
 }
 

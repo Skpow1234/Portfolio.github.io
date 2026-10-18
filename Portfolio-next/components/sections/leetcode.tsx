@@ -26,7 +26,6 @@ export function LeetCodeSection({ locale }: { locale: Locale }) {
           hard: t.leetcode.hard,
           acceptanceRate: t.leetcode.acceptanceRate,
           lastUpdatedLabel: locale === "es" ? "Última actualización" : "Last updated",
-          fallbackLabel: locale === "es" ? "respaldo" : "fallback",
         }}
       />
     </SectionShell>

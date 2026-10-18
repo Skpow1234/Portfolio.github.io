@@ -1,9 +1,9 @@
+import { unstable_cache } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 const LEETCODE_USERNAME = 'Skpow1234';
 const LEETCODE_STATS_API = `https://leetcode-stats-api.herokuapp.com/${LEETCODE_USERNAME}`;
-const CACHE_TTL_MS = 1000 * 60 * 30; // 30 minutes
 const FETCH_TIMEOUT_MS = 6000;
 
 export const revalidate = 3600;
@@ -27,64 +27,37 @@ export interface LeetCodeStatsResponse {
   lastUpdatedAt?: string;
 }
 
-type CacheEntry = {
-  data: LeetCodeStatsResponse;
-  cachedAt: number;
-};
-
-let memoryCache: CacheEntry | null = null;
-
-/** Placeholder stats when upstream is unavailable and there is no stale cache. */
-function buildFallbackPayload(): LeetCodeStatsResponse {
-  return {
-    status: 'success',
-    message: 'fallback',
-    totalSolved: 350,
-    totalQuestions: 3420,
-    easySolved: 170,
-    totalEasy: 850,
-    mediumSolved: 150,
-    totalMedium: 1780,
-    hardSolved: 30,
-    totalHard: 790,
-    acceptanceRate: 58.2,
-    ranking: 0,
-    contributionPoints: 0,
-    reputation: 0,
-  };
-}
-
-async function tryFetchLeetCodeStats(): Promise<LeetCodeStatsResponse | null> {
+async function fetchLeetCodeStats(): Promise<LeetCodeStatsResponse> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
     const res = await fetch(LEETCODE_STATS_API, {
-      next: { revalidate: 3600 },
+      cache: 'no-store',
       headers: { 'User-Agent': 'Portfolio-App' },
       signal: controller.signal,
     });
 
     if (!res.ok) {
-      console.warn(`LeetCode stats upstream HTTP ${res.status} (${LEETCODE_STATS_API})`);
-      return null;
+      throw new Error(`LeetCode stats upstream HTTP ${res.status}`);
     }
 
     const data: LeetCodeStatsResponse = await res.json();
 
-    if (data.status !== 'success') {
-      console.warn('LeetCode stats API non-success:', data.message || 'unknown');
-      return null;
+    if (data.status !== 'success' || typeof data.totalSolved !== 'number') {
+      throw new Error(data.message || 'LeetCode stats API non-success');
     }
 
     return data;
-  } catch (err) {
-    console.warn('LeetCode stats fetch failed:', err);
-    return null;
   } finally {
     clearTimeout(timeout);
   }
 }
+
+/** Shared across Vercel instances through the Next.js data cache. Failures are not stored. */
+const getSharedLeetCodeStats = unstable_cache(fetchLeetCodeStats, ['leetcode-stats', LEETCODE_USERNAME], {
+  revalidate: 3600,
+});
 
 export async function GET(req: NextRequest) {
   const { response: rateLimitResponse, headers: rateLimitHeaders, allowed } =
@@ -93,57 +66,22 @@ export async function GET(req: NextRequest) {
     return rateLimitResponse;
   }
 
-  const now = Date.now();
-
-  if (memoryCache && now - memoryCache.cachedAt < CACHE_TTL_MS) {
-    return NextResponse.json(
-      {
-        ...memoryCache.data,
-        lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
-      },
-      {
-        headers: { ...rateLimitHeaders, 'X-Cache': 'HIT' },
-      },
-    );
-  }
-
-  const fresh = await tryFetchLeetCodeStats();
-
-  if (fresh) {
-    memoryCache = { data: fresh, cachedAt: now };
+  try {
+    const fresh = await getSharedLeetCodeStats();
     return NextResponse.json(
       {
         ...fresh,
-        lastUpdatedAt: new Date(now).toISOString(),
+        lastUpdatedAt: new Date().toISOString(),
       },
       {
-        headers: { ...rateLimitHeaders, 'X-Cache': 'MISS' },
+        headers: { ...rateLimitHeaders, 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' },
       },
     );
-  }
-
-  if (memoryCache) {
+  } catch (err) {
+    console.warn('LeetCode stats unavailable:', err);
     return NextResponse.json(
-      {
-        ...memoryCache.data,
-        lastUpdatedAt: new Date(memoryCache.cachedAt).toISOString(),
-      },
-      {
-        headers: { ...rateLimitHeaders, 'X-Cache': 'STALE' },
-      },
+      { status: 'error', message: 'LeetCode stats are unavailable.' },
+      { status: 503, headers: rateLimitHeaders },
     );
   }
-
-  const fallback = buildFallbackPayload();
-  return NextResponse.json(
-    {
-      ...fallback,
-      lastUpdatedAt: new Date(now).toISOString(),
-      degraded: true,
-    },
-    {
-      status: 200,
-      headers: { ...rateLimitHeaders, 'X-Cache': 'FALLBACK' },
-    },
-  );
 }

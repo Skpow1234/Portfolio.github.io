@@ -160,13 +160,13 @@ describe("Portfolio smoke tests", () => {
       </LocaleProvider>,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /open juan ai chatbot/i }));
-    expect(await screen.findByText("AI Assistant")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /ask about juan/i }));
+    expect(await screen.findByText("Ask about Juan")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText("Ask me anything about Juan..."), {
+    fireEvent.change(screen.getByPlaceholderText("Ask about experience, projects, or contact..."), {
       target: { value: "What do you do?" },
     });
-    fireEvent.keyDown(screen.getByPlaceholderText("Ask me anything about Juan..."), {
+    fireEvent.keyDown(screen.getByPlaceholderText("Ask about experience, projects, or contact..."), {
       key: "Enter",
       code: "Enter",
       charCode: 13,

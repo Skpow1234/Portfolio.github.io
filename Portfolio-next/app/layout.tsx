@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://juan-hurtado-senior-sde.vercel.app'),
   alternates: {
-    canonical: '/',
+    canonical: '/en',
   },
   openGraph: {
     type: 'website',
@@ -110,7 +110,8 @@ export default function RootLayout({
               ],
               worksFor: {
                 '@type': 'Organization',
-                name: 'Freelance',
+                name: 'Microsoft',
+                url: 'https://www.microsoft.com',
               },
               address: {
                 '@type': 'PostalAddress',

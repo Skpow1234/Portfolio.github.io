@@ -2,17 +2,20 @@
 
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import type { Locale } from "@/lib/i18n";
 
 type WorkExperienceDescriptionProps = {
   detailsId: string;
   label: string;
   loadingLabel: string;
+  locale: Locale;
 };
 
 export function WorkExperienceDescription({
   detailsId,
   label,
   loadingLabel,
+  locale,
 }: WorkExperienceDescriptionProps) {
   const [description, setDescription] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -21,7 +24,11 @@ export function WorkExperienceDescription({
     if (!event.currentTarget.open || description !== null || loading) return;
 
     setLoading(true);
-    import("@/lib/data/work-experience-descriptions")
+    const load =
+      locale === "es"
+        ? import("@/lib/data/work-experience-descriptions-es")
+        : import("@/lib/data/work-experience-descriptions");
+    load
       .then((mod) => {
         setDescription(mod.workExperienceDescriptions[detailsId] ?? "");
       })

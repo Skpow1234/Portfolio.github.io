@@ -2,7 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLocaleContext } from "@/components/locale-provider";
+import { getTranslation } from "@/lib/i18n";
 
 const Chatbot = dynamic(
   () => import("@/components/chatbot").then((m) => ({ default: m.Chatbot })),
@@ -12,6 +15,8 @@ const Chatbot = dynamic(
 export function ChatbotLazy() {
   const [shouldMount, setShouldMount] = useState(false);
   const [openOnMount, setOpenOnMount] = useState(false);
+  const { locale } = useLocaleContext();
+  const t = getTranslation(locale);
 
   if (!shouldMount) {
     return (
@@ -26,12 +31,10 @@ export function ChatbotLazy() {
           }}
           className="h-12 w-12 border border-border bg-primary text-primary-foreground hover:bg-primary/90"
           size="lg"
-          aria-label="Open Juan AI chatbot"
-          title="Juan AI"
+          aria-label={t.chatbot.title}
+          title={t.chatbot.title}
         >
-          <span className="text-2xl leading-none" aria-hidden="true">
-            🤖
-          </span>
+          <MessageCircle className="h-5 w-5" aria-hidden="true" />
         </Button>
       </div>
     );

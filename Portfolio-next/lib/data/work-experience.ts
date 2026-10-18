@@ -75,14 +75,14 @@ export const workExperience: WorkExperience[] = [
     title: 'Software Engineer',
     company: '5IG Solutions | AT&T',
     period: 'July 2023 - August 2023',
-    skills: ['UiPath', 'Automation Anywhere', 'Power Automate', 'Power Automate Desktop', 'Virtual Agents', 'Python', 'Scripts', 'API Integration', 'Azure', 'Database Management', 'Workflow Automation', 'Git', 'Gitlab', 'Docker', 'Swagger', 'AWS', 'Kubernetes', 'GCP'],
+    skills: ['UiPath', 'Automation Anywhere', 'Power Automate', 'Power Automate Desktop', 'Virtual Agents', 'Python', 'Scripts', 'API Integration', 'Azure', 'Database Management', 'Workflow Automation'],
     methodologies: ['Scrum', 'ApiFirst'],
   },
   {
     title: 'Backend Engineer',
     company: 'Arknova S.A.S',
     period: 'May 2023 - June 2023',
-    skills: ['Node.js', 'TypeScript', 'Express.js', 'GraphQL', 'MongoDB', 'PostgreSQL', 'TypeORM', 'APIs', 'React', 'React Hooks', 'Git', 'Gitlab', 'Docker', 'Swagger', 'AWS', 'Kubernetes', 'GCP'],
+    skills: ['Node.js', 'TypeScript', 'Express.js', 'GraphQL', 'MongoDB', 'PostgreSQL', 'TypeORM', 'APIs', 'React', 'React Hooks'],
     methodologies: ['Scrum', 'ApiFirst'],
   },
   {

@@ -11,7 +11,7 @@ export const en = {
     hero: {
       title: 'Juan Hurtado',
       subtitle: 'Senior Software Engineer who ships reliable, performant platforms',
-      description: 'Focused on Go, Node.js, Dotnet and Java, delivering measurable outcomes like faster delivery, lower latency, and resilient systems.',
+      description: 'Focused on Go, Node.js, .NET and Java, delivering measurable outcomes like faster delivery, lower latency, and resilient systems.',
       cta: 'Get in Touch',
       viewWork: 'View work',
       proofRole: 'Microsoft',
@@ -83,7 +83,7 @@ export const en = {
       description: "Let's work together on your next project.",
       heading: "Let's Connect",
       intro:
-        "I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions. Reach me on LinkedIn or browse my work on GitHub.",
+        "I'm always open to discussing new projects, creative ideas, or opportunities to be part of what you're building. Reach me on LinkedIn or browse my work on GitHub.",
       linkedin: 'Connect on LinkedIn',
       github: 'View GitHub',
     },
@@ -103,9 +103,18 @@ export const en = {
       copyright: '© Juan Hurtado',
     },
     chatbot: {
-      title: 'AI Assistant',
-      placeholder: 'Ask me anything about Juan...',
+      title: 'Ask about Juan',
+      greeting:
+        'Hi. I answer from what is on this page: experience, projects, and how to get in touch.',
+      placeholder: 'Ask about experience, projects, or contact...',
       suggestedQuestions: 'Suggested questions:',
+      suggestions: [
+        'What do you do?',
+        'What technologies do you use?',
+        'How can I contact you?',
+        'What projects have you worked on?',
+        "What's your experience with AI?",
+      ],
       error: 'Failed to get response. Please try again.',
     },
     common: {

@@ -11,7 +11,7 @@ export const es = {
   hero: {
     title: 'Juan Hurtado',
     subtitle: 'Ingeniero de Software Senior que entrega plataformas confiables y de alto rendimiento',
-    description: 'Enfocado en Go, Node.js, Dotnet y Java, entregando resultados medibles como entrega más rápida, menor latencia y sistemas resilientes.',
+    description: 'Enfocado en Go, Node.js, .NET y Java, entregando resultados medibles como entrega más rápida, menor latencia y sistemas resilientes.',
     cta: 'Ponte en Contacto',
     viewWork: 'Ver proyectos',
     proofRole: 'Microsoft',
@@ -83,7 +83,7 @@ export const es = {
     description: 'Trabajemos juntos en tu próximo proyecto.',
     heading: 'Conectemos',
     intro:
-      'Siempre estoy abierto a discutir nuevos proyectos, ideas creativas u oportunidades para ser parte de tus visiones. Contáctame por LinkedIn o mira mi trabajo en GitHub.',
+      'Siempre estoy abierto a hablar de proyectos nuevos, ideas o la oportunidad de formar parte de lo que estás construyendo. Escríbeme por LinkedIn o mira mi trabajo en GitHub.',
     linkedin: 'Conectar en LinkedIn',
     github: 'Ver GitHub',
   },
@@ -103,10 +103,19 @@ export const es = {
     copyright: '© Juan Hurtado',
   },
   chatbot: {
-    title: 'Asistente IA',
-    placeholder: 'Pregúntame cualquier cosa sobre Juan...',
+    title: 'Pregunta sobre Juan',
+    greeting:
+      'Hola. Respondo con lo que está en esta página: experiencia, proyectos y cómo contactarlo.',
+    placeholder: 'Pregunta por experiencia, proyectos o contacto...',
     suggestedQuestions: 'Preguntas sugeridas:',
-    error: 'Error al obtener respuesta. Por favor, inténtalo de nuevo.',
+    suggestions: [
+      '¿A qué te dedicas?',
+      '¿Qué tecnologías usas?',
+      '¿Cómo puedo contactarte?',
+      '¿En qué proyectos has trabajado?',
+      '¿Cuál es tu experiencia con IA?',
+    ],
+    error: 'No se pudo obtener respuesta. Inténtalo de nuevo.',
   },
   common: {
     loading: 'Cargando...',

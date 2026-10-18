@@ -7,10 +7,12 @@ import { DocumentLang } from "@/components/document-lang";
 import { Toaster } from "@/components/ui/toaster";
 import { HashScrollHandler } from "@/components/hash-scroll-handler";
 import { CommandPaletteHost } from "@/components/command-palette-host";
-import { Locale, getTranslation } from "@/lib/i18n";
+import { getTranslation, requireLocale } from "@/lib/i18n";
 
 const SITE_URL = "https://juan-hurtado-senior-sde.vercel.app";
 const SITE_LAST_UPDATED = "2026-07-05";
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -18,7 +20,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const validLocale = locale === "en" || locale === "es" ? (locale as Locale) : "en";
+  const validLocale = requireLocale(locale);
   const t = getTranslation(validLocale);
 
   const description =
@@ -27,7 +29,9 @@ export async function generateMetadata({
       : "Juan Hurtado portfolio — Senior Software Engineer focused on backend, cloud, and platform engineering.";
 
   return {
-    title: validLocale === "es" ? "Juan Hurtado - Portafolio" : "Juan Hurtado - Portfolio",
+    title: {
+      absolute: validLocale === "es" ? "Juan Hurtado - Portafolio" : "Juan Hurtado - Portfolio",
+    },
     description,
     alternates: {
       canonical: `${SITE_URL}/${validLocale}`,
@@ -53,7 +57,7 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const validLocale = locale === "en" || locale === "es" ? (locale as Locale) : ("en" as Locale);
+  const validLocale = requireLocale(locale);
   const formattedLastUpdated = new Intl.DateTimeFormat(
     validLocale === "es" ? "es-ES" : "en-US",
     { dateStyle: "medium" },
@@ -70,7 +74,7 @@ export default async function LocaleLayout({
       <BackToTopButton />
       <Toaster />
       <footer className="border-t">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 pb-28 pt-8 text-sm text-muted-foreground sm:flex-row sm:px-6">
           <div className="flex flex-col items-center gap-1 sm:items-start">
             <p>© {new Date().getFullYear()} Juan Hurtado</p>
             <p className="text-xs">

@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { repositories } from "@/lib/data/repositories";
+import { repositoryCopyEs } from "@/lib/data/repository-copy-es";
 import { getTranslation, type Locale } from "@/lib/i18n";
 import { Star, GitFork, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -14,7 +15,12 @@ export function RepositoriesSection({ locale }: { locale: Locale }) {
   return (
     <SectionShell id="repositories" variant="plain" priority="primary" heading={t.repositories.title}>
       <div className="grid grid-cols-1 border border-border md:grid-cols-2">
-        {repositories.map((repo, index) => (
+        {repositories.map((repo, index) => {
+          const copy = locale === "es" ? repositoryCopyEs[repo.name] : undefined;
+          const description = copy?.description ?? repo.description;
+          const impact = copy?.impact ?? repo.impact;
+
+          return (
           <Card
             key={repo.name}
             className={cn(
@@ -32,14 +38,14 @@ export function RepositoriesSection({ locale }: { locale: Locale }) {
               <span className="shrink-0 text-xs text-muted-foreground">{repo.language}</span>
             </div>
 
-            <p className="mb-3 flex-grow text-sm leading-relaxed text-muted-foreground">{repo.description}</p>
+            <p className="mb-3 flex-grow text-sm leading-relaxed text-muted-foreground">{description}</p>
 
             <div className="mb-4 border border-border bg-secondary/40 px-3 py-2.5">
               <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-foreground">
                 <span className="mr-1.5 bg-brand px-1 text-brand-foreground">[*]</span>
                 {t.repositories.impactLabel}
               </p>
-              <p className="text-sm leading-relaxed text-foreground">{repo.impact}</p>
+              <p className="text-sm leading-relaxed text-foreground">{impact}</p>
             </div>
 
             <div className="mt-auto space-y-3">
@@ -77,7 +83,8 @@ export function RepositoriesSection({ locale }: { locale: Locale }) {
               </div>
             </div>
           </Card>
-        ))}
+          );
+        })}
       </div>
     </SectionShell>
   );

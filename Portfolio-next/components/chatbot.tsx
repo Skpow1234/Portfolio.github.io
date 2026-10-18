@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Send, Bot, User, X, Minimize2, Maximize2 } from 'lucide-react';
+import { Send, User, X, Minimize2, Maximize2, MessageCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLocaleContext } from '@/components/locale-provider';
 import { getTranslation } from '@/lib/i18n';
@@ -26,10 +26,12 @@ interface ChatbotProps {
 export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [isMinimized, setIsMinimized] = useState(false);
+  const { locale: currentLocale } = useLocaleContext();
+  const t = getTranslation(currentLocale);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hi! I'm Juan's AI assistant. I can help answer questions about his experience, skills, projects, or how to get in touch. What would you like to know?",
+      text: t.chatbot.greeting,
       isUser: false,
       timestamp: new Date()
     }
@@ -40,8 +42,6 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
   const [viewportHeight, setViewportHeight] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const { locale: currentLocale } = useLocaleContext();
-  const t = getTranslation(currentLocale);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -134,7 +134,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: inputValue }),
+        body: JSON.stringify({ message: inputValue, locale: currentLocale }),
       });
 
       if (!response.ok) {
@@ -174,13 +174,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
     }
   };
 
-  const suggestedQuestions = [
-    "What do you do?",
-    "What technologies do you use?",
-    "How can I contact you?",
-    "What projects have you worked on?",
-    "What's your experience with AI?"
-  ];
+  const suggestedQuestions = t.chatbot.suggestions;
 
   return (
     <div
@@ -203,8 +197,8 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border/60 bg-primary/5 p-4">
               <div className="flex items-center gap-2">
-                <Bot className="h-5 w-5 text-primary" />
-                <span className="font-semibold">AI Assistant</span>
+                <MessageCircle className="h-5 w-5 text-primary" />
+                <span className="font-semibold">{t.chatbot.title}</span>
                 <Badge variant="secondary" className="text-xs">{"Juan's Portfolio"}</Badge>
               </div>
               <div className="flex items-center gap-1">
@@ -241,7 +235,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
                           <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                             message.isUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
                           }`}>
-                            {message.isUser ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+                            {message.isUser ? <User className="h-4 w-4" /> : <MessageCircle className="h-4 w-4" />}
                           </div>
                           <div className={`rounded-lg px-3 py-2 ${
                             message.isUser 
@@ -262,7 +256,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
                       <div className="flex justify-start animate-in fade-in duration-200">
                         <div className="flex items-start gap-2">
                           <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                            <Bot className="h-4 w-4" />
+                            <MessageCircle className="h-4 w-4" />
                           </div>
                           <div className="bg-muted rounded-lg px-3 py-2">
                             <div className="flex space-x-1">
@@ -305,7 +299,7 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
                       value={inputValue}
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Ask me anything about Juan..."
+                      placeholder={t.chatbot.placeholder}
                       disabled={isLoading}
                       className="flex-1"
                       enterKeyHint="send"
@@ -349,20 +343,20 @@ export function Chatbot({ className, defaultOpen = false }: ChatbotProps) {
             className="pointer-events-none absolute right-16 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2.5 py-1 text-xs font-medium text-foreground opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100 sm:block"
             aria-hidden="true"
           >
-            Juan AI
+            {t.chatbot.title}
           </span>
           <span
             className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded-full border border-border/70 bg-background/95 px-2 py-0.5 text-[11px] font-medium text-foreground shadow-sm sm:hidden"
             aria-hidden="true"
           >
-            Juan AI
+            {t.chatbot.title}
           </span>
           <Button
             onClick={() => setIsOpen(true)}
             className="h-12 w-12 border border-border bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg"
-            aria-label="Open Juan AI chatbot"
-            title="Juan AI"
+            aria-label={t.chatbot.title}
+            title={t.chatbot.title}
           >
             <span className="text-2xl leading-none" aria-hidden="true">
               🤖

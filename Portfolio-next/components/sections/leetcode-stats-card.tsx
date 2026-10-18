@@ -32,22 +32,10 @@ export type LeetCodeStatsLabels = {
   hard: string;
   acceptanceRate: string;
   lastUpdatedLabel: string;
-  fallbackLabel: string;
 };
 
-const LOCAL_CACHE_KEY = "leetcode-stats-cache-v1";
+const LOCAL_CACHE_KEY = "leetcode-stats-cache-v2";
 const LOCAL_CACHE_TTL_MS = 1000 * 60 * 30;
-const FALLBACK_STATS: LeetCodeStats = {
-  totalSolved: 350,
-  easySolved: 170,
-  totalEasy: 850,
-  mediumSolved: 150,
-  totalMedium: 1780,
-  hardSolved: 30,
-  totalHard: 790,
-  acceptanceRate: 58.2,
-  ranking: 0,
-};
 
 type LeetCodeStatsCardProps = {
   locale: Locale;
@@ -60,7 +48,6 @@ export function LeetCodeStatsCard({ locale, labels }: LeetCodeStatsCardProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [lastUpdatedAt, setLastUpdatedAt] = useState<string | null>(null);
-  const [isFallbackData, setIsFallbackData] = useState(false);
   const [shouldLoadStats, setShouldLoadStats] = useState(false);
 
   useEffect(() => {
@@ -95,10 +82,9 @@ export function LeetCodeStatsCard({ locale, labels }: LeetCodeStatsCardProps) {
     let cancelled = false;
     let hasLocalCache = false;
 
-    const applyStats = (data: LeetCodeStats, updatedAt?: string, fallback = false) => {
+    const applyStats = (data: LeetCodeStats, updatedAt?: string) => {
       setStats(data);
       setLastUpdatedAt(updatedAt ?? new Date().toISOString());
-      setIsFallbackData(fallback);
     };
 
     try {
@@ -138,16 +124,14 @@ export function LeetCodeStatsCard({ locale, labels }: LeetCodeStatsCardProps) {
             acceptanceRate: data.acceptanceRate,
             ranking: data.ranking,
           };
-          applyStats(nextStats, updatedAt, Boolean(data.degraded));
-          if (!data.degraded) {
-            localStorage.setItem(
+          applyStats(nextStats, updatedAt);
+          localStorage.setItem(
               LOCAL_CACHE_KEY,
               JSON.stringify({
                 cachedAt: new Date(updatedAt).getTime(),
                 data: nextStats,
               }),
             );
-          }
           setError(false);
         } else if (!cancelled) {
           setError(true);
@@ -155,8 +139,7 @@ export function LeetCodeStatsCard({ locale, labels }: LeetCodeStatsCardProps) {
       })
       .catch(() => {
         if (!cancelled && !hasLocalCache) {
-          applyStats(FALLBACK_STATS, new Date().toISOString(), true);
-          setError(false);
+          setError(true);
         }
       })
       .finally(() => {
@@ -291,10 +274,7 @@ export function LeetCodeStatsCard({ locale, labels }: LeetCodeStatsCardProps) {
                     <p className="text-xs font-medium text-muted-foreground">
                       {labels.lastUpdatedLabel}
                     </p>
-                    <p className="text-sm text-muted-foreground tabular-nums">
-                      {formattedLastUpdated}
-                      {isFallbackData && ` (${labels.fallbackLabel})`}
-                    </p>
+                    <p className="text-sm text-muted-foreground tabular-nums">{formattedLastUpdated}</p>
                   </div>
                 )}
                 <a

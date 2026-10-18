@@ -82,6 +82,7 @@ export function WorkExperienceSection({ locale }: { locale: Locale }) {
                 detailsId={detailsId}
                 label={t.experience.detailsLabel}
                 loadingLabel={t.experience.loadingDetails}
+                locale={locale}
               />
             </Card>
           );

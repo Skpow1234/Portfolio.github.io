@@ -3,81 +3,86 @@ import { z } from 'zod';
 import { checkRateLimit } from '../../../lib/middleware/rate-limit';
 
 const ChatbotMessageSchema = z.object({
-  message: z
-    .string()
-    .trim()
-    .min(1, 'Message is required')
-    .max(500, 'Message is too long'),
+  message: z.string().trim().min(1, 'Message is required').max(500, 'Message is too long'),
+  locale: z.enum(['en', 'es']).optional(),
 });
 
-const COMMON_QUESTIONS: Record<string, string> = {
-  'who are you':
-    "I'm Juan Hurtado, a Senior Software Engineer with 8 years of experience. I currently work at Microsoft as a Software Engineer II on the Copilot platform infrastructure team.",
-  'what do you do':
-    "I'm a Senior Software Engineer specializing in full-stack development, cloud architecture, and team leadership. I work with technologies like Go, Node.js, .NET, and Java to build scalable, reliable systems.",
-  'where are you located': "I'm based in Cali, Colombia, but I work with teams globally.",
-  'what is your current role':
-    "I'm currently a Software Engineer II at Microsoft, working on the MS365 Copilot platform within the infrastructure team. I focus on developing reliable, scalable, and secure code that powers Microsoft's AI-driven productivity solutions.",
-  'what technologies do you use':
-    'I work with a wide range of technologies including Go, Node.js, C# (.NET), Java, React, Angular, TypeScript, AWS, Azure, Kubernetes, Docker, and many more. I also have experience with AI/ML technologies and prompt engineering.',
-  'do you have github':
-    'Yes! You can find my GitHub profile at https://github.com/Skpow1234 where I showcase my projects and contributions.',
-  'how can i contact you':
-    'The best way to reach me is on LinkedIn at https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/ — you can also browse my work on GitHub at https://github.com/Skpow1234.',
-  'what projects have you worked on':
-    "I've worked on various projects including PeerVault (secure P2P file sharing), Streamlens (real-time streaming analytics), and Router_Microservices (testing framework for distributed apps). You can see more details in the repositories section.",
-  'do you do freelance work':
-    "Yes, I've been doing freelance development work since January 2019, designing and implementing tailored technological solutions for various companies.",
-  'what is your experience with ai':
-    'I have extensive experience with AI/ML technologies including prompt engineering, generative AI, machine learning, natural language processing, and LLM integration. I currently work on AI infrastructure at Microsoft\'s Copilot platform.',
+type AnswerLocale = 'en' | 'es';
+
+const ANSWERS: Record<string, Record<AnswerLocale, string>> = {
+  who: {
+    en: "I'm Juan Hurtado, a Senior Software Engineer with 8 years of experience. I currently work at Microsoft as a Software Engineer II on the Copilot platform infrastructure team.",
+    es: 'Soy Juan Hurtado, ingeniero de software senior con 8 años de experiencia. Hoy trabajo en Microsoft como Software Engineer II, en la infraestructura de la plataforma Copilot.',
+  },
+  role: {
+    en: "I'm a Senior Software Engineer focused on full-stack development, cloud architecture, and team leadership. On this page the stack called out is Go, Node.js, .NET, and Java.",
+    es: 'Soy ingeniero de software senior, enfocado en desarrollo full stack, arquitectura en la nube y liderazgo técnico. En esta página el stack destacado es Go, Node.js, .NET y Java.',
+  },
+  location: {
+    en: "I'm based in Cali, Colombia, and I work with teams in other countries.",
+    es: 'Vivo en Cali, Colombia, y trabajo con equipos en otros países.',
+  },
+  current: {
+    en: "I'm a Software Engineer II at Microsoft, on the MS365 Copilot platform infrastructure team. The role is building reliable, scalable, and secure code for that platform.",
+    es: 'Soy Software Engineer II en Microsoft, en el equipo de infraestructura de la plataforma MS365 Copilot. El rol es construir código confiable, escalable y seguro para esa plataforma.',
+  },
+  tech: {
+    en: 'The page lists Go, Node.js, .NET, Java, React, Angular, TypeScript, AWS, Azure, Kubernetes, and Docker, plus AI work on the Copilot platform.',
+    es: 'La página lista Go, Node.js, .NET, Java, React, Angular, TypeScript, AWS, Azure, Kubernetes y Docker, además del trabajo de IA en la plataforma Copilot.',
+  },
+  github: {
+    en: 'GitHub: https://github.com/Skpow1234',
+    es: 'GitHub: https://github.com/Skpow1234',
+  },
+  contact: {
+    en: 'LinkedIn: https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/ — GitHub: https://github.com/Skpow1234',
+    es: 'LinkedIn: https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/ — GitHub: https://github.com/Skpow1234',
+  },
+  projects: {
+    en: 'Projects on this page include Sip-Happens, Squad-Finder, Kurae, LP-climb, Shinrai-Trade, Vaultpack, ChainForge, PeerVault, and Streamlens-backend. Details are in the repositories section.',
+    es: 'Los proyectos de esta página incluyen Sip-Happens, Squad-Finder, Kurae, LP-climb, Shinrai-Trade, Vaultpack, ChainForge, PeerVault y Streamlens-backend. El detalle está en la sección de repositorios.',
+  },
+  freelance: {
+    en: 'Yes. Freelance development has been ongoing since January 2019, building systems such as inventory, e-commerce, and CRMs for private companies.',
+    es: 'Sí. El trabajo independiente sigue desde enero de 2019, con sistemas como inventarios, comercio electrónico y CRM para empresas privadas.',
+  },
+  ai: {
+    en: 'The current role is infrastructure for Microsoft’s Copilot platform. Earlier roles on this page also list OpenAI APIs, prompt engineering, and LLM integration.',
+    es: 'El rol actual es infraestructura de la plataforma Copilot de Microsoft. Roles anteriores en esta página también mencionan las APIs de OpenAI, prompt engineering e integración de modelos de lenguaje.',
+  },
+  fallback: {
+    en: 'I can answer from this page: current role at Microsoft, experience since January 2019, the projects in the repositories section, and LinkedIn or GitHub for contact.',
+    es: 'Puedo responder con lo que está en esta página: el rol actual en Microsoft, la experiencia desde enero de 2019, los proyectos de la sección de repositorios, y LinkedIn o GitHub para contacto.',
+  },
 };
 
-function findBestResponse(question: string): string {
-  const normalizedQuestion = question.toLowerCase().trim();
+function findBestResponse(question: string, locale: AnswerLocale): string {
+  const q = question.toLowerCase();
+  const pick = (key: string) => ANSWERS[key][locale];
 
-  for (const [key, response] of Object.entries(COMMON_QUESTIONS)) {
-    if (normalizedQuestion.includes(key)) {
-      return response;
-    }
+  if (q.includes('who are you') || q.includes('quién eres') || q.includes('quien eres')) return pick('who');
+  if (q.includes('where') || q.includes('located') || q.includes('dónde') || q.includes('donde')) {
+    return pick('location');
   }
-
-  if (normalizedQuestion.includes('microsoft') || normalizedQuestion.includes('current job')) {
-    return COMMON_QUESTIONS['what is your current role'];
+  if (q.includes('current role') || q.includes('current job') || q.includes('microsoft') || q.includes('rol actual')) {
+    return pick('current');
   }
-
-  if (
-    normalizedQuestion.includes('skill') ||
-    normalizedQuestion.includes('technology') ||
-    normalizedQuestion.includes('tech stack')
-  ) {
-    return COMMON_QUESTIONS['what technologies do you use'];
+  if (q.includes('what do you do') || q.includes('a qué te dedicas') || q.includes('a que te dedicas')) {
+    return pick('role');
   }
-
-  if (
-    normalizedQuestion.includes('project') ||
-    normalizedQuestion.includes('work') ||
-    normalizedQuestion.includes('built')
-  ) {
-    return COMMON_QUESTIONS['what projects have you worked on'];
+  if (q.includes('technolog') || q.includes('tech stack') || q.includes('skill') || q.includes('tecnolog')) {
+    return pick('tech');
   }
-
-  if (
-    normalizedQuestion.includes('contact') ||
-    normalizedQuestion.includes('reach') ||
-    normalizedQuestion.includes('linkedin')
-  ) {
-    return COMMON_QUESTIONS['how can i contact you'];
+  if (q.includes('github')) return pick('github');
+  if (q.includes('freelance') || q.includes('independiente')) return pick('freelance');
+  if (q.includes('contact') || q.includes('linkedin') || q.includes('reach')) return pick('contact');
+  if (q.includes('project') || q.includes('proyecto') || q.includes('built')) return pick('projects');
+  if (q.includes('artificial intelligence') || q.includes('machine learning') || /\bia\b/.test(q) || q.includes('inteligencia artificial')) {
+    return pick('ai');
   }
+  if (q.includes('qué haces') || q.includes('que haces')) return pick('role');
 
-  if (
-    normalizedQuestion.includes('ai') ||
-    normalizedQuestion.includes('artificial intelligence') ||
-    normalizedQuestion.includes('machine learning')
-  ) {
-    return COMMON_QUESTIONS['what is your experience with ai'];
-  }
-
-  return "I'm Juan Hurtado, a Senior Software Engineer. I'd be happy to help answer your questions about my experience, skills, or projects. Feel free to ask me about my work at Microsoft, my technical expertise, or how to get in touch!";
+  return pick('fallback');
 }
 
 export async function POST(req: NextRequest) {
@@ -97,7 +102,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const response = findBestResponse(parsed.data.message);
+    const response = findBestResponse(parsed.data.message, parsed.data.locale ?? 'en');
 
     return NextResponse.json(
       {
@@ -108,9 +113,6 @@ export async function POST(req: NextRequest) {
     );
   } catch (error) {
     console.error('Chatbot error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process message' },
-      { status: 500, headers },
-    );
+    return NextResponse.json({ error: 'Failed to process message' }, { status: 500, headers });
   }
 }
