@@ -35,21 +35,29 @@ export const repositoryCopyEs: Record<string, { description: string; impact: str
     impact:
       "C17 con CMake/MSVC, APIs oficiales de Windows, diario de reversión, lanzador en la bandeja, JSON compatible con OpenSSH y binarios portátiles.",
   },
-  Vaultpack: {
-    description: "CLI de cifrado multiplataforma que empaqueta datos en archivos portátiles .vpack.",
-    impact: "Modos post-cuánticos, integración con KMS, firma con Sigstore y compilaciones para varias plataformas.",
+  Katame: {
+    description:
+      "CLI y SDK multiplataforma que cifra, calcula hashes y firma artefactos en paquetes portátiles .katame.",
+    impact:
+      "Cifrado AEAD, KEM post-cuánticos, envoltorio KMS, firma con Sigstore, políticas y auditoría, más bindings en Go, Python y TypeScript.",
   },
-  ChainForge: {
-    description: "Esqueleto de cliente blockchain en C++20/23.",
-    impact: "Arquitectura con RocksDB, PostgreSQL, Redis, Prometheus y preparación para Kubernetes.",
+  Tokiwa: {
+    description:
+      "Esqueleto de cliente blockchain en C++20: modelos, criptografía, serialización y P2P, con scaffolding Docker/Helm para un nodo completo y un explorador.",
+    impact:
+      "Build con CMake y Conan, RocksDB, Postgres, Redis, Prometheus, Grafana y Jaeger para la infra local.",
   },
-  ShardForge: {
-    description: "Base de datos distribuida en Rust con transacciones ACID y compatibilidad SQL.",
-    impact: "Consenso RAFT, particionado y un diseño pensado para escalar en horizontal.",
+  Rengo: {
+    description:
+      "Base de datos distribuida en Rust con transacciones ACID, SQL, consenso Raft y particionado; pensada para usarse por CLI y empaquetada para la nube.",
+    impact:
+      "Crates de core, config y storage; backends enchufables; perfiles de Docker Compose y documentación de despliegue.",
   },
-  PeerVault: {
-    description: "Compartición de archivos entre pares, con cifrado de extremo a extremo.",
-    impact: "Almacenamiento P2P en Go, centrado en privacidad y transferencias cifradas.",
+  Shugo: {
+    description:
+      "Almacenamiento de archivos P2P cifrado en Go: blobs con dirección por contenido sobre TCP y AES-GCM.",
+    impact:
+      "Transporte P2P, almacén content-addressable en disco, handshake HMAC entre pares, y APIs REST, GraphQL y gRPC.",
   },
   "Streamlens-backend": {
     description: "API backend para analítica de streaming en tiempo real.",

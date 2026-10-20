@@ -71,36 +71,44 @@ export const repositories: Repository[] = [
     topics: ["windows", "performance", "cli", "diagnostics", "cmake"],
   },
   {
-    name: "Vaultpack",
-    description: "Cross-platform encryption CLI that packages data into portable .vpack bundles.",
-    impact: "Post-quantum modes, KMS integration, Sigstore signing, and multi-platform releases.",
-    url: "https://github.com/Skpow1234/Vaultpack",
+    name: "Katame",
+    description:
+      "Cross-platform CLI and SDK that encrypts, hashes, and signs artifacts into portable .katame bundles.",
+    impact:
+      "AEAD ciphers, post-quantum KEMs, KMS wrap, Sigstore signing, policy/audit, and Go/Python/TypeScript bindings.",
+    url: "https://github.com/Skpow1234/Katame",
     language: "Go",
     topics: ["encryption", "cryptography", "security", "cli", "golang"],
   },
   {
-    name: "ChainForge",
-    description: "Blockchain client skeleton in modern C++20/23.",
-    impact: "RocksDB, PostgreSQL, Redis, Prometheus, and Kubernetes-ready architecture.",
-    url: "https://github.com/Skpow1234/ChainForge",
+    name: "Tokiwa",
+    description:
+      "C++20 blockchain client skeleton — core models, crypto, serialization, and P2P, with Docker/Helm scaffolding for a future full node and explorer.",
+    impact:
+      "CMake and Conan build, RocksDB, Postgres, Redis, Prometheus, Grafana, and Jaeger for local infra.",
+    url: "https://github.com/Skpow1234/Tokiwa",
     language: "C++",
-    topics: ["blockchain", "c++20", "cryptocurrency", "distributed-systems"],
+    topics: ["blockchain", "c++20", "p2p", "cmake", "distributed-systems"],
   },
   {
-    name: "ShardForge",
-    description: "Distributed database in Rust with ACID transactions and SQL compatibility.",
-    impact: "RAFT consensus, intelligent sharding, and horizontal scalability design.",
-    url: "https://github.com/Skpow1234/ShardForge",
+    name: "Rengo",
+    description:
+      "Distributed database in Rust with ACID transactions, SQL, Raft consensus, and sharding — CLI-first and cloud-native packaged.",
+    impact:
+      "Workspace crates for core, config, and storage; pluggable backends; Docker Compose profiles and deploy docs.",
+    url: "https://github.com/Skpow1234/Rengo",
     language: "Rust",
-    topics: ["rust", "distributed-database", "raft-consensus", "sql"],
+    topics: ["rust", "distributed-database", "raft", "sql", "sharding"],
   },
   {
-    name: "PeerVault",
-    description: "Secure peer-to-peer file sharing with end-to-end encryption.",
-    impact: "Go-based P2P storage focused on privacy and encrypted transfers.",
-    url: "https://github.com/Skpow1234/PeerVault",
+    name: "Shugo",
+    description:
+      "Peer-to-peer encrypted file storage in Go — content-addressed blobs over TCP with AES-GCM.",
+    impact:
+      "P2P transport, on-disk content-addressable store, HMAC peer handshake, plus REST, GraphQL, and gRPC APIs.",
+    url: "https://github.com/Skpow1234/Shugo",
     language: "Go",
-    topics: ["p2p", "encryption", "file-sharing", "golang"],
+    topics: ["p2p", "encryption", "file-storage", "golang", "aes-gcm"],
   },
   {
     name: "Streamlens-backend",

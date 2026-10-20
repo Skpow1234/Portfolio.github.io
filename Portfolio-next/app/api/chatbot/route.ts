@@ -39,8 +39,8 @@ const ANSWERS: Record<string, Record<AnswerLocale, string>> = {
     es: 'LinkedIn: https://www.linkedin.com/in/juan-felipe-h-3a3b3b13b/ — GitHub: https://github.com/Skpow1234',
   },
   projects: {
-    en: 'Projects on this page include Sip-Happens, Squad-Finder, Kurae, LP-climb, Shinrai-Trade, Vaultpack, ChainForge, PeerVault, and Streamlens-backend. Details are in the repositories section.',
-    es: 'Los proyectos de esta página incluyen Sip-Happens, Squad-Finder, Kurae, LP-climb, Shinrai-Trade, Vaultpack, ChainForge, PeerVault y Streamlens-backend. El detalle está en la sección de repositorios.',
+    en: 'Projects on this page include Sip-Happens, Squad-Finder, Kurae, LP-climb, Shinrai-Trade, Katame, Tokiwa, Rengo, Shugo, and Streamlens-backend. Details are in the repositories section.',
+    es: 'Los proyectos de esta página incluyen Sip-Happens, Squad-Finder, Kurae, LP-climb, Shinrai-Trade, Katame, Tokiwa, Rengo, Shugo y Streamlens-backend. El detalle está en la sección de repositorios.',
   },
   freelance: {
     en: 'Yes. Freelance development has been ongoing since January 2019, building systems such as inventory, e-commerce, and CRMs for private companies.',
